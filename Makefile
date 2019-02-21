@@ -1,11 +1,11 @@
-CXX      := -c++
+CXX      := -g++
 CXXFLAGS := -Wall -Wextra
-LDFLAGS  := -L/usr/lib -lstdc++ -lm
+LDFLAGS  := -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
 TARGET   := program
-INCLUDE  := -Iinclude/
+INCLUDE  := -I/usr/include -I/usr/local/include
 SRC      :=                      \
 	$(wildcard src/*.cpp)         \
 
