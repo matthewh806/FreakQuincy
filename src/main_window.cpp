@@ -1,25 +1,16 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <memory>
 #include<fftw3.h>
-#include "math.h"
 #include "main_window.h"
+#include "wave_form.h"
 
 int N = 1024;
 
-void generate_wave(std::vector<double> &angles, std::vector<double> &waveTable) {
-    auto angleDelta = 2*M_PI / (N-1);
-    auto currentAngle = 0.0;
-
-    for(int i = 0; i < N; i++) {
-        waveTable[i] = sin(currentAngle);
-        angles[i] = currentAngle;
-
-        currentAngle += angleDelta;
-    }
-}
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+    std::cout << "Hello Freak Quency!" << std::endl;
+
     setupPlottingWindow();
 }
 
@@ -43,13 +34,12 @@ void MainWindow::setupPlottingWindow() {
 
     this->setCentralWidget(centralWidget);
 
-    std::vector<double> angles(N);
-    std::vector<double> values(N);
-
-    generate_wave(angles, values);
-
-    QVector<double> angles_vec = QVector<double>::fromStdVector(angles);
-    QVector<double> values_vec = QVector<double>::fromStdVector(values);
+   /*
+    * Calculations
+    */
+    std::unique_ptr<WaveForm> p_wave( new WaveForm(N, WaveTypes::SINE) );
+    QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
+    QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
 
     customPlot->addGraph();
     customPlot->graph(0)->setData(angles_vec, values_vec);
@@ -82,28 +72,6 @@ int main_needs_renaming() {
    double* angles = new double[N];
    std::fstream outFile("output.txt");
    std::fstream anglesOut("angles.txt");
-
-   /*
-    * Calculations
-    */
-    // generate_wave(angles, in);
-
-    // TODO: Obviously this is a rubbish way of writing data to the system.
-    if(outFile.is_open()) {
-        for(int i = 0; i < N; i++) {
-            outFile << in[i] << ", ";
-        }
-
-        outFile.close();
-    }
-
-    if(anglesOut.is_open()) {
-        for(int i = 0; i < N; i++) {
-            anglesOut << angles[i] << ", ";
-        }
-
-        anglesOut.close();
-    }
 
     fftw_execute(freak_quincys_evil_plan);
     
