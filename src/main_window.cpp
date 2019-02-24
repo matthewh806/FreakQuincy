@@ -15,22 +15,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-    
+    delete centralWidget;
+    delete verticalLayout;
+    delete waveformPlot;
+    delete spectrumPlot;
 }
 
 void MainWindow::setupPlottingWindow() {
 
     centralWidget = new QWidget(this);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
+
     verticalLayout = new QVBoxLayout(centralWidget);
     verticalLayout->setSpacing(6);
     verticalLayout->setContentsMargins(11, 11, 11, 11);
     verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
 
-    customPlot = new QCustomPlot(centralWidget);
-    customPlot->setObjectName(QStringLiteral("TEST PLOT!"));
+    waveformPlot = new QCustomPlot(centralWidget);
+    waveformPlot->setObjectName(QStringLiteral("Waveform Plot"));
 
-    verticalLayout->addWidget(customPlot);
+    spectrumPlot = new QCustomPlot(centralWidget);
+    spectrumPlot->setObjectName(QStringLiteral("Spectrum Plot"));
+
+    verticalLayout->addWidget(waveformPlot);
+    verticalLayout->addWidget(spectrumPlot);
 
     this->setCentralWidget(centralWidget);
 
@@ -41,13 +49,32 @@ void MainWindow::setupPlottingWindow() {
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
     
-    std::unique_ptr<RealFFT> p_rFFT ( new RealFFT(N ));
-    p_rFFT->rfft_execute_freak_quincys_evil_plan();
+    std::unique_ptr<RealFFT> p_rFFT ( new RealFFT(N, p_wave->get_waveOutput().data()));
+    p_rFFT->execute_freak_quincys_evil_plan();
 
-    customPlot->addGraph();
-    customPlot->graph(0)->setData(angles_vec, values_vec);
-    customPlot->xAxis->setLabel("angle");
-    customPlot->yAxis->setLabel("sin(angle)");
+    QVector<double> power_spec(N/2 + 1);
+    QVector<double> frequencies(N/2 +1);
+    // TODO: Convert to power spectrum. (magnitude)
+    // TODO: What happens when N is even?
+    for(int i = 0; i < N / 2; i++) {
+        std::cout << " (re, im) : " << "(" << p_rFFT->out[i][0] << ", " << p_rFFT->out[i][1] << ")" << std::endl;
+        
+        frequencies[i] = i;
+        power_spec[i] = std::sqrt( p_rFFT->out[i][0] * p_rFFT->out[i][0] + p_rFFT->out[i][1]*p_rFFT->out[i][1]);
+    }
 
-    customPlot->graph(0)->rescaleAxes();
+    // TODO: Plot magnitude against frequency;
+    // TODO: Maybe it should be a log plot?
+
+    waveformPlot->addGraph();
+    waveformPlot->graph(0)->setData(angles_vec, values_vec);
+    waveformPlot->xAxis->setLabel("angle");
+    waveformPlot->yAxis->setLabel("sin(angle)");
+    waveformPlot->graph(0)->rescaleAxes();
+
+    spectrumPlot->addGraph();
+    spectrumPlot->graph(0)->setData(frequencies, power_spec);
+    spectrumPlot->xAxis->setLabel("frequency");
+    spectrumPlot->yAxis->setLabel("level");
+    waveformPlot->graph(0)->rescaleAxes();
 }
