@@ -1,7 +1,6 @@
 #include<fftw3.h>
 
 struct RealFFT {
-
     int length;
     double* in;
     fftw_complex *out;
