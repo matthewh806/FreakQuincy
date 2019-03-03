@@ -15,10 +15,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-    delete centralWidget;
-    delete verticalLayout;
     delete waveformPlot;
     delete spectrumPlot;
+    delete verticalLayout;
+    delete centralWidget;
 }
 
 void MainWindow::setupPlottingWindow() {
@@ -55,7 +55,6 @@ void MainWindow::setupPlottingWindow() {
     QVector<double> frequencies = QVector<double>::fromStdVector(s->get_frequencyRange());
     QVector<double> power_spec = QVector<double>::fromStdVector(s->get_powerSpectrum());
 
-    std::cout << "------------------_*****************" << std::endl;
     std::cout << "size: " << frequencies.size() << std::endl;
     for(int i = 0; i < frequencies.size(); i++) {
         std::cout << "(x, y): " << "(" << frequencies[i] << ", " << power_spec[i] << ")" << std::endl;
