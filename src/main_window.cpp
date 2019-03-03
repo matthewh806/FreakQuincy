@@ -46,6 +46,8 @@ void MainWindow::setupPlottingWindow() {
     * Calculations
     */
     std::unique_ptr<WaveForm> p_wave( new WaveForm(N, WaveTypes::SINE) );
+    p_wave->generateWave();
+
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
     

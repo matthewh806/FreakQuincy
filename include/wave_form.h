@@ -18,7 +18,7 @@ public:
     std::vector<double> get_angles() const;
     std::vector<double> get_waveOutput() const;
 
-    void generateWave();
+    void generateWave(float frequency = 1.0, float phase = 0.0);
 
 private:
     int size;
