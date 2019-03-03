@@ -21,15 +21,47 @@ MainWindow::~MainWindow() {
     delete centralWidget;
 }
 
+void MainWindow::frequencyChanged(double freq) {
+    std::cout << "FrequencyChanged: " << freq << std::endl;
+}
+
+void MainWindow::phaseChanged(double phase) {
+    std::cout << "PhaseChanged: " << phase << std::endl;
+}
+
 void MainWindow::setupPlottingWindow() {
 
     centralWidget = new QWidget(this);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
+
     verticalLayout = new QVBoxLayout(centralWidget);
     verticalLayout->setSpacing(6);
     verticalLayout->setContentsMargins(11, 11, 11, 11);
     verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+
+    QGroupBox *waveFormGroup = new QGroupBox(tr("WaveForm"));
+    
+    QLabel *frequencyLabel = new QLabel(tr("Frequency"));
+    QDoubleSpinBox *frequencySpinBox = new QDoubleSpinBox;
+    frequencySpinBox->setRange(0, 100);
+    frequencySpinBox->setSingleStep(1.0);
+    frequencySpinBox->setValue(1.0);
+    connect(frequencySpinBox, SIGNAL(valueChanged(double)), this, SLOT(frequencyChanged(double)));
+
+    QLabel *phaseLabel = new QLabel(tr("Phase"));
+    QDoubleSpinBox *phaseSpinBox = new QDoubleSpinBox;
+    phaseSpinBox->setRange(-360, 360);
+    phaseSpinBox->setSingleStep(1.0);
+    phaseSpinBox->setValue(0.0);
+    connect(phaseSpinBox, SIGNAL(valueChanged(double)), this, SLOT(phaseChanged(double)));
+
+    QVBoxLayout *waveFormSpinBoxLayout = new QVBoxLayout();
+    waveFormSpinBoxLayout->addWidget(frequencyLabel);
+    waveFormSpinBoxLayout->addWidget(frequencySpinBox);
+    waveFormSpinBoxLayout->addWidget(phaseLabel);
+    waveFormSpinBoxLayout->addWidget(phaseSpinBox);
+    waveFormGroup->setLayout(waveFormSpinBoxLayout);
 
     waveformPlot = new QCustomPlot(centralWidget);
     waveformPlot->setObjectName(QStringLiteral("Waveform Plot"));
@@ -37,6 +69,7 @@ void MainWindow::setupPlottingWindow() {
     spectrumPlot = new QCustomPlot(centralWidget);
     spectrumPlot->setObjectName(QStringLiteral("Spectrum Plot"));
 
+    verticalLayout->addWidget(waveFormGroup);
     verticalLayout->addWidget(waveformPlot);
     verticalLayout->addWidget(spectrumPlot);
 
