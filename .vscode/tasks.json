@@ -1,0 +1,29 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build debug qmake freak quency",
+            "type": "shell",
+            "command": "qmake",
+            "args": [
+                "CONFIG+=debug"
+            ]
+        },
+        {
+            "label": "build freak quency",
+            "type": "shell",
+            "command": "make",
+            "args": [
+            ]
+        },
+        {
+            "label": "build debug",
+            "dependsOn": [
+                "build debug qmake freak quency",
+                "build freak quency"
+            ]
+        }
+    ]
+}

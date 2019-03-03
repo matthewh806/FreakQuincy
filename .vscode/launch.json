@@ -9,12 +9,20 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/FreakQuincy.app/Contents/MacOS/FreakQuincy",
-            "args": ["-d"],
+            "args": ["-d -g"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,
-            "MIMode": "lldb"
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for lldb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build debug"
         }
     ]
 }
