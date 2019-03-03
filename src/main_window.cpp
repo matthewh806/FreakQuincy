@@ -4,14 +4,14 @@
 #include <memory>
 #include "main_window.h"
 #include "spectrum.hpp"
-#include "wave_form.h"
 
 int N = 1024;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     std::cout << "Hello Freak Quency!" << std::endl;
 
-    setupPlottingWindow();
+    p_wave = std::unique_ptr<WaveForm>( new WaveForm(N, WaveTypes::SINE) );
+    setupMainWindow();
 }
 
 MainWindow::~MainWindow() {
@@ -22,14 +22,16 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::frequencyChanged(double freq) {
-    std::cout << "FrequencyChanged: " << freq << std::endl;
+    p_wave->generateWave((float)freq);
+    plotData();
 }
 
 void MainWindow::phaseChanged(double phase) {
-    std::cout << "PhaseChanged: " << phase << std::endl;
+    p_wave->generateWave(1.0, (float)phase);
+    plotData();
 }
 
-void MainWindow::setupPlottingWindow() {
+void MainWindow::setupMainWindow() {
 
     centralWidget = new QWidget(this);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
@@ -75,12 +77,27 @@ void MainWindow::setupPlottingWindow() {
 
     this->setCentralWidget(centralWidget);
 
-   /*
-    * Calculations
-    */
-    std::unique_ptr<WaveForm> p_wave( new WaveForm(N, WaveTypes::SINE) );
     p_wave->generateWave();
+    setupPlottingWindow();
+    plotData();
+}
 
+void MainWindow::setupPlottingWindow() {
+    // TODO: Remove any existing plots if they exist - Replotting doesn't work atm...
+
+    // TODO: Plot magnitude against frequency;
+    // TODO: Maybe it should be a log plot?
+    waveformPlot->addGraph();
+    waveformPlot->xAxis->setLabel("angle");
+    waveformPlot->yAxis->setLabel("sin(angle)");
+    
+
+    spectrumPlot->addGraph();
+    spectrumPlot->xAxis->setLabel("frequency");
+    spectrumPlot->yAxis->setLabel("level");
+}
+
+void MainWindow::plotData() {
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
     
@@ -95,17 +112,13 @@ void MainWindow::setupPlottingWindow() {
         std::cout << "(x, y): " << "(" << frequencies[i] << ", " << power_spec[i] << ")" << std::endl;
     }
 
-    // TODO: Plot magnitude against frequency;
-    // TODO: Maybe it should be a log plot?
-    waveformPlot->addGraph();
+    waveformPlot->graph(0)->data()->clear();
     waveformPlot->graph(0)->setData(angles_vec, values_vec);
-    waveformPlot->xAxis->setLabel("angle");
-    waveformPlot->yAxis->setLabel("sin(angle)");
     waveformPlot->graph(0)->rescaleAxes();
+    waveformPlot->replot();
 
-    spectrumPlot->addGraph();
+    spectrumPlot->graph(0)->data()->clear();
     spectrumPlot->graph(0)->setData(frequencies, power_spec);
-    spectrumPlot->xAxis->setLabel("frequency");
-    spectrumPlot->yAxis->setLabel("level");
-    waveformPlot->graph(0)->rescaleAxes();
+    spectrumPlot->graph(0)->rescaleAxes();
+    spectrumPlot->replot();
 }
