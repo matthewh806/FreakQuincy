@@ -13,6 +13,10 @@ INCLUDEPATH += /usr/local/include
 INCLUDEPATH += include/
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm
 
+CONFIG(debug, debug|release) {
+    QMAKE_CXXFLAGS += -g
+}
+
 
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
