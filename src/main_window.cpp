@@ -23,10 +23,15 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::sampleRateChanged(double rate) {
-    sampleRate = rate;
+    sampleRate = (float)rate;
+
+    p_wave->set_sampleRate((float)rate);
+    p_wave->generateWaves(curFreq);
+    plotData();
 }
 
 void MainWindow::frequencyChanged(double freq) {
+    curFreq = (float)freq;
     p_wave->generateWaves(freq);
     plotData();
 }
@@ -59,7 +64,7 @@ void MainWindow::setupMainWindow() {
     sampleRateSpinBox->setRange(0, 40000);
     sampleRateSpinBox->setSingleStep(1000);
     sampleRateSpinBox->setValue(40000);
-    connect(sampleRateSpinBox, SIGNAL(valueChanged(double)), this, SLOT(sampleRateChanged(float)));
+    connect(sampleRateSpinBox, SIGNAL(valueChanged(double)), this, SLOT(sampleRateChanged(double)));
 
     QComboBox *waveformSelector = new QComboBox;
     waveformSelector->insertItem(waveformSelector->count(), "Sine", WaveTypes::SINE);
@@ -124,10 +129,6 @@ void MainWindow::setupPlottingWindow() {
 void MainWindow::plotData() {
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
-    
-    for(int i = 0; i < values_vec.size(); i++) {
-        std::cout << "(x, y): " << "(" << angles_vec[i] << ", " << values_vec[i] << ")" << std::endl;
-    }
 
     Spectrum* s = new Spectrum((int)sampleRate, p_wave->get_waveOutput().data());
     s->generatePowerSpectrum(sampleRate);

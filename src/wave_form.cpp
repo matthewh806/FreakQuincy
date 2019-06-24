@@ -24,6 +24,10 @@ void WaveForm::set_waveType(WaveTypes w_type) {
     wType = w_type;
 }
 
+void WaveForm::set_sampleRate(float rate) {
+    sampleRate = rate;
+}
+
 std::vector<double> WaveForm::get_angles() const {
     return angles;
 }
@@ -40,7 +44,7 @@ void WaveForm::generateWaves(float frequency) {
     // Generate wave at sampling freq. with specified oscillator frequency
 
     float increment = (tableSize * frequency) / sampleRate;
-    float angleIncrement = 2*M_PI * increment;
+    float angleIncrement = 2*M_PI * frequency / sampleRate;
 
     float phase = 0;
     float angle = 0;

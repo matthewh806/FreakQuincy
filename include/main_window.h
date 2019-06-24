@@ -30,5 +30,7 @@ private:
     void setupPlottingWindow();
     void plotData();
 
+    float curFreq;
+
     std::unique_ptr<WaveForm> p_wave;
 };

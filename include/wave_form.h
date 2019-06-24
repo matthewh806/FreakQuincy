@@ -19,6 +19,8 @@ public:
     WaveTypes get_wave_type() const;
     void set_waveType(WaveTypes w_type);
 
+    void set_sampleRate(float rate);
+
     std::vector<double> get_angles() const;
     std::vector<double> get_waveOutput() const;
 
