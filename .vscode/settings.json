@@ -52,6 +52,8 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "qapplication": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "qmainwindow": "cpp",
+        "qtnumeric": "cpp"
     }
 }

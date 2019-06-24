@@ -4,13 +4,14 @@
 #include <memory>
 #include "main_window.h"
 #include "spectrum.hpp"
+#include <math.h>
 
-int N = 1024;
+float sampleRate = 600;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     std::cout << "Hello Freak Quency!" << std::endl;
 
-    p_wave = std::unique_ptr<WaveForm>( new WaveForm(N, WaveTypes::SINE) );
+    p_wave = std::unique_ptr<WaveForm>( new WaveForm(sampleRate) );
     setupMainWindow();
 }
 
@@ -22,12 +23,17 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::frequencyChanged(double freq) {
-    p_wave->generateWave((float)freq);
+    p_wave->generateWaves((float)freq);
     plotData();
 }
 
 void MainWindow::phaseChanged(double phase) {
-    p_wave->generateWave(1.0, (float)phase);
+    p_wave->generateWaves(1.0, (float)phase);
+    plotData();
+}
+
+void MainWindow::waveformChanged(int index) {
+    p_wave->set_waveType((WaveTypes)index);
     plotData();
 }
 
@@ -36,14 +42,18 @@ void MainWindow::setupMainWindow() {
     centralWidget = new QWidget(this);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
-
     verticalLayout = new QVBoxLayout(centralWidget);
     verticalLayout->setSpacing(6);
     verticalLayout->setContentsMargins(11, 11, 11, 11);
     verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
 
+    QLabel *waveformLabel = new QLabel(tr("WaveForm"));
     QGroupBox *waveFormGroup = new QGroupBox(tr("WaveForm"));
-    
+    QComboBox *waveformSelector = new QComboBox;
+    waveformSelector->insertItem(waveformSelector->count(), "Sine", WaveTypes::SINE);
+    waveformSelector->insertItem(waveformSelector->count(), "Square", WaveTypes::SQUARE);
+    connect(waveformSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(waveformChanged(int)));
+
     QLabel *frequencyLabel = new QLabel(tr("Frequency"));
     QDoubleSpinBox *frequencySpinBox = new QDoubleSpinBox;
     frequencySpinBox->setRange(0, 100);
@@ -59,6 +69,8 @@ void MainWindow::setupMainWindow() {
     connect(phaseSpinBox, SIGNAL(valueChanged(double)), this, SLOT(phaseChanged(double)));
 
     QVBoxLayout *waveFormSpinBoxLayout = new QVBoxLayout();
+    waveFormSpinBoxLayout->addWidget(waveformLabel);
+    waveFormSpinBoxLayout->addWidget(waveformSelector);
     waveFormSpinBoxLayout->addWidget(frequencyLabel);
     waveFormSpinBoxLayout->addWidget(frequencySpinBox);
     waveFormSpinBoxLayout->addWidget(phaseLabel);
@@ -77,7 +89,6 @@ void MainWindow::setupMainWindow() {
 
     this->setCentralWidget(centralWidget);
 
-    p_wave->generateWave();
     setupPlottingWindow();
     plotData();
 }
@@ -91,7 +102,6 @@ void MainWindow::setupPlottingWindow() {
     waveformPlot->xAxis->setLabel("angle");
     waveformPlot->yAxis->setLabel("sin(angle)");
     
-
     spectrumPlot->addGraph();
     spectrumPlot->xAxis->setLabel("frequency");
     spectrumPlot->yAxis->setLabel("level");
@@ -101,11 +111,16 @@ void MainWindow::plotData() {
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
     
-    Spectrum* s = new Spectrum(N, p_wave->get_waveOutput().data());
-    s->generatePowerSpectrum();
+    Spectrum* s = new Spectrum((int)sampleRate, p_wave->get_waveOutput().data());
+    s->generatePowerSpectrum(sampleRate);
+
+    std::vector<double> ps = s->get_powerSpectrum();
+
+    // TODO: This modifies vector - not really desirable
+    std::for_each(ps.begin(), ps.end(), [](double &n) { n = 20 * log10(n);});
 
     QVector<double> frequencies = QVector<double>::fromStdVector(s->get_frequencyRange());
-    QVector<double> power_spec = QVector<double>::fromStdVector(s->get_powerSpectrum());
+    QVector<double> power_spec = QVector<double>::fromStdVector(ps);
 
     std::cout << "size: " << frequencies.size() << std::endl;
     for(int i = 0; i < frequencies.size(); i++) {

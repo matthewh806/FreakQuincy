@@ -1,13 +1,14 @@
 #include "wave_form.h"
 
-WaveForm::WaveForm(int size, WaveTypes waveType) : size(size), 
-wType(waveType), angles(size), waveOutput(size) {
-
+WaveForm::WaveForm(float sampleRate) : sampleRate(sampleRate), angles(sampleRate), 
+sineWave(sampleRate), sqrWave(sampleRate) {
+    generateWaves();
 }
 
 WaveForm::~WaveForm() {
     angles.clear();
-    waveOutput.clear();
+    sineWave.clear();
+    sqrWave.clear();
 }
 
 int WaveForm::get_size() const {
@@ -18,20 +19,45 @@ WaveTypes WaveForm::get_wave_type() const {
     return wType;
 }
 
+void WaveForm::set_waveType(WaveTypes w_type) {
+    wType = w_type;
+}
+
 std::vector<double> WaveForm::get_angles() const {
     return angles;
 }
 
 std::vector<double> WaveForm::get_waveOutput() const {
-    return waveOutput;
+    if(wType == SINE) {
+        return sineWave;
+    } else {
+        return sqrWave;
+    }
 }
 
-void WaveForm::generateWave(float frequency, float phase) {
-    auto angleDelta = 2*M_PI / (size-1) * frequency;
+void WaveForm::generateWaves(float frequency, float phase) {
+    generateSineWave(frequency, phase);
+    generateSquareWave(frequency, phase);
+}
+
+void WaveForm::generateSineWave(float frequency, float phase) {
+    auto angleDelta = 2*M_PI / (sampleRate - 1) * frequency;
     auto currentAngle = 0.0;
 
-    for(int i = 0; i < size; i++) {
-        waveOutput[i] = sin(currentAngle + phase);
+    for(int i = 0; i < sampleRate; i++) {
+        sineWave[i] = sin(currentAngle + phase);
+        angles[i] = currentAngle;
+
+        currentAngle += angleDelta;
+    }
+}
+
+void WaveForm::generateSquareWave(float frequency, float phase) {
+    auto angleDelta = 2*M_PI / (sampleRate - 1) * frequency;
+    auto currentAngle = 0.0;
+
+    for(int i = 0; i < sampleRate; i++) {
+        sqrWave[i] = sin(currentAngle + phase) >= 0.0 ? 1.0 : -1.0;
         angles[i] = currentAngle;
 
         currentAngle += angleDelta;

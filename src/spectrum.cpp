@@ -22,14 +22,14 @@ std::vector<double> Spectrum::get_powerSpectrum() {
     return power_spectrum;
 }
 
-void Spectrum::generatePowerSpectrum() {
+void Spectrum::generatePowerSpectrum(float sample_rate) {
     fft->execute_freak_quincys_evil_plan();
 
     // TODO: What happens when N is even?
-    for(int i = 0; i < length / 2; i++) {
-        std::cout << " (re, im) : " << "(" << fft->out[i][0] << ", " << fft->out[i][1] << ")" << std::endl;
-        
-        frequencies.push_back(i);
+    for(int i = 0; i < length / 2; i++) {        
+        frequencies.push_back((float)i / length * sample_rate);
+
+        // This calculates amplitude
         power_spectrum.push_back(std::sqrt( fft->out[i][0]*fft->out[i][0] + fft->out[i][1]*fft->out[i][1]));
     }
 }

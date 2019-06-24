@@ -12,7 +12,7 @@ public:
     std::vector<double> get_frequencyRange();
     std::vector<double> get_powerSpectrum();
 
-    void generatePowerSpectrum();
+    void generatePowerSpectrum(float sample_rate);
     
 private:
     RealFFT *fft;
