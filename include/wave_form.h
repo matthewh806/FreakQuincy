@@ -22,17 +22,22 @@ public:
     std::vector<double> get_angles() const;
     std::vector<double> get_waveOutput() const;
 
-    void generateWaves(float frequency = 1.0, float phase = 0.0);
+    void generateWaves(float frequency);
 
 private:
     float sampleRate;
+    int tableSize;
     WaveTypes wType;
     std::vector<double> angles;
+    std::vector<double> sineWaveTable;
+    std::vector<double> sqrWaveTable;
+
     std::vector<double> sineWave;
     std::vector<double> sqrWave;
 
-    void generateSineWave(float frequency, float phase);
-    void generateSquareWave(float frequency, float phase);
+    void generateWaveTables();
+    void generateSineWaveTable();
+    void generateSquareWaveTable();
 };
 
 #endif

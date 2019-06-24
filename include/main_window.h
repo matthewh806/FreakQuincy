@@ -10,6 +10,7 @@ public:
     ~MainWindow();
 
 public slots:
+    void sampleRateChanged(double);
     void waveformChanged(int);
     void frequencyChanged(double);
     void phaseChanged(double);
@@ -21,6 +22,7 @@ private:
     QCustomPlot *spectrumPlot;
 
     QComboBox *waveformSelector;
+    QDoubleSpinBox *sampleRateSpinBox;
     QDoubleSpinBox *freqencySpinBox;
     QDoubleSpinBox *phaseSpinBox;
 
