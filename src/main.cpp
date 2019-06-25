@@ -7,6 +7,7 @@ int main(int argc, char * argv[])
     MainWindow w;
 
     w.resize(600, 420);
+    w.setWindowTitle("FreakQuency");
     w.show();
 
     return a.exec();

@@ -5,7 +5,7 @@
 #include "math.h"
 
 enum WaveTypes {
-    SINE,
+    SINE = 0,
     SQUARE
 };
 

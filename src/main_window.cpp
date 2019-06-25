@@ -61,7 +61,7 @@ void MainWindow::setupMainWindow() {
 
     QLabel *sampleRateLabel = new QLabel(tr("Sample Rate"));
     QDoubleSpinBox *sampleRateSpinBox = new QDoubleSpinBox;
-    sampleRateSpinBox->setRange(0, 40000);
+    sampleRateSpinBox->setRange(1000, 40000);
     sampleRateSpinBox->setSingleStep(1000);
     sampleRateSpinBox->setValue(40000);
     connect(sampleRateSpinBox, SIGNAL(valueChanged(double)), this, SLOT(sampleRateChanged(double)));
@@ -69,6 +69,7 @@ void MainWindow::setupMainWindow() {
     QComboBox *waveformSelector = new QComboBox;
     waveformSelector->insertItem(waveformSelector->count(), "Sine", WaveTypes::SINE);
     waveformSelector->insertItem(waveformSelector->count(), "Square", WaveTypes::SQUARE);
+    waveformSelector->setCurrentIndex(-1);
     connect(waveformSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(waveformChanged(int)));
 
     QLabel *frequencyLabel = new QLabel(tr("Frequency"));
@@ -109,7 +110,7 @@ void MainWindow::setupMainWindow() {
     this->setCentralWidget(centralWidget);
 
     setupPlottingWindow();
-    plotData();
+    waveformSelector->setCurrentIndex(WaveTypes::SINE);
 }
 
 void MainWindow::setupPlottingWindow() {
@@ -119,11 +120,11 @@ void MainWindow::setupPlottingWindow() {
     // TODO: Maybe it should be a log plot?
     waveformPlot->addGraph();
     waveformPlot->xAxis->setLabel("angle");
-    waveformPlot->yAxis->setLabel("sin(angle)");
+    waveformPlot->yAxis->setLabel("Amplitude");
     
     spectrumPlot->addGraph();
     spectrumPlot->xAxis->setLabel("frequency");
-    spectrumPlot->yAxis->setLabel("level");
+    spectrumPlot->yAxis->setLabel("Amplitude");
 }
 
 void MainWindow::plotData() {
