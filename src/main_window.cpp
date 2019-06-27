@@ -2,16 +2,20 @@
 #include <fstream>
 #include <vector>
 #include <memory>
+#include <math.h>
 #include "main_window.h"
 #include "spectrum.hpp"
-#include <math.h>
-
-float sampleRate = 40000;
+#include "AudioSettings.hpp"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     std::cout << "Hello Freak Quency!" << std::endl;
 
-    p_wave = std::unique_ptr<WaveForm>( new WaveForm(sampleRate) );
+    AudioSettings::setSampleRate(40000);
+    AudioSettings::setChannels(2);
+    AudioSettings::setBufferSize(1000);
+
+    p_wave = std::unique_ptr<WaveForm>( new WaveForm() );
+
     setupMainWindow();
 }
 
@@ -23,9 +27,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::sampleRateChanged(double rate) {
-    sampleRate = (float)rate;
+    AudioSettings::setSampleRate((float)rate);
 
-    p_wave->set_sampleRate((float)rate);
     p_wave->generateWaves(curFreq);
     plotData();
 }
@@ -63,7 +66,7 @@ void MainWindow::setupMainWindow() {
     QDoubleSpinBox *sampleRateSpinBox = new QDoubleSpinBox;
     sampleRateSpinBox->setRange(1000, 40000);
     sampleRateSpinBox->setSingleStep(1000);
-    sampleRateSpinBox->setValue(40000);
+    sampleRateSpinBox->setValue(AudioSettings::getSampleRate());
     connect(sampleRateSpinBox, SIGNAL(valueChanged(double)), this, SLOT(sampleRateChanged(double)));
 
     QComboBox *waveformSelector = new QComboBox;
@@ -137,8 +140,8 @@ void MainWindow::plotData() {
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
 
-    Spectrum* s = new Spectrum((int)sampleRate, p_wave->get_waveOutput().data(), hammingWindow);
-    s->generatePowerSpectrum(sampleRate);
+    Spectrum* s = new Spectrum(p_wave->get_waveOutput().data(), hammingWindow);
+    s->generatePowerSpectrum();
 
     std::vector<double> ps = s->get_powerSpectrum();
 

@@ -1,27 +1,28 @@
 #include <iostream>
 #include <cmath>
 #include "spectrum.hpp"
+#include "AudioSettings.hpp"
 
 double defaultWindow(int index, size_t length) {
     return 1;
 }
 
-Spectrum::Spectrum(size_t length, double* input, std::function<double (int, size_t)> windowFunc) : length(length), in(input) 
+Spectrum::Spectrum(double* input, std::function<double (int, size_t)> windowFunc) : in(input) 
 {
     // Apply window function
     if(windowFunc == nullptr) {
         windowFunc = defaultWindow;
     }
 
-    double windowedInput[length];
-    for(int i = 0; i < length; i++) {
-        windowedInput[i] = windowFunc(i, length) * input[i];
+    double windowedInput[AudioSettings::getbufferSize()];
+    for(int i = 0; i < AudioSettings::getbufferSize(); i++) {
+        windowedInput[i] = windowFunc(i, AudioSettings::getbufferSize()) * input[i];
     }
 
-    fft = new RealFFT(length, windowedInput);
+    fft = new RealFFT(AudioSettings::getbufferSize(), windowedInput);
 
-    frequencies.reserve(length/2 + 1);
-    power_spectrum.reserve(length/2 + 1);
+    frequencies.reserve(AudioSettings::getbufferSize()/2 + 1);
+    power_spectrum.reserve(AudioSettings::getbufferSize()/2 + 1);
 }
 
 Spectrum::~Spectrum() {
@@ -36,12 +37,12 @@ std::vector<double> Spectrum::get_powerSpectrum() {
     return power_spectrum;
 }
 
-void Spectrum::generatePowerSpectrum(float sample_rate) {
+void Spectrum::generatePowerSpectrum() {
     fft->execute_freak_quincys_evil_plan();
 
     // TODO: What happens when N is even?
-    for(int i = 0; i < length / 2; i++) {        
-        frequencies.push_back((float)i / length * sample_rate);
+    for(int i = 0; i < AudioSettings::getbufferSize() / 2; i++) {        
+        frequencies.push_back((float)i / AudioSettings::getbufferSize() * AudioSettings::getSampleRate());
 
         // This calculates amplitude
         power_spectrum.push_back(std::sqrt( fft->out[i][0]*fft->out[i][0] + fft->out[i][1]*fft->out[i][1]));

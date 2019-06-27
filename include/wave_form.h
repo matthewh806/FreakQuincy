@@ -11,15 +11,13 @@ enum WaveTypes {
 
 class WaveForm {
 public:
-    WaveForm(float sampleRate);
+    WaveForm();
     ~WaveForm();
 
     int get_size() const;
     
     WaveTypes get_wave_type() const;
     void set_waveType(WaveTypes w_type);
-
-    void set_sampleRate(float rate);
 
     std::vector<double> get_angles() const;
     std::vector<double> get_waveOutput() const;
@@ -28,7 +26,6 @@ public:
 
 private:
     float sampleRate;
-    int tableSize;
     WaveTypes wType;
     std::vector<double> angles;
     std::vector<double> sineWaveTable;
@@ -40,8 +37,6 @@ private:
     void generateWaveTables();
     void generateSineWaveTable();
     void generateSquareWaveTable();
-
-    double* hammingWindow(int index, size_t length);
 };
 
 #endif
