@@ -127,11 +127,17 @@ void MainWindow::setupPlottingWindow() {
     spectrumPlot->yAxis->setLabel("Amplitude");
 }
 
+double hammingWindow(int index, size_t length) {
+    double alpha = 0.53836;
+
+    return alpha - (1-alpha) * cos(2 * M_PI * index / (length - 1));
+}
+
 void MainWindow::plotData() {
     QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
     QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
 
-    Spectrum* s = new Spectrum((int)sampleRate, p_wave->get_waveOutput().data());
+    Spectrum* s = new Spectrum((int)sampleRate, p_wave->get_waveOutput().data(), hammingWindow);
     s->generatePowerSpectrum(sampleRate);
 
     std::vector<double> ps = s->get_powerSpectrum();

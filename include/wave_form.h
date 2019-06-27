@@ -40,6 +40,8 @@ private:
     void generateWaveTables();
     void generateSineWaveTable();
     void generateSquareWaveTable();
+
+    double* hammingWindow(int index, size_t length);
 };
 
 #endif

@@ -2,9 +2,23 @@
 #include <cmath>
 #include "spectrum.hpp"
 
-Spectrum::Spectrum(size_t length, double* input) : length(length), in(input) 
+double defaultWindow(int index, size_t length) {
+    return 1;
+}
+
+Spectrum::Spectrum(size_t length, double* input, std::function<double (int, size_t)> windowFunc) : length(length), in(input) 
 {
-    fft = new RealFFT(length, in);
+    // Apply window function
+    if(windowFunc == nullptr) {
+        windowFunc = defaultWindow;
+    }
+
+    double windowedInput[length];
+    for(int i = 0; i < length; i++) {
+        windowedInput[i] = windowFunc(i, length) * input[i];
+    }
+
+    fft = new RealFFT(length, windowedInput);
 
     frequencies.reserve(length/2 + 1);
     power_spectrum.reserve(length/2 + 1);

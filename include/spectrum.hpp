@@ -3,10 +3,11 @@
 
 #include "RealFFT.hpp"
 #include <vector>
+#include <functional>
 
 class Spectrum {
 public:
-    Spectrum(size_t length, double* input);
+    Spectrum(size_t length, double* input, std::function<double (int, size_t)> windowFunc = nullptr);
     ~Spectrum();
 
     std::vector<double> get_frequencyRange();
