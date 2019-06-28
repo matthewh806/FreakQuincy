@@ -10,7 +10,7 @@ std::shared_ptr<WaveForm> p_wave;
 RtAudio dac(RtAudio::MACOSX_CORE);
 
 void play(double *output) {
-    output[0] = volume * p_wave->get_inst_waveOutput(440);
+    output[0] = volume * p_wave->get_inst_waveOutput();
     output[1] = output[0];
 }
 

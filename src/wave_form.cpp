@@ -24,6 +24,10 @@ WaveTypes WaveForm::get_wave_type() const {
     return wType;
 }
 
+void WaveForm::setFrequency(float freq) {
+    this->freq = freq;
+}
+
 void WaveForm::set_waveType(WaveTypes w_type) {
     wType = w_type;
 }
@@ -40,8 +44,8 @@ std::vector<double> WaveForm::get_waveOutput() const {
     }
 }
 
-double WaveForm::get_inst_waveOutput(float frequency) {
-    increment = (AudioSettings::getbufferSize() * frequency) / AudioSettings::getSampleRate();
+double WaveForm::get_inst_waveOutput() {
+    increment = (AudioSettings::getbufferSize() * freq) / AudioSettings::getSampleRate();
     
     int index0 = (int)phase;
     int index1 = (index0 == AudioSettings::getbufferSize() - 1) ? 0 : index0 + 1;

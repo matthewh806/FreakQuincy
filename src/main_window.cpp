@@ -34,6 +34,7 @@ void MainWindow::sampleRateChanged(int rate) {
 
 void MainWindow::frequencyChanged(double freq) {
     curFreq = (float)freq;
+    p_wave->setFrequency(freq);
     p_wave->generateWaves(freq);
     plotData();
 }
@@ -76,7 +77,7 @@ void MainWindow::setupMainWindow() {
 
     QLabel *frequencyLabel = new QLabel(tr("Frequency"));
     QDoubleSpinBox *frequencySpinBox = new QDoubleSpinBox;
-    frequencySpinBox->setRange(0, 2000);
+    frequencySpinBox->setRange(0, 25000);
     frequencySpinBox->setSingleStep(1.0);
     frequencySpinBox->setValue(1.0);
     connect(frequencySpinBox, SIGNAL(valueChanged(double)), this, SLOT(frequencyChanged(double)));

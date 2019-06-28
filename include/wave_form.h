@@ -21,16 +21,19 @@ public:
 
     std::vector<double> get_angles() const;
 
-    // TODO: Remove this
+    // TODO: Remove these
+    void setFrequency(float freq);
     std::vector<double> get_waveOutput() const;
 
-    double get_inst_waveOutput(float frequency);
+    double get_inst_waveOutput();
 
     void generateWaves(float frequency);
 
 private:
     double phase;
     float increment;
+
+    float freq;
 
     WaveTypes wType;
     std::vector<double> angles;
