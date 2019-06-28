@@ -7,16 +7,10 @@
 #include "spectrum.hpp"
 #include "AudioSettings.hpp"
 
+// TODO: Separate class for UI to core engine...!
+// TODO: Button to start / stop audio stream.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     std::cout << "Hello Freak Quency!" << std::endl;
-
-    AudioSettings::setSampleRate(40000);
-    AudioSettings::setChannels(2);
-    AudioSettings::setBufferSize(1000);
-
-    p_wave = std::unique_ptr<WaveForm>( new WaveForm() );
-
-    setupMainWindow();
 }
 
 MainWindow::~MainWindow() {
@@ -26,8 +20,13 @@ MainWindow::~MainWindow() {
     delete centralWidget;
 }
 
-void MainWindow::sampleRateChanged(double rate) {
-    AudioSettings::setSampleRate((float)rate);
+void MainWindow::setWave(std::shared_ptr<WaveForm> wave) {
+    p_wave = wave;
+    setupMainWindow();
+}
+
+void MainWindow::sampleRateChanged(int rate) {
+    AudioSettings::setSampleRate(rate);
 
     p_wave->generateWaves(curFreq);
     plotData();
@@ -63,11 +62,11 @@ void MainWindow::setupMainWindow() {
     QGroupBox *waveFormGroup = new QGroupBox(tr("Parameters"));
 
     QLabel *sampleRateLabel = new QLabel(tr("Sample Rate"));
-    QDoubleSpinBox *sampleRateSpinBox = new QDoubleSpinBox;
-    sampleRateSpinBox->setRange(1000, 40000);
+    QSpinBox *sampleRateSpinBox = new QSpinBox;
+    sampleRateSpinBox->setRange(1000, 44100);
     sampleRateSpinBox->setSingleStep(1000);
     sampleRateSpinBox->setValue(AudioSettings::getSampleRate());
-    connect(sampleRateSpinBox, SIGNAL(valueChanged(double)), this, SLOT(sampleRateChanged(double)));
+    connect(sampleRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(sampleRateChanged(int)));
 
     QComboBox *waveformSelector = new QComboBox;
     waveformSelector->insertItem(waveformSelector->count(), "Sine", WaveTypes::SINE);

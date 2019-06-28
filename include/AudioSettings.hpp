@@ -3,11 +3,11 @@
 
 class AudioSettings {
     public:
-        static float getSampleRate() {
+        static int getSampleRate() {
             return sampleRate;
         }
 
-        static void setSampleRate(float rate) {
+        static void setSampleRate(int rate) {
             sampleRate = rate;
         }
 
@@ -28,7 +28,7 @@ class AudioSettings {
         };
 
     private:
-        static float sampleRate;
+        static int sampleRate;
         static int channels;
         static int bufferSize;
 };

@@ -9,8 +9,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void setWave(std::shared_ptr<WaveForm> wave);
+    float get_currentFrequency() { return curFreq; };
+
 public slots:
-    void sampleRateChanged(double);
+    void sampleRateChanged(int);
     void waveformChanged(int);
     void frequencyChanged(double);
     void phaseChanged(double);
@@ -22,9 +25,11 @@ private:
     QCustomPlot *spectrumPlot;
 
     QComboBox *waveformSelector;
-    QDoubleSpinBox *sampleRateSpinBox;
+    QSpinBox *sampleRateSpinBox;
     QDoubleSpinBox *freqencySpinBox;
     QDoubleSpinBox *phaseSpinBox;
+
+    void setupAudioOutput();
 
     void setupMainWindow();
     void setupPlottingWindow();
@@ -32,5 +37,5 @@ private:
 
     float curFreq;
 
-    std::unique_ptr<WaveForm> p_wave;
+    std::shared_ptr<WaveForm> p_wave;
 };

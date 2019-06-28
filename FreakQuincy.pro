@@ -11,12 +11,14 @@ INCLUDEPATH += .
 INCLUDEPATH += /usr/include 
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += include/
-LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm
+LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
+LIBS += -framework CoreFoundation -framework CoreAudio
 
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS += -g
 }
 
+DEFINES += __MACOSX_CORE__
 
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings

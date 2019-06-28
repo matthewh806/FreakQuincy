@@ -4,6 +4,8 @@
 // TODO: RESIZE ARRAY IF BUFFER SIZE CHANGES!
 WaveForm::WaveForm() : angles(AudioSettings::getbufferSize()), 
 sineWaveTable(AudioSettings::getbufferSize()), sqrWaveTable(AudioSettings::getbufferSize()), sineWave(AudioSettings::getbufferSize()), sqrWave(AudioSettings::getbufferSize()){
+    phase = 0.0;
+
     generateWaveTables();
     generateWaves(1);
 }
@@ -36,6 +38,19 @@ std::vector<double> WaveForm::get_waveOutput() const {
     } else {
         return sqrWave;
     }
+}
+
+double WaveForm::get_inst_waveOutput(float frequency) {
+    increment = (AudioSettings::getbufferSize() * frequency) / AudioSettings::getSampleRate();
+    
+    int index0 = (int)phase;
+    int index1 = (index0 == AudioSettings::getbufferSize() - 1) ? 0 : index0 + 1;
+
+    auto t = phase - (float)index0;
+    
+    phase = fmod(phase + increment, AudioSettings::getbufferSize());
+
+    return (1-t) * wType == SINE ? sineWaveTable[index0] : sqrWaveTable[index0] + t * wType == SINE ? sineWaveTable[index1] : sqrWaveTable[index1];
 }
 
 void WaveForm::generateWaves(float frequency) {

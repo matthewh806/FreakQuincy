@@ -20,12 +20,18 @@ public:
     void set_waveType(WaveTypes w_type);
 
     std::vector<double> get_angles() const;
+
+    // TODO: Remove this
     std::vector<double> get_waveOutput() const;
+
+    double get_inst_waveOutput(float frequency);
 
     void generateWaves(float frequency);
 
 private:
-    float sampleRate;
+    double phase;
+    float increment;
+
     WaveTypes wType;
     std::vector<double> angles;
     std::vector<double> sineWaveTable;
