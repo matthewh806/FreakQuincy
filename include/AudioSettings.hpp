@@ -27,6 +27,8 @@ class AudioSettings {
             bufferSize = size;
         };
 
+        static float volume;
+
     private:
         static int sampleRate;
         static int channels;

@@ -14,6 +14,8 @@ INCLUDEPATH += include/
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
 LIBS += -framework CoreFoundation -framework CoreAudio
 
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
+
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS += -g
 }
