@@ -18,16 +18,17 @@ int AudioEngine::routing(void *outputBuffer, void *inputBuffer, unsigned int nBu
     AudioEngine *engine = (AudioEngine*) userData;
     
     unsigned int i, j;
-    double *buffer = (double *)outputBuffer;
+    engine->buffer = (double *)outputBuffer;
+    engine->buffer_size = nBufferFrames;
     std::vector<double> lastValues(AudioSettings::getChannels(), 0);
 
     if(status)
         std::cout << "Stream underflow detected!" << std::endl;
 
     for(i = 0; i < nBufferFrames; i++) {
-        play(&lastValues[0], engine->p_wave->get_inst_waveOutput());
+        play(&lastValues[0], engine->p_wave->get_waveOutput());
         for(j = 0; j < 2; j++) {
-            *buffer++ = lastValues[j];
+            *(engine->buffer++) = lastValues[j];
         }
     }
 

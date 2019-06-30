@@ -1,7 +1,8 @@
 #include <QMainWindow>
 #include "qcustomplot.h"
-#include "wave_form.h"
+#include "WaveFormSignalHandler.hpp"
 
+// TODO: This is a bit monolithic right now - split up!
 class MainWindow : public QMainWindow {
     Q_OBJECT
     
@@ -9,14 +10,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setWave(std::shared_ptr<WaveForm> wave);
-    float get_currentFrequency() { return curFreq; };
+    void setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler);
+
+    void plotData(std::vector<double> angles, std::vector<double> amplitudes);
 
 public slots:
     void sampleRateChanged(int);
-    void waveformChanged(int);
-    void frequencyChanged(double);
-    void phaseChanged(double);
 
 private:
     QWidget *centralWidget;
@@ -33,9 +32,6 @@ private:
 
     void setupMainWindow();
     void setupPlottingWindow();
-    void plotData();
 
-    float curFreq;
-
-    std::shared_ptr<WaveForm> p_wave;
+    std::shared_ptr<WaveFormSignalHandler> waveFormSignalHandler;
 };

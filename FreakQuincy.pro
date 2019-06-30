@@ -35,4 +35,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 # Input
 HEADERS += include/*.h
+HEADERS += include/*.hpp
 SOURCES += src/*.cpp

@@ -20,37 +20,16 @@ MainWindow::~MainWindow() {
     delete centralWidget;
 }
 
-void MainWindow::setWave(std::shared_ptr<WaveForm> wave) {
-    p_wave = wave;
+void MainWindow::setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler) {
+    waveFormSignalHandler = handler;
     setupMainWindow();
 }
 
 void MainWindow::sampleRateChanged(int rate) {
     AudioSettings::setSampleRate(rate);
-
-    p_wave->generateWaves(curFreq);
-    plotData();
-}
-
-void MainWindow::frequencyChanged(double freq) {
-    curFreq = (float)freq;
-    p_wave->setFrequency(freq);
-    p_wave->generateWaves(freq);
-    plotData();
-}
-
-void MainWindow::phaseChanged(double phase) {
-    p_wave->generateWaves(1.0);
-    plotData();
-}
-
-void MainWindow::waveformChanged(int index) {
-    p_wave->set_waveType((WaveTypes)index);
-    plotData();
 }
 
 void MainWindow::setupMainWindow() {
-
     centralWidget = new QWidget(this);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
@@ -73,21 +52,21 @@ void MainWindow::setupMainWindow() {
     waveformSelector->insertItem(waveformSelector->count(), "Sine", WaveTypes::SINE);
     waveformSelector->insertItem(waveformSelector->count(), "Square", WaveTypes::SQUARE);
     waveformSelector->setCurrentIndex(-1);
-    connect(waveformSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(waveformChanged(int)));
+    connect(waveformSelector, SIGNAL(currentIndexChanged(int)), waveFormSignalHandler.get(), SLOT(waveformChanged(int)));
 
     QLabel *frequencyLabel = new QLabel(tr("Frequency"));
     QDoubleSpinBox *frequencySpinBox = new QDoubleSpinBox;
     frequencySpinBox->setRange(0, 25000);
     frequencySpinBox->setSingleStep(1.0);
     frequencySpinBox->setValue(1.0);
-    connect(frequencySpinBox, SIGNAL(valueChanged(double)), this, SLOT(frequencyChanged(double)));
+    connect(frequencySpinBox, SIGNAL(valueChanged(double)), waveFormSignalHandler.get(), SLOT(frequencyChanged(double)));
 
     QLabel *phaseLabel = new QLabel(tr("Phase"));
     QDoubleSpinBox *phaseSpinBox = new QDoubleSpinBox;
     phaseSpinBox->setRange(-360, 360);
     phaseSpinBox->setSingleStep(1.0);
     phaseSpinBox->setValue(0.0);
-    connect(phaseSpinBox, SIGNAL(valueChanged(double)), this, SLOT(phaseChanged(double)));
+    connect(phaseSpinBox, SIGNAL(valueChanged(double)), waveFormSignalHandler.get(), SLOT(phaseChanged(double)));
 
     QVBoxLayout *waveFormSpinBoxLayout = new QVBoxLayout();
     waveFormSpinBoxLayout->addWidget(sampleRateLabel);
@@ -136,11 +115,12 @@ double hammingWindow(int index, size_t length) {
     return alpha - (1-alpha) * cos(2 * M_PI * index / (length - 1));
 }
 
-void MainWindow::plotData() {
-    QVector<double> angles_vec = QVector<double>::fromStdVector(p_wave->get_angles());
-    QVector<double> values_vec = QVector<double>::fromStdVector(p_wave->get_waveOutput());
+void MainWindow::plotData(std::vector<double> angles, std::vector<double> amplitudes) {
+    QVector<double> angles_vec = QVector<double>::fromStdVector(angles);
+    QVector<double> values_vec = QVector<double>::fromStdVector(amplitudes);
 
-    Spectrum* s = new Spectrum(p_wave->get_waveOutput().data(), hammingWindow);
+    // TODO: Maybe don't calculate this in the graphics thread...?
+    Spectrum* s = new Spectrum(amplitudes.data(), hammingWindow);
     s->generatePowerSpectrum();
 
     std::vector<double> ps = s->get_powerSpectrum();

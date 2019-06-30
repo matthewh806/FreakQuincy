@@ -23,9 +23,8 @@ public:
 
     // TODO: Remove these
     void setFrequency(float freq);
-    std::vector<double> get_waveOutput() const;
 
-    double get_inst_waveOutput();
+    double get_waveOutput();
 
     void generateWaves(float frequency);
 
@@ -39,9 +38,6 @@ private:
     std::vector<double> angles;
     std::vector<double> sineWaveTable;
     std::vector<double> sqrWaveTable;
-
-    std::vector<double> sineWave;
-    std::vector<double> sqrWave;
 
     void generateWaveTables();
     void generateSineWaveTable();
