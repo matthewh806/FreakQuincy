@@ -24,5 +24,5 @@ EngineUiIntermediary::~EngineUiIntermediary() {
 
 void EngineUiIntermediary::updateUI() {
     std::vector<double> amplitudes = m_engine->getBuffer();
-    m_mainWindow->plotData(m_waveForm->get_angles(), amplitudes);
+    m_mainWindow->plotData(amplitudes);
 }

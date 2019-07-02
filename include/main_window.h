@@ -12,12 +12,14 @@ public:
 
     void setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler);
 
-    void plotData(std::vector<double> angles, std::vector<double> amplitudes);
+    void plotData(std::vector<double> amplitudes);
 
 public slots:
     void sampleRateChanged(int);
 
 private:
+    QVector<double> x_axis;
+
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QCustomPlot *waveformPlot;

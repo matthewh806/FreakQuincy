@@ -19,14 +19,19 @@ int AudioEngine::routing(void *outputBuffer, void *inputBuffer, unsigned int nBu
     
     unsigned int i, j;
     engine->buffer = (double *)outputBuffer;
-    engine->buffer_size = nBufferFrames;
     std::vector<double> lastValues(AudioSettings::getChannels(), 0);
+
+    if(nBufferFrames != engine->_printBuffer.size()) {
+        std::cout << "buffer size changed" << std::endl;
+        engine->_printBuffer.resize(nBufferFrames);
+    }
 
     if(status)
         std::cout << "Stream underflow detected!" << std::endl;
 
     for(i = 0; i < nBufferFrames; i++) {
         play(&lastValues[0], engine->p_wave->get_waveOutput());
+        engine->_printBuffer[i] = lastValues[0]; // just one channel to display for now
         for(j = 0; j < 2; j++) {
             *(engine->buffer++) = lastValues[j];
         }
@@ -50,6 +55,8 @@ void AudioEngine::setupAudioOutput() {
 
     unsigned int bufferFrames = AudioSettings::getbufferSize();
     unsigned int sampleRate = AudioSettings::getSampleRate();
+
+    _printBuffer = std::vector<double>(bufferFrames, 0);
 
     std::cout << dac->getDeviceInfo(parameters.deviceId).name << std::endl;
     std::cout << dac->getDeviceInfo(parameters.deviceId).preferredSampleRate << std::endl;

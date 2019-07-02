@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <math.h>
+#include <numeric>
 #include "main_window.h"
 #include "spectrum.hpp"
 #include "AudioSettings.hpp"
@@ -11,6 +12,9 @@
 // TODO: Button to start / stop audio stream.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     std::cout << "Hello Freak Quency!" << std::endl;
+
+    x_axis = QVector<double>(AudioSettings::getbufferSize());
+    std::iota(x_axis.begin(), x_axis.end(), 1);
 }
 
 MainWindow::~MainWindow() {
@@ -115,8 +119,12 @@ double hammingWindow(int index, size_t length) {
     return alpha - (1-alpha) * cos(2 * M_PI * index / (length - 1));
 }
 
-void MainWindow::plotData(std::vector<double> angles, std::vector<double> amplitudes) {
-    QVector<double> angles_vec = QVector<double>::fromStdVector(angles);
+void MainWindow::plotData(std::vector<double> amplitudes) {
+    if(amplitudes.size() != x_axis.size()) {
+        x_axis.resize(amplitudes.size());
+        std::iota(x_axis.begin(), x_axis.end(), 1);
+    }
+
     QVector<double> values_vec = QVector<double>::fromStdVector(amplitudes);
 
     // TODO: Maybe don't calculate this in the graphics thread...?
@@ -132,7 +140,7 @@ void MainWindow::plotData(std::vector<double> angles, std::vector<double> amplit
     QVector<double> power_spec = QVector<double>::fromStdVector(ps);
 
     waveformPlot->graph(0)->data()->clear();
-    waveformPlot->graph(0)->setData(angles_vec, values_vec);
+    waveformPlot->graph(0)->setData(x_axis, values_vec);
     waveformPlot->graph(0)->rescaleAxes();
     waveformPlot->replot();
 

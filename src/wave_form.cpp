@@ -2,19 +2,13 @@
 #include "AudioSettings.hpp"
 
 // TODO: RESIZE ARRAY IF BUFFER SIZE CHANGES!
-WaveForm::WaveForm() : angles(AudioSettings::getbufferSize()), 
-sineWaveTable(AudioSettings::getbufferSize()), sqrWaveTable(AudioSettings::getbufferSize()) {
+WaveForm::WaveForm() : sineWaveTable(AudioSettings::getbufferSize()), sqrWaveTable(AudioSettings::getbufferSize()) {
     phase = 0.0;
 
     generateWaveTables();
 }
 
 WaveForm::~WaveForm() {
-    angles.clear();
-}
-
-int WaveForm::get_size() const {
-    return angles.size();
 }
 
 WaveTypes WaveForm::get_wave_type() const {
@@ -27,10 +21,6 @@ void WaveForm::setFrequency(float freq) {
 
 void WaveForm::set_waveType(WaveTypes w_type) {
     wType = w_type;
-}
-
-std::vector<double> WaveForm::get_angles() const {
-    return angles;
 }
 
 double WaveForm::get_waveOutput() {
