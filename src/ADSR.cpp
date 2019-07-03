@@ -1,6 +1,8 @@
 #include "ADSR.hpp"
+#include "AudioSettings.hpp"
+
 ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime) {
-    m_stateTimes = std::vector<float> { 
+    m_stageTimes = std::vector<float> { 
         attackTime, 
         decayTime, 
         std::numeric_limits<float>::infinity(),
@@ -15,30 +17,31 @@ ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseT
         0,
         0
     };
+
+    m_rate = 1 / AudioSettings::getSampleRate();
+    m_state = 0.0;
+    m_curParamVal = 0.0;
+    m_prevParamVal = 0.0;
 }
 
 ADSR::~ADSR() {
     // TODO: Cleanup!
 }
 
-double ADSR::getEnvelopeOutput() {
-    return 1.0;
-}
-
 float ADSR::getAttackTime() {
-    return m_stateTimes[ATTACK];
+    return m_stageTimes[ATTACK];
 }
 
 void ADSR::setAttackTime(float t) {
-    m_stateTimes[ATTACK] = t;
+    m_stageTimes[ATTACK] = t;
 }
 
 float ADSR::getDecayTime() {
-    return m_stateTimes[DECAY];
+    return m_stageTimes[DECAY];
 }
 
 void ADSR::setDecayTime(float t) {
-    m_stateTimes[DECAY] = t;
+    m_stageTimes[DECAY] = t;
 }
 
 float ADSR::getSustainLevel() {
@@ -55,4 +58,36 @@ float ADSR::getReleaseTime() {
 
 void ADSR::setReleaseTime(float t) {
     m_paramValues[RELEASE] = t;
+}
+
+void ADSR::NotePressed() {
+    m_stage = ATTACK;
+    m_state = 0.0;
+    m_curParamVal = 0.0;
+    m_prevParamVal = 0.0;
+}
+
+void ADSR::NoteReleased() {
+    if(m_stage >= RELEASE)
+        return;
+    
+    m_stage = RELEASE;
+    m_state = 0.0;
+    m_prevParamVal = m_curParamVal;
+}
+
+double ADSR::getEnvelopeOutput() {
+    m_state += m_rate;
+
+    if(m_state >= m_stageTimes[m_state]) {
+        m_state -= m_stageTimes[m_state];
+        m_prevParamVal = m_curParamVal;
+        
+        m_state = m_state + 1;
+    }
+
+    double gamma = m_state / m_stageTimes[m_state];
+    m_curParamVal = (1-gamma) * m_prevParamVal + gamma * m_paramValues[m_state];
+
+    return m_curParamVal;
 }
