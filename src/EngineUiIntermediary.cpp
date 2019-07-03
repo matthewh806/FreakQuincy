@@ -3,12 +3,11 @@
 #include "EngineUiIntermediary.hpp"
 
 EngineUiIntermediary::EngineUiIntermediary() {
-    m_waveForm = std::make_shared<WaveForm>();
-    m_waveFormSignalHandler = std::make_shared<WaveFormSignalHandler>(m_waveForm);
-    m_engine = std::unique_ptr<AudioEngine>(new AudioEngine(m_waveForm));
+    m_synth = std::make_shared<Synth>();
+    m_engine = std::unique_ptr<AudioEngine>(new AudioEngine(m_synth));
 
     m_mainWindow = new MainWindow();
-    m_mainWindow->setWaveFormSignalHandler(m_waveFormSignalHandler);
+    m_mainWindow->setWaveFormSignalHandler(m_synth->getWaveFormSignalHandler());
     m_mainWindow->resize(600, 420);
     m_mainWindow->setWindowTitle("FreakQuency");
     m_mainWindow->show();

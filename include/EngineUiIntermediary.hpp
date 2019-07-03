@@ -2,10 +2,11 @@
 #define EngineUiIntermediary_HPP
 
 #include <QObject>
+#include <main_window.h>
 #include "AudioEngine.hpp"
 #include "wave_form.h"
 #include "WaveFormSignalHandler.hpp"
-#include <main_window.h>
+#include "Synth.hpp"
 
 class EngineUiIntermediary : public QObject {
     Q_OBJECT
@@ -21,8 +22,7 @@ class EngineUiIntermediary : public QObject {
         MainWindow *m_mainWindow = nullptr;
         QTimer *m_timer = nullptr;
 
-        std::shared_ptr<WaveForm> m_waveForm;
-        std::shared_ptr<WaveFormSignalHandler> m_waveFormSignalHandler;
+        std::shared_ptr<Synth> m_synth;
         std::unique_ptr<AudioEngine> m_engine;
 };
 

@@ -2,11 +2,11 @@
 #define AUDIOENGINE_HPP
 
 #include "RtAudio.h"
-#include "wave_form.h"
+#include "Synth.hpp"
 
 class AudioEngine {
     public:
-        AudioEngine(std::shared_ptr<WaveForm> wave);
+        AudioEngine(std::shared_ptr<Synth> synth);
         ~AudioEngine();
 
         std::vector<double> getBuffer() {
@@ -16,7 +16,7 @@ class AudioEngine {
     private:
         RtAudio *dac = NULL;
         double *buffer;
-        std::shared_ptr<WaveForm> p_wave;
+        std::shared_ptr<Synth> p_synth;
         
         // TODO: I'm maintaining this here just because directly
         // converting the *buffer ptr to vector and trying to display it

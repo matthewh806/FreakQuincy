@@ -1,7 +1,7 @@
 #include "AudioEngine.hpp"
 #include "AudioSettings.hpp"
 
-AudioEngine::AudioEngine(std::shared_ptr<WaveForm> wave) : p_wave(wave) {
+AudioEngine::AudioEngine(std::shared_ptr<Synth> synth) : p_synth(synth) {
     setupAudioOutput();
 }
 
@@ -9,8 +9,8 @@ AudioEngine::~AudioEngine() {
 
 }
 
-void AudioEngine::play(double *output, float waveOutput) {
-    output[0] = AudioSettings::volume * waveOutput;
+void AudioEngine::play(double *output, float synthOutput) {
+    output[0] = AudioSettings::volume * synthOutput;
     output[1] = output[0];
 }
 
@@ -30,7 +30,7 @@ int AudioEngine::routing(void *outputBuffer, void *inputBuffer, unsigned int nBu
         std::cout << "Stream underflow detected!" << std::endl;
 
     for(i = 0; i < nBufferFrames; i++) {
-        play(&lastValues[0], engine->p_wave->get_waveOutput());
+        play(&lastValues[0], engine->p_synth->tick());
         engine->_printBuffer[i] = lastValues[0]; // just one channel to display for now
         for(j = 0; j < 2; j++) {
             *(engine->buffer++) = lastValues[j];
