@@ -9,7 +9,8 @@ class ADSR {
         DECAY,
         SUSTAIN,
         RELEASE,
-        DONE
+        DONE,
+        NUM_STAGES
     };
 
     public:
@@ -18,6 +19,8 @@ class ADSR {
         // TODO: Implement param values in constructor? (e.g. attack lvl may not be 1)
         ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime);
         ~ADSR();
+
+        double getRate();
 
         float getAttackTime();
         void setAttackTime(float t);
@@ -36,6 +39,8 @@ class ADSR {
 
         // This is just the same as tick for now.
         double getEnvelopeOutput();
+
+        friend std::ostream& operator<<(std::ostream& out, const ADSR& adsr);
     private:
         STAGE m_stage = DONE;
         double m_state;

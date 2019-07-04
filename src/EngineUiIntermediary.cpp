@@ -8,6 +8,8 @@ EngineUiIntermediary::EngineUiIntermediary() {
 
     m_mainWindow = new MainWindow();
     m_mainWindow->setWaveFormSignalHandler(m_synth->getWaveFormSignalHandler());
+    connect(m_mainWindow->noteButton, SIGNAL(pressed()), this, SLOT(noteOn()));
+    connect(m_mainWindow->noteButton, SIGNAL(released()), this, SLOT(noteOff())); 
     m_mainWindow->resize(600, 420);
     m_mainWindow->setWindowTitle("FreakQuency");
     m_mainWindow->show();
@@ -24,4 +26,12 @@ EngineUiIntermediary::~EngineUiIntermediary() {
 void EngineUiIntermediary::updateUI() {
     std::vector<double> amplitudes = m_engine->getBuffer();
     m_mainWindow->plotData(amplitudes);
+}
+
+void EngineUiIntermediary::noteOn() {
+    m_synth->noteOn();
+}
+
+void EngineUiIntermediary::noteOff() {
+    m_synth->noteOff();
 }

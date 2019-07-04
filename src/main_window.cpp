@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     x_axis = QVector<double>(AudioSettings::getbufferSize());
     std::iota(x_axis.begin(), x_axis.end(), 1);
+
+    setupMainWindow();
 }
 
 MainWindow::~MainWindow() {
@@ -22,11 +24,14 @@ MainWindow::~MainWindow() {
     delete spectrumPlot;
     delete verticalLayout;
     delete centralWidget;
+
+    delete noteButton;
 }
 
 void MainWindow::setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler) {
-    waveFormSignalHandler = handler;
-    setupMainWindow();
+    connect(waveformSelector, SIGNAL(currentIndexChanged(int)), handler.get(), SLOT(waveformChanged(int)));
+    connect(frequencySpinBox, SIGNAL(valueChanged(double)), handler.get(), SLOT(frequencyChanged(double)));
+    connect(phaseSpinBox, SIGNAL(valueChanged(double)), handler.get(), SLOT(phaseChanged(double)));
 }
 
 void MainWindow::sampleRateChanged(int rate) {
@@ -46,31 +51,30 @@ void MainWindow::setupMainWindow() {
     QGroupBox *waveFormGroup = new QGroupBox(tr("Parameters"));
 
     QLabel *sampleRateLabel = new QLabel(tr("Sample Rate"));
-    QSpinBox *sampleRateSpinBox = new QSpinBox;
+    sampleRateSpinBox = new QSpinBox;
     sampleRateSpinBox->setRange(1000, 44100);
     sampleRateSpinBox->setSingleStep(1000);
     sampleRateSpinBox->setValue(AudioSettings::getSampleRate());
     connect(sampleRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(sampleRateChanged(int)));
 
-    QComboBox *waveformSelector = new QComboBox;
+    waveformSelector = new QComboBox;
     waveformSelector->insertItem(waveformSelector->count(), "Sine", WaveTypes::SINE);
     waveformSelector->insertItem(waveformSelector->count(), "Square", WaveTypes::SQUARE);
     waveformSelector->setCurrentIndex(-1);
-    connect(waveformSelector, SIGNAL(currentIndexChanged(int)), waveFormSignalHandler.get(), SLOT(waveformChanged(int)));
 
     QLabel *frequencyLabel = new QLabel(tr("Frequency"));
-    QDoubleSpinBox *frequencySpinBox = new QDoubleSpinBox;
+    frequencySpinBox = new QDoubleSpinBox;
     frequencySpinBox->setRange(0, 25000);
     frequencySpinBox->setSingleStep(1.0);
     frequencySpinBox->setValue(1.0);
-    connect(frequencySpinBox, SIGNAL(valueChanged(double)), waveFormSignalHandler.get(), SLOT(frequencyChanged(double)));
 
     QLabel *phaseLabel = new QLabel(tr("Phase"));
-    QDoubleSpinBox *phaseSpinBox = new QDoubleSpinBox;
+    phaseSpinBox = new QDoubleSpinBox;
     phaseSpinBox->setRange(-360, 360);
     phaseSpinBox->setSingleStep(1.0);
     phaseSpinBox->setValue(0.0);
-    connect(phaseSpinBox, SIGNAL(valueChanged(double)), waveFormSignalHandler.get(), SLOT(phaseChanged(double)));
+
+    noteButton = new QPushButton("Note", this);
 
     QVBoxLayout *waveFormSpinBoxLayout = new QVBoxLayout();
     waveFormSpinBoxLayout->addWidget(sampleRateLabel);
@@ -81,6 +85,7 @@ void MainWindow::setupMainWindow() {
     waveFormSpinBoxLayout->addWidget(frequencySpinBox);
     waveFormSpinBoxLayout->addWidget(phaseLabel);
     waveFormSpinBoxLayout->addWidget(phaseSpinBox);
+    waveFormSpinBoxLayout->addWidget(noteButton);
     waveFormGroup->setLayout(waveFormSpinBoxLayout);
 
     waveformPlot = new QCustomPlot(centralWidget);

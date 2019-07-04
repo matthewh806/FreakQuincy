@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ADSR.hpp"
 #include "AudioSettings.hpp"
 
@@ -18,7 +19,8 @@ ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseT
         0
     };
 
-    m_rate = 1 / AudioSettings::getSampleRate();
+    // TODO: Is this the correct way of setting rate...?
+    m_rate = 1.0 / AudioSettings::getSampleRate();
     m_state = 0.0;
     m_curParamVal = 0.0;
     m_prevParamVal = 0.0;
@@ -26,6 +28,10 @@ ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseT
 
 ADSR::~ADSR() {
     // TODO: Cleanup!
+}
+
+double ADSR::getRate() {
+    return m_rate;
 }
 
 float ADSR::getAttackTime() {
@@ -79,15 +85,20 @@ void ADSR::NoteReleased() {
 double ADSR::getEnvelopeOutput() {
     m_state += m_rate;
 
-    if(m_state >= m_stageTimes[m_state]) {
-        m_state -= m_stageTimes[m_state];
+    std::cout << "Stage, State: " << m_stage << ", " << m_state << std::endl;
+    if(m_state >= m_stageTimes[m_stage]) {
+        m_state -= m_stageTimes[m_stage];
         m_prevParamVal = m_curParamVal;
         
-        m_state = m_state + 1;
+        m_stage = static_cast<STAGE>((m_stage + 1) % NUM_STAGES);
     }
 
-    double gamma = m_state / m_stageTimes[m_state];
-    m_curParamVal = (1-gamma) * m_prevParamVal + gamma * m_paramValues[m_state];
-
+    double gamma = m_state / m_stageTimes[m_stage];
+    m_curParamVal = (1-gamma) * m_prevParamVal + gamma * m_paramValues[m_stage];
     return m_curParamVal;
+}
+
+std::ostream& operator<<(std::ostream& out, const ADSR& adsr) {
+    out << "ADSR: " << adsr.m_rate << ", " << adsr.m_stageTimes[0] << ", " << adsr.m_stageTimes[1] << ", " << adsr.m_stageTimes[3];
+    return out;
 }

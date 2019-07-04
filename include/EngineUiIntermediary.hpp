@@ -17,6 +17,8 @@ class EngineUiIntermediary : public QObject {
 
     public slots:
         void updateUI();
+        void noteOn();
+        void noteOff();
 
     private:
         MainWindow *m_mainWindow = nullptr;

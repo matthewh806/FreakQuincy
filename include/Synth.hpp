@@ -13,6 +13,10 @@ class Synth {
         ~Synth();
 
         std::shared_ptr<WaveFormSignalHandler> getWaveFormSignalHandler();
+
+        // TODO: Get the note...?
+        void noteOn();
+        void noteOff();
         double tick();
 
     private:

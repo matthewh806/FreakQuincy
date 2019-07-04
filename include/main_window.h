@@ -11,8 +11,10 @@ public:
     ~MainWindow();
 
     void setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler);
-
     void plotData(std::vector<double> amplitudes);
+
+    // TODO: Temporary before MIDI implemented: DELETE!
+    QPushButton *noteButton;
 
 public slots:
     void sampleRateChanged(int);
@@ -27,7 +29,7 @@ private:
 
     QComboBox *waveformSelector;
     QSpinBox *sampleRateSpinBox;
-    QDoubleSpinBox *freqencySpinBox;
+    QDoubleSpinBox *frequencySpinBox;
     QDoubleSpinBox *phaseSpinBox;
 
     void setupAudioOutput();
