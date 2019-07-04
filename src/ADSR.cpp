@@ -85,7 +85,6 @@ void ADSR::NoteReleased() {
 double ADSR::getEnvelopeOutput() {
     m_state += m_rate;
 
-    std::cout << "Stage, State: " << m_stage << ", " << m_state << std::endl;
     if(m_state >= m_stageTimes[m_stage]) {
         m_state -= m_stageTimes[m_stage];
         m_prevParamVal = m_curParamVal;

@@ -1,20 +1,27 @@
+#ifndef main_window_h
+#define main_window_h
+
 #include <QMainWindow>
 #include "qcustomplot.h"
-#include "WaveFormSignalHandler.hpp"
 
 // TODO: This is a bit monolithic right now - split up!
 class MainWindow : public QMainWindow {
     Q_OBJECT
-    
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler);
     void plotData(std::vector<double> amplitudes);
 
     // TODO: Temporary before MIDI implemented: DELETE!
     QPushButton *noteButton;
+
+    // TODO: Find a way to not have these be public...
+    QComboBox *waveformSelector;
+    QSpinBox *sampleRateSpinBox;
+    QDoubleSpinBox *frequencySpinBox;
+    QDoubleSpinBox *phaseSpinBox;
 
 public slots:
     void sampleRateChanged(int);
@@ -27,15 +34,10 @@ private:
     QCustomPlot *waveformPlot;
     QCustomPlot *spectrumPlot;
 
-    QComboBox *waveformSelector;
-    QSpinBox *sampleRateSpinBox;
-    QDoubleSpinBox *frequencySpinBox;
-    QDoubleSpinBox *phaseSpinBox;
-
     void setupAudioOutput();
 
     void setupMainWindow();
     void setupPlottingWindow();
-
-    std::shared_ptr<WaveFormSignalHandler> waveFormSignalHandler;
 };
+
+#endif

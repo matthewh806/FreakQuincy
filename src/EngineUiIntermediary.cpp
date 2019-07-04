@@ -7,9 +7,13 @@ EngineUiIntermediary::EngineUiIntermediary() {
     m_engine = std::unique_ptr<AudioEngine>(new AudioEngine(m_synth));
 
     m_mainWindow = new MainWindow();
-    m_mainWindow->setWaveFormSignalHandler(m_synth->getWaveFormSignalHandler());
+
     connect(m_mainWindow->noteButton, SIGNAL(pressed()), this, SLOT(noteOn()));
     connect(m_mainWindow->noteButton, SIGNAL(released()), this, SLOT(noteOff())); 
+    connect(m_mainWindow->waveformSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(waveformChanged(int)));
+    connect(m_mainWindow->frequencySpinBox, SIGNAL(valueChanged(double)), this, SLOT(frequencyChanged(double)));
+    connect(m_mainWindow->phaseSpinBox, SIGNAL(valueChanged(double)), this, SLOT(phaseChanged(double)));
+
     m_mainWindow->resize(600, 420);
     m_mainWindow->setWindowTitle("FreakQuency");
     m_mainWindow->show();
@@ -34,4 +38,15 @@ void EngineUiIntermediary::noteOn() {
 
 void EngineUiIntermediary::noteOff() {
     m_synth->noteOff();
+}
+
+void EngineUiIntermediary::frequencyChanged(double freq) {
+    m_synth->setOscFrequency(freq);
+}
+
+void EngineUiIntermediary::phaseChanged(double phase) {
+}
+
+void EngineUiIntermediary::waveformChanged(int index) {
+    m_synth->setOscType((WaveTypes)index);
 }

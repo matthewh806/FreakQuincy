@@ -6,13 +6,12 @@
 #include <numeric>
 #include "main_window.h"
 #include "spectrum.hpp"
+#include "wave_form.h"
 #include "AudioSettings.hpp"
 
 // TODO: Separate class for UI to core engine...!
 // TODO: Button to start / stop audio stream.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    std::cout << "Hello Freak Quency!" << std::endl;
-
     x_axis = QVector<double>(AudioSettings::getbufferSize());
     std::iota(x_axis.begin(), x_axis.end(), 1);
 
@@ -26,12 +25,6 @@ MainWindow::~MainWindow() {
     delete centralWidget;
 
     delete noteButton;
-}
-
-void MainWindow::setWaveFormSignalHandler(std::shared_ptr<WaveFormSignalHandler> handler) {
-    connect(waveformSelector, SIGNAL(currentIndexChanged(int)), handler.get(), SLOT(waveformChanged(int)));
-    connect(frequencySpinBox, SIGNAL(valueChanged(double)), handler.get(), SLOT(frequencyChanged(double)));
-    connect(phaseSpinBox, SIGNAL(valueChanged(double)), handler.get(), SLOT(phaseChanged(double)));
 }
 
 void MainWindow::sampleRateChanged(int rate) {
