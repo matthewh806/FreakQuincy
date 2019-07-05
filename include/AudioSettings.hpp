@@ -1,5 +1,5 @@
-#ifndef AudioSettings_hpp
-#define AudioSettings_hpp
+#ifndef AUDIOSETTINGS_HPP
+#define AUDIOSETTINGS_HPP
 
 class AudioSettings {
     public:

@@ -1,5 +1,5 @@
-#ifndef WAVEFORM_H
-#define WAVEFORM_H
+#ifndef WAVEFORM_HPP
+#define WAVEFORM_HPP
 
 #include <vector>
 #include "math.h"

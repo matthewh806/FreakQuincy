@@ -1,7 +1,7 @@
-#ifndef SPECTRUM_H
-#define SPECTRUM_H
+#ifndef SPECTRUM_HPP
+#define SPECTRUM_HPP
 
-#include "RealFFT.hpp"
+#include "dep/RealFFT.hpp"
 #include <vector>
 #include <functional>
 

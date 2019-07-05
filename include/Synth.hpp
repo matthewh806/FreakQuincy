@@ -1,10 +1,10 @@
-#ifndef Synth_hpp
-#define Synth_hpp
+#ifndef SYNTH_HPP
+#define SYNTH_HPP
 
 // This will eventually be a subtractive synth (haven't read that section of the book yet...)
-#include "wave_form.h"
-#include "ADSR.hpp"
 #include <memory>
+#include "WaveForm.hpp"
+#include "ADSR.hpp"
 
 class Synth {
     public:

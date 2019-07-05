@@ -4,9 +4,9 @@
 #include <memory>
 #include <math.h>
 #include <numeric>
-#include "main_window.h"
+#include "MainWindow.hpp"
 #include "spectrum.hpp"
-#include "wave_form.h"
+#include "WaveForm.hpp"
 #include "AudioSettings.hpp"
 
 // TODO: Separate class for UI to core engine...!

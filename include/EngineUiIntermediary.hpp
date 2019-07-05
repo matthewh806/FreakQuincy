@@ -1,10 +1,9 @@
-#ifndef EngineUiIntermediary_HPP
-#define EngineUiIntermediary_HPP
+#ifndef ENGINEUIINTERMEDIARY_HPP
+#define ENGINEUIINTERMEDIARY_HPP
 
 #include <QObject>
-#include <main_window.h>
+#include "MainWindow.hpp"
 #include "AudioEngine.hpp"
-#include "wave_form.h"
 #include "Synth.hpp"
 
 /*

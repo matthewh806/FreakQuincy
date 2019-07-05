@@ -1,8 +1,8 @@
-#ifndef main_window_h
-#define main_window_h
+#ifndef MAINWINDOW_hpp
+#define MAINWINDOW_hpp
 
 #include <QMainWindow>
-#include "qcustomplot.h"
+#include "dep/qcustomplot.h"
 
 // TODO: This is a bit monolithic right now - split up!
 class MainWindow : public QMainWindow {

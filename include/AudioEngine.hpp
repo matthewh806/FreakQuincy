@@ -1,7 +1,7 @@
 #ifndef AUDIOENGINE_HPP
 #define AUDIOENGINE_HPP
 
-#include "RtAudio.h"
+#include "dep/RtAudio.h"
 #include "Synth.hpp"
 
 class AudioEngine {

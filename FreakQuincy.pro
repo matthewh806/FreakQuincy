@@ -18,7 +18,15 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
 
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS += -g
+    DESTDIR = build/debug
+} else {
+    DESTDIR = build/release
 }
+
+OBJECTS_DIR = $$DESTDIR/.OBJECTS_DIR
+MOC_DIR = $$DESTDIR/.MOC_DIR
+RCC_DIR = $$DESTDIR/.qrc
+UI_DIR = $$DESTDIR/.u
 
 DEFINES += __MACOSX_CORE__
 
@@ -34,6 +42,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += include/*.h
+HEADERS += include/dep/*.h
+HEADERS += include/dep/*.hpp
 HEADERS += include/*.hpp
 SOURCES += src/*.cpp
+SOURCES  += src/dep/*.cpp

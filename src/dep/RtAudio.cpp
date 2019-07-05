@@ -41,7 +41,7 @@
 
 // RtAudio: Version 5.1.0
 
-#include "RtAudio.h"
+#include "dep/RtAudio.h"
 #include <iostream>
 #include <cstdlib>
 #include <cstring>

@@ -1,5 +1,5 @@
-#ifndef ADSR_hpp
-#define ADSR_hpp
+#ifndef ADSR_HPP
+#define ADSR_HPP
 
 #include <vector>
 

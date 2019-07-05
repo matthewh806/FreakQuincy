@@ -1,4 +1,4 @@
-#include "wave_form.h"
+#include "WaveForm.hpp"
 #include "AudioSettings.hpp"
 
 // TODO: RESIZE ARRAY IF BUFFER SIZE CHANGES!
