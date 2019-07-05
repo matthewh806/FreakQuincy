@@ -1,11 +1,11 @@
 #include <QApplication>
 #include <memory>
-#include "EngineUiIntermediary.hpp"
+#include "ui/EngineUiIntermediary.hpp"
 
 // TODO:: Logging library
-int main(int argc, char * argv[])
+int main(   int argc, char * argv[])
 {
     QApplication a(argc, argv);
-    new EngineUiIntermediary();
+    new ui::EngineUiIntermediary();
     return a.exec();
 }
