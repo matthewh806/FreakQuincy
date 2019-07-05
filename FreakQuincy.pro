@@ -18,15 +18,17 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
 
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS += -g
-    DESTDIR = build/debug
+    DESTDIR = bin/debug
+    BUILDIR = build/debug
 } else {
-    DESTDIR = build/release
+    DESTDIR = bin/release
+    BUILDIR = build/release
 }
 
-OBJECTS_DIR = $$DESTDIR/.OBJECTS_DIR
-MOC_DIR = $$DESTDIR/.MOC_DIR
-RCC_DIR = $$DESTDIR/.qrc
-UI_DIR = $$DESTDIR/.u
+OBJECTS_DIR = $$BUILDIR/.OBJECTS_DIR
+MOC_DIR = $$BUILDIR/.MOC_DIR
+RCC_DIR = $$BUILDIR/.qrc
+UI_DIR = $$BUILDIR/.u
 
 DEFINES += __MACOSX_CORE__
 
