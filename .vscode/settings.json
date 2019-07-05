@@ -54,6 +54,8 @@
         "qapplication": "cpp",
         "cmath": "cpp",
         "qmainwindow": "cpp",
-        "qtnumeric": "cpp"
+        "qtnumeric": "cpp",
+        "sstream": "cpp",
+        "numeric": "cpp"
     }
 }
