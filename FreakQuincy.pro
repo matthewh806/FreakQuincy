@@ -12,7 +12,7 @@ INCLUDEPATH += /usr/include
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += include/
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
-LIBS += -framework CoreFoundation -framework CoreAudio
+LIBS += -framework CoreFoundation -framework CoreAudio -framework CoreMIDI
 
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
 
