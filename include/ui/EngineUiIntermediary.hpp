@@ -5,6 +5,7 @@
 #include "ui/MainWindow.hpp"
 #include "engine/AudioEngine.hpp"
 #include "engine/Synth.hpp"
+#include "midi/MidiEngine.hpp"
 
 /*
     This class acts as the intermediary between the user event driven UI and 
@@ -39,6 +40,7 @@ namespace ui {
 
             std::shared_ptr<engine::Synth> m_synth;
             std::unique_ptr<engine::AudioEngine> m_engine;
+            std::unique_ptr<midi::MidiEngine> m_midiEngine;
     };
 }
 

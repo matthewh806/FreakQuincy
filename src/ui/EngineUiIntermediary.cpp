@@ -6,6 +6,7 @@ namespace ui {
     EngineUiIntermediary::EngineUiIntermediary() {
         m_synth = std::make_shared<engine::Synth>();
         m_engine = std::unique_ptr<engine::AudioEngine>(new engine::AudioEngine(m_synth));
+        m_midiEngine = std::unique_ptr<midi::MidiEngine>(new midi::MidiEngine());
 
         m_mainWindow = new MainWindow();
 
