@@ -1,7 +1,8 @@
 #include "midi/MidiEngine.hpp"
+#include "midi/MidiMessage.hpp"
 
 namespace midi {
-    
+
     MidiEngine::MidiEngine() {
         setupMidi();
     }
@@ -33,14 +34,21 @@ namespace midi {
     }
 
     void MidiEngine::midiInCallback(double deltatime, std::vector<unsigned char> *message, void *userData) {
+
+        MidiEngine *engine = (MidiEngine*) userData;
+
         unsigned int nBytes = message->size();
 
+        if(nBytes > 3) return; // This is a problem...
+
+        MidiMessage msg;
+        msg.size = nBytes;
+
         for(unsigned int i=0; i<nBytes; i++) {
-            std::cout << "Byte " << i << " = " << (int)message->at(i) << ", ";
+            msg.bytes[i] = message->at(i);
         }
 
-        if(nBytes > 0) {
-            std::cout << "stamp = " << deltatime << std::endl;
-        }
+        msg.printBinary();
+        msg.printHex();
     }
 }
