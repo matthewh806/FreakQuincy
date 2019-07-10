@@ -11,6 +11,11 @@ namespace midi {
         UNKNOWN = 0x0 // check if this is sensible...
     };
 
+    static double midiNoteToFreq(uint8_t midiNote) {
+        return 0.0;
+    };
+
+    // TODO: Store timestamp
     struct MidiMessage {
         uint8_t size = 3;
         uint8_t bytes[3] = {};

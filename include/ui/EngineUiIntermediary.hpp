@@ -6,6 +6,7 @@
 #include "engine/AudioEngine.hpp"
 #include "engine/Synth.hpp"
 #include "midi/MidiEngine.hpp"
+#include "midi/MidiMessage.hpp"
 
 /*
     This class acts as the intermediary between the user event driven UI and 
@@ -25,6 +26,8 @@ namespace ui {
         public slots:
             void updateUI();
 
+            void midiMessageCallback(midi::MidiMessage msg);
+            
             // Temporary before MIDI implementation - what about with a UI sequencer?
             void noteOn();
             void noteOff();

@@ -1,5 +1,4 @@
 #include "midi/MidiEngine.hpp"
-#include "midi/MidiMessage.hpp"
 
 namespace midi {
 
@@ -9,6 +8,11 @@ namespace midi {
 
     MidiEngine::~MidiEngine() {
 
+    }
+
+    void MidiEngine::onMessage(MidiMessage message) {
+        // TODO: Introduce a message queue?
+        for(auto cb : messageCallbacks) cb(message);
     }
 
     void MidiEngine::setupMidi() {
@@ -29,8 +33,14 @@ namespace midi {
             return;
         }
 
-        midiIn->setCallback(&midiInCallback);
+        midiIn->setCallback(&midiInCallback, this);
         midiIn->ignoreTypes(true, true, true);
+    }
+
+    void MidiEngine::registerMessageCallback(const std::function<void(MidiMessage)> &cb) {
+        messageCallbacks.push_back(cb);
+
+        std::cout << "Vector size: "  << messageCallbacks.size() << std::endl;
     }
 
     void MidiEngine::midiInCallback(double deltatime, std::vector<unsigned char> *message, void *userData) {
@@ -50,5 +60,7 @@ namespace midi {
 
         msg.printBinary();
         msg.printHex();
+
+        engine->onMessage(msg);
     }
 }

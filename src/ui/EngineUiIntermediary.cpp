@@ -3,10 +3,14 @@
 #include "ui/EngineUiIntermediary.hpp"
 
 namespace ui {
+    // TODO: A proper solution for running a process thread - using UI thread for MIDI at the moment is not good...
+
     EngineUiIntermediary::EngineUiIntermediary() {
         m_synth = std::make_shared<engine::Synth>();
         m_engine = std::unique_ptr<engine::AudioEngine>(new engine::AudioEngine(m_synth));
         m_midiEngine = std::unique_ptr<midi::MidiEngine>(new midi::MidiEngine());
+
+        m_midiEngine->registerMessageCallback(std::bind(&EngineUiIntermediary::midiMessageCallback, this, std::placeholders::_1));
 
         m_mainWindow = new MainWindow();
 
@@ -32,6 +36,16 @@ namespace ui {
     void EngineUiIntermediary::updateUI() {
         std::vector<double> amplitudes = m_engine->getBuffer();
         m_mainWindow->plotData(amplitudes);
+    }
+
+    void EngineUiIntermediary::midiMessageCallback(midi::MidiMessage msg) {
+        std::cout << "MESSAGE!" << std::endl;
+        
+        switch(msg.getStatusType()) {
+            case(midi::StatusType::NOTE_ON): noteOn(); break;
+            case(midi::StatusType::NOTE_OFF): noteOff(); break;
+            default: std::cout << "UnrecognisedType: " << msg.getStatusType() << std::endl; break; // TODO: Print warning?
+        }
     }
 
     void EngineUiIntermediary::noteOn() {
