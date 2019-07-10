@@ -38,18 +38,16 @@ namespace ui {
         m_mainWindow->plotData(amplitudes);
     }
 
-    void EngineUiIntermediary::midiMessageCallback(midi::MidiMessage msg) {
-        std::cout << "MESSAGE!" << std::endl;
-        
+    void EngineUiIntermediary::midiMessageCallback(midi::MidiMessage msg) {        
         switch(msg.getStatusType()) {
-            case(midi::StatusType::NOTE_ON): noteOn(); break;
+            case(midi::StatusType::NOTE_ON): noteOn(midi::midiNoteToFreq(msg.getNote())); break;
             case(midi::StatusType::NOTE_OFF): noteOff(); break;
             default: std::cout << "UnrecognisedType: " << msg.getStatusType() << std::endl; break; // TODO: Print warning?
         }
     }
 
-    void EngineUiIntermediary::noteOn() {
-        m_synth->noteOn();
+    void EngineUiIntermediary::noteOn(float freq) {
+        m_synth->noteOn(freq);
     }
 
     void EngineUiIntermediary::noteOff() {

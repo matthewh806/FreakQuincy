@@ -15,8 +15,7 @@ namespace engine {
             void setOscFrequency(double freq);
             void setOscType(WaveTypes type);
 
-            // TODO: Get the note...?
-            void noteOn();
+            void noteOn(float freq=0);
             void noteOff();
             double tick();
 

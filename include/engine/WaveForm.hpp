@@ -18,6 +18,9 @@ namespace engine {
         WaveTypes get_wave_type() const;
         void set_waveType(WaveTypes w_type);
 
+        void NotePressed(float freq);
+        void NoteReleased();
+
         void setFrequency(float freq);
 
         double get_waveOutput();

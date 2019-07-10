@@ -2,6 +2,7 @@
 #define MIDIMESSAGE_HPP
 
 #include <iostream>
+#include <math.h>
 
 namespace midi {
 
@@ -11,8 +12,11 @@ namespace midi {
         UNKNOWN = 0x0 // check if this is sensible...
     };
 
-    static double midiNoteToFreq(uint8_t midiNote) {
-        return 0.0;
+    static float midiNoteToFreq(uint8_t midiNote) {
+        // TODO: Check midi note value is between 0 - 127
+
+        // TODO: Reference frequency? Default is A4 = 440Hz, m_A4 = 69
+        return pow(2, (float)(midiNote - 69)/12.0)*440;
     };
 
     // TODO: Store timestamp

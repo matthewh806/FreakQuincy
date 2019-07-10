@@ -29,7 +29,7 @@ namespace ui {
             void midiMessageCallback(midi::MidiMessage msg);
             
             // Temporary before MIDI implementation - what about with a UI sequencer?
-            void noteOn();
+            void noteOn(float freq = 0);
             void noteOff();
 
             void waveformChanged(int);

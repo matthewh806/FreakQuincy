@@ -17,6 +17,14 @@ namespace engine {
         return wType;
     }
 
+    void WaveForm::NotePressed(float freq) {
+        setFrequency(freq);
+    }
+    
+    void WaveForm::NoteReleased() {
+        // TODO: What happens here?    
+    }
+
     void WaveForm::setFrequency(float freq) {
         this->freq = freq;
     }

@@ -13,11 +13,13 @@ namespace engine {
         // TODO
     }
 
-    void Synth::noteOn() {
+    void Synth::noteOn(float freq) {
+        m_waveForm->NotePressed(freq);
         m_adsr->NotePressed();
     }
 
     void Synth::noteOff() {
+        m_waveForm->NoteReleased();
         m_adsr->NoteReleased();
     }
 
