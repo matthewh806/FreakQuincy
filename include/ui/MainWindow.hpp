@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "dep/qcustomplot.h"
 #include "ui/OscillatorWidget.hpp"
+#include "ui/ADSRSettingsWidget.hpp"
 #include "ui/GeneralSettingsWidget.hpp"
 #include "ui/MasterSettingsWidget.hpp"
 
@@ -20,6 +21,7 @@ namespace ui {
 
         // TODO: Find a way to not have these be public...
         OscillatorWidget *oscillatorWidget;
+        ADSRSettingsWidget *adsrWidget;
         MasterSettingsWidget *masterSettingsWidget;
         GeneralSettingsWidget *settingsWidget;
 

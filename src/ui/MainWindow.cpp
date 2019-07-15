@@ -33,6 +33,7 @@ namespace ui {
         gridLayout = new QGridLayout(this);
 
         oscillatorWidget = new OscillatorWidget();
+        adsrWidget = new ADSRSettingsWidget();
         settingsWidget = new GeneralSettingsWidget();
         masterSettingsWidget = new MasterSettingsWidget();
 
@@ -43,6 +44,7 @@ namespace ui {
         spectrumPlot->setObjectName(QStringLiteral("Spectrum Plot"));
 
         gridLayout->addWidget(oscillatorWidget, 0, 0);
+        gridLayout->addWidget(adsrWidget, 0, 1);
         gridLayout->addWidget(waveformPlot, 1, 0);
         gridLayout->addWidget(spectrumPlot, 1, 1);
         gridLayout->addWidget(masterSettingsWidget, 2, 0);

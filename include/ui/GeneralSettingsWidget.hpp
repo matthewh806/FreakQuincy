@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QSpinBox>
+#include <QCheckBox>
 
 namespace ui {
     class GeneralSettingsWidget : public QGroupBox {
@@ -15,15 +16,18 @@ namespace ui {
 
         signals:
             void sampleRateChanged(int);
+            void legatoToggled(bool);
 
         private slots:
             void sampleRateSpinBoxValChanged(int);
+            void legatoCheckBoxStateChanged(int);
 
         private:
             void setup();
 
             QVBoxLayout *vBox;
             QSpinBox *sampleRateSpinBox;
+            QCheckBox *legatoCheckBox;
     };
 }
 

@@ -16,7 +16,14 @@ namespace ui {
         m_mainWindow = new MainWindow();
 
         connect(m_mainWindow->oscillatorWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(waveformChanged(int)));
+        
+        connect(m_mainWindow->adsrWidget, SIGNAL(attackValueChanged(int)), this, SLOT(attackTimeChanged(int)));
+        connect(m_mainWindow->adsrWidget, SIGNAL(decayValueChanged(int)), this, SLOT(decayTimeChanged(int)));
+        connect(m_mainWindow->adsrWidget, SIGNAL(sustainValueChanged(int)), this, SLOT(sustainLevelChanged(int)));
+        connect(m_mainWindow->adsrWidget, SIGNAL(releaseValueChanged(int)), this, SLOT(releaseTimeChanged(int)));
+        
         connect(m_mainWindow->settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(sampleRateChanged(int)));
+        connect(m_mainWindow->settingsWidget, SIGNAL(legatoToggled(bool)), this, SLOT(legatoToggled(bool)));
 
         m_mainWindow->resize(600, 420);
         m_mainWindow->setWindowTitle("FreakQuency");
@@ -63,7 +70,27 @@ namespace ui {
         m_synth->setOscType((engine::WaveTypes)index);
     }
 
+    void EngineUiIntermediary::attackTimeChanged(int value) {
+        std::cout << "New attack: " << value << std::endl;
+    }
+
+    void EngineUiIntermediary::decayTimeChanged(int value) {
+        std::cout << "New decay: " << value << std::endl;
+    }
+
+    void EngineUiIntermediary::sustainLevelChanged(int value) {
+        std::cout << "New sustain: " << value << std::endl;
+    }
+
+    void EngineUiIntermediary::releaseTimeChanged(int value) {
+        std::cout << "New release: " << value << std::endl;
+    }
+
     void EngineUiIntermediary::sampleRateChanged(int rate) {
         engine::AudioSettings::setSampleRate(rate);
+    }
+
+    void EngineUiIntermediary::legatoToggled(bool state) {
+        std::cout << "Legato Toggled: " << state << std::endl;
     }
 }

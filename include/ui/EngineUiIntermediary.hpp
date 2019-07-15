@@ -37,7 +37,13 @@ namespace ui {
             // TODO: Implement this...
             void phaseChanged(double);
 
+            void attackTimeChanged(int);
+            void decayTimeChanged(int);
+            void sustainLevelChanged(int);
+            void releaseTimeChanged(int);
+
             void sampleRateChanged(int);
+            void legatoToggled(bool);
 
         private:
             MainWindow *m_mainWindow = nullptr;
