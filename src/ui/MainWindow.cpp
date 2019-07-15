@@ -23,65 +23,24 @@ namespace ui {
     MainWindow::~MainWindow() {
         delete waveformPlot;
         delete spectrumPlot;
-        delete verticalLayout;
         delete centralWidget;
-
-        delete noteButton;
     }
 
-    void MainWindow::sampleRateChanged(int rate) {
-        engine::AudioSettings::setSampleRate(rate);
-    }
+    // void MainWindow::sampleRateChanged(int rate) {
+    //     engine::AudioSettings::setSampleRate(rate);
+    // }
 
     void MainWindow::setupMainWindow() {
-        centralWidget = new QWidget(this);
+        centralWidget = new QWidget();
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
-        verticalLayout = new QVBoxLayout(centralWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        gridLayout = new QGridLayout(this);
 
-        QLabel *waveformLabel = new QLabel(tr("Parameters"));
-        QGroupBox *waveFormGroup = new QGroupBox(tr("Parameters"));
+        oscillatorWidget = new OscillatorWidget();
+        settingsWidget = new GeneralSettingsWidget();
+        masterSettingsWidget = new MasterSettingsWidget();
 
-        QLabel *sampleRateLabel = new QLabel(tr("Sample Rate"));
-        sampleRateSpinBox = new QSpinBox;
-        sampleRateSpinBox->setRange(1000, 44100);
-        sampleRateSpinBox->setSingleStep(1000);
-        sampleRateSpinBox->setValue(engine::AudioSettings::getSampleRate());
-        connect(sampleRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(sampleRateChanged(int)));
-
-        waveformSelector = new QComboBox;
-        waveformSelector->insertItem(waveformSelector->count(), "Sine", engine::WaveTypes::SINE);
-        waveformSelector->insertItem(waveformSelector->count(), "Square", engine::WaveTypes::SQUARE);
-        waveformSelector->setCurrentIndex(-1);
-
-        QLabel *frequencyLabel = new QLabel(tr("Frequency"));
-        frequencySpinBox = new QDoubleSpinBox;
-        frequencySpinBox->setRange(0, 25000);
-        frequencySpinBox->setSingleStep(1.0);
-        frequencySpinBox->setValue(1.0);
-
-        QLabel *phaseLabel = new QLabel(tr("Phase"));
-        phaseSpinBox = new QDoubleSpinBox;
-        phaseSpinBox->setRange(-360, 360);
-        phaseSpinBox->setSingleStep(1.0);
-        phaseSpinBox->setValue(0.0);
-
-        noteButton = new QPushButton("Note", this);
-
-        QVBoxLayout *waveFormSpinBoxLayout = new QVBoxLayout();
-        waveFormSpinBoxLayout->addWidget(sampleRateLabel);
-        waveFormSpinBoxLayout->addWidget(sampleRateSpinBox);
-        waveFormSpinBoxLayout->addWidget(waveformLabel);
-        waveFormSpinBoxLayout->addWidget(waveformSelector);
-        waveFormSpinBoxLayout->addWidget(frequencyLabel);
-        waveFormSpinBoxLayout->addWidget(frequencySpinBox);
-        waveFormSpinBoxLayout->addWidget(phaseLabel);
-        waveFormSpinBoxLayout->addWidget(phaseSpinBox);
-        waveFormSpinBoxLayout->addWidget(noteButton);
-        waveFormGroup->setLayout(waveFormSpinBoxLayout);
+        // connect(sampleRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(sampleRateChanged(int)));
 
         waveformPlot = new QCustomPlot(centralWidget);
         waveformPlot->setObjectName(QStringLiteral("Waveform Plot"));
@@ -89,14 +48,16 @@ namespace ui {
         spectrumPlot = new QCustomPlot(centralWidget);
         spectrumPlot->setObjectName(QStringLiteral("Spectrum Plot"));
 
-        verticalLayout->addWidget(waveFormGroup);
-        verticalLayout->addWidget(waveformPlot);
-        verticalLayout->addWidget(spectrumPlot);
+        gridLayout->addWidget(oscillatorWidget, 0, 0);
+        gridLayout->addWidget(waveformPlot, 1, 0);
+        gridLayout->addWidget(spectrumPlot, 1, 1);
+        gridLayout->addWidget(masterSettingsWidget, 2, 0);
+        gridLayout->addWidget(settingsWidget, 2, 1);
 
-        this->setCentralWidget(centralWidget);
+        centralWidget->setLayout(gridLayout);
 
+        setCentralWidget(centralWidget);
         setupPlottingWindow();
-        waveformSelector->setCurrentIndex(engine::WaveTypes::SINE);
     }
 
     void MainWindow::setupPlottingWindow() {

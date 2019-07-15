@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include "dep/qcustomplot.h"
+#include "ui/OscillatorWidget.hpp"
+#include "ui/GeneralSettingsWidget.hpp"
+#include "ui/MasterSettingsWidget.hpp"
 
 namespace ui {
     // TODO: This is a bit monolithic right now - split up!
@@ -15,23 +18,16 @@ namespace ui {
 
         void plotData(std::vector<double> amplitudes);
 
-        // TODO: Temporary before MIDI implemented: DELETE!
-        QPushButton *noteButton;
-
         // TODO: Find a way to not have these be public...
-        QComboBox *waveformSelector;
-        QSpinBox *sampleRateSpinBox;
-        QDoubleSpinBox *frequencySpinBox;
-        QDoubleSpinBox *phaseSpinBox;
-
-    public slots:
-        void sampleRateChanged(int);
+        OscillatorWidget *oscillatorWidget;
+        MasterSettingsWidget *masterSettingsWidget;
+        GeneralSettingsWidget *settingsWidget;
 
     private:
         QVector<double> x_axis;
 
         QWidget *centralWidget;
-        QVBoxLayout *verticalLayout;
+        QGridLayout *gridLayout;
         QCustomPlot *waveformPlot;
         QCustomPlot *spectrumPlot;
 

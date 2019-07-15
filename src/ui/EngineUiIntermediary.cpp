@@ -14,12 +14,6 @@ namespace ui {
 
         m_mainWindow = new MainWindow();
 
-        connect(m_mainWindow->noteButton, SIGNAL(pressed()), this, SLOT(noteOn()));
-        connect(m_mainWindow->noteButton, SIGNAL(released()), this, SLOT(noteOff())); 
-        connect(m_mainWindow->waveformSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(waveformChanged(int)));
-        connect(m_mainWindow->frequencySpinBox, SIGNAL(valueChanged(double)), this, SLOT(frequencyChanged(double)));
-        connect(m_mainWindow->phaseSpinBox, SIGNAL(valueChanged(double)), this, SLOT(phaseChanged(double)));
-
         m_mainWindow->resize(600, 420);
         m_mainWindow->setWindowTitle("FreakQuency");
         m_mainWindow->show();
