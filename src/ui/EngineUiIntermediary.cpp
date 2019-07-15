@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ui/EngineUiIntermediary.hpp"
+#include "engine/AudioSettings.hpp"
 
 namespace ui {
     // TODO: A proper solution for running a process thread - using UI thread for MIDI at the moment is not good...
@@ -13,6 +14,9 @@ namespace ui {
         m_midiEngine->registerMessageCallback(std::bind(&EngineUiIntermediary::midiMessageCallback, this, std::placeholders::_1));
 
         m_mainWindow = new MainWindow();
+
+        connect(m_mainWindow->oscillatorWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(waveformChanged(int)));
+        connect(m_mainWindow->settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(sampleRateChanged(int)));
 
         m_mainWindow->resize(600, 420);
         m_mainWindow->setWindowTitle("FreakQuency");
@@ -57,5 +61,9 @@ namespace ui {
 
     void EngineUiIntermediary::waveformChanged(int index) {
         m_synth->setOscType((engine::WaveTypes)index);
+    }
+
+    void EngineUiIntermediary::sampleRateChanged(int rate) {
+        engine::AudioSettings::setSampleRate(rate);
     }
 }

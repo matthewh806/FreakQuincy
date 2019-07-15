@@ -24,7 +24,6 @@ namespace engine {
         void setFrequency(float freq);
 
         double get_waveOutput();
-
         void generateWaves(float frequency);
 
     private:

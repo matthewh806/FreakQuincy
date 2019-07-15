@@ -37,6 +37,8 @@ namespace ui {
             // TODO: Implement this...
             void phaseChanged(double);
 
+            void sampleRateChanged(int);
+
         private:
             MainWindow *m_mainWindow = nullptr;
             QTimer *m_timer = nullptr;

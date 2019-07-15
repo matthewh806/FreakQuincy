@@ -5,6 +5,8 @@
 #include <QVBoxLayout>
 #include <QRadioButton>
 
+#include "engine/WaveForm.hpp"
+
 namespace ui {
     class OscillatorWidget : public QGroupBox {
         Q_OBJECT
@@ -12,6 +14,15 @@ namespace ui {
         public:
             OscillatorWidget(QWidget *parent = nullptr);
             ~OscillatorWidget();
+
+            void setOscType(engine::WaveTypes type);
+
+        private slots:
+            void toggleSin(bool checked);
+            void toggleSqu(bool checked);
+        
+        signals:
+            void oscTypeChanged(int type);
 
         private:
             void setup();

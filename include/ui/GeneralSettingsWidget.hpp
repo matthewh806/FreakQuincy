@@ -13,9 +13,12 @@ namespace ui {
             GeneralSettingsWidget(QWidget *parent = nullptr);
             ~GeneralSettingsWidget();
 
-        // public slots:
-        //     void sampleRateChanged(int);
-        
+        signals:
+            void sampleRateChanged(int);
+
+        private slots:
+            void sampleRateSpinBoxValChanged(int);
+
         private:
             void setup();
 

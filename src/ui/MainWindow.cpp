@@ -6,8 +6,8 @@
 #include <numeric>
 #include "ui/MainWindow.hpp"
 #include "engine/Spectrum.hpp"
-#include "engine/WaveForm.hpp"
 #include "engine/AudioSettings.hpp"
+#include "engine/WaveForm.hpp"
 
 namespace ui {
 
@@ -26,10 +26,6 @@ namespace ui {
         delete centralWidget;
     }
 
-    // void MainWindow::sampleRateChanged(int rate) {
-    //     engine::AudioSettings::setSampleRate(rate);
-    // }
-
     void MainWindow::setupMainWindow() {
         centralWidget = new QWidget();
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
@@ -39,8 +35,6 @@ namespace ui {
         oscillatorWidget = new OscillatorWidget();
         settingsWidget = new GeneralSettingsWidget();
         masterSettingsWidget = new MasterSettingsWidget();
-
-        // connect(sampleRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(sampleRateChanged(int)));
 
         waveformPlot = new QCustomPlot(centralWidget);
         waveformPlot->setObjectName(QStringLiteral("Waveform Plot"));
@@ -58,16 +52,15 @@ namespace ui {
 
         setCentralWidget(centralWidget);
         setupPlottingWindow();
+
+        oscillatorWidget->setOscType(engine::WaveTypes::SINE);
     }
 
     void MainWindow::setupPlottingWindow() {
-        // TODO: Remove any existing plots if they exist - Replotting doesn't work atm...
-
-        // TODO: Plot magnitude against frequency;
-        // TODO: Maybe it should be a log plot?
         waveformPlot->addGraph();
         waveformPlot->xAxis->setLabel("angle");
         waveformPlot->yAxis->setLabel("Amplitude");
+        // waveformPlot->yAxis->setRange(-0.1, 0.1);
         
         spectrumPlot->addGraph();
         spectrumPlot->xAxis->setLabel("frequency");
