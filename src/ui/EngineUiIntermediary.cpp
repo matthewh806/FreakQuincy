@@ -27,7 +27,7 @@ namespace ui {
 
         connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
 
-        m_mainWindow->resize(600, 420);
+        m_mainWindow->resize(1024, 900);
         m_mainWindow->setWindowTitle("FreakQuency");
         m_mainWindow->show();
 

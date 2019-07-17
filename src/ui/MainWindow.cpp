@@ -50,6 +50,8 @@ namespace ui {
         gridLayout->addWidget(masterSettingsWidget, 2, 0);
         gridLayout->addWidget(settingsWidget, 2, 1);
 
+        gridLayout->setRowMinimumHeight(1, 300);
+
         centralWidget->setLayout(gridLayout);
 
         setCentralWidget(centralWidget);
