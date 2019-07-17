@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "engine/WaveForm.hpp"
 #include "engine/AudioSettings.hpp"
 
@@ -88,22 +90,22 @@ namespace engine {
     }
 
     void WaveForm::generateTriWaveTable() {
-        auto stepDelta = 1.0 / (AudioSettings::getbufferSize() - 1);
-        auto t = 0.0;
+        float stepDelta = 1.0 / (AudioSettings::getbufferSize() - 1);
+        float t = 0.0;
 
         // Assuming period = 1 here
         for(int i = 0; i < AudioSettings::getbufferSize(); i++) {
-            triWaveTable[i] = 2*abs(2*(t - floor(t + 1/2))) - 1;
+            triWaveTable[i] = 2 * abs(2 * (t - floor(t + 0.5))) - 1;
             t += stepDelta;
         }
     }
 
     void WaveForm::generateSawWaveTable() {
-        auto stepDelta = 1.0 / (AudioSettings::getbufferSize() - 1);
-        auto t = 0.0;
+        float stepDelta = 1.0 / (AudioSettings::getbufferSize() - 1);
+        float t = 0.0;
 
         for(int i = 0 ; i < AudioSettings::getbufferSize(); i++) {
-            sawWaveTable[i] = 2*(t-floor(t + 1/2));
+            sawWaveTable[i] = 2*(t-floor(t + 0.5));
             t += stepDelta;
         }
     }
