@@ -28,9 +28,22 @@ namespace engine {
                 bufferSize = size;
             };
 
-            static float volume;
+            static float getMasterVolume() {
+                return masterVolume;
+            }
+
+            static void setMasterVolume(float v) {
+                if(v > 1.0f) 
+                    v = 1.0f;
+                
+                if(v < 0.0f)
+                    v = 0.0f;
+
+                masterVolume = v;
+            }
 
         private:
+            static float masterVolume;
             static int sampleRate;
             static int channels;
             static int bufferSize;

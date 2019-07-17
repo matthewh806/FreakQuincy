@@ -25,6 +25,8 @@ namespace ui {
         connect(m_mainWindow->settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(sampleRateChanged(int)));
         connect(m_mainWindow->settingsWidget, SIGNAL(legatoToggled(bool)), this, SLOT(legatoToggled(bool)));
 
+        connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
+
         m_mainWindow->resize(600, 420);
         m_mainWindow->setWindowTitle("FreakQuency");
         m_mainWindow->show();
@@ -92,5 +94,9 @@ namespace ui {
 
     void EngineUiIntermediary::legatoToggled(bool state) {
         std::cout << "Legato Toggled: " << state << std::endl;
+    }
+
+    void EngineUiIntermediary::masterVolumeChanged(float vol) {
+        engine::AudioSettings::setMasterVolume(vol);
     }
 }

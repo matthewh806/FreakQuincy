@@ -45,6 +45,8 @@ namespace ui {
             void sampleRateChanged(int);
             void legatoToggled(bool);
 
+            void masterVolumeChanged(float);
+
         private:
             MainWindow *m_mainWindow = nullptr;
             QTimer *m_timer = nullptr;

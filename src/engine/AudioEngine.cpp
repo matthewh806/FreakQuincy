@@ -12,7 +12,7 @@ namespace engine {
     }
 
     void AudioEngine::play(double *output, float synthOutput) {
-        output[0] = AudioSettings::volume * synthOutput;
+        output[0] = AudioSettings::getMasterVolume() * synthOutput;
         output[1] = output[0];
     }
 
