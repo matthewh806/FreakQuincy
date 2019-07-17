@@ -2,6 +2,7 @@
 
 #include "ui/EngineUiIntermediary.hpp"
 #include "engine/AudioSettings.hpp"
+#include "engine/WaveForm.hpp"
 
 namespace ui {
     // TODO: A proper solution for running a process thread - using UI thread for MIDI at the moment is not good...
@@ -26,6 +27,8 @@ namespace ui {
         connect(m_mainWindow->settingsWidget, SIGNAL(legatoToggled(bool)), this, SLOT(legatoToggled(bool)));
 
         connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
+
+        m_mainWindow->oscillatorWidget->setOscType(engine::WaveTypes::SINE);
 
         m_mainWindow->resize(1024, 900);
         m_mainWindow->setWindowTitle("FreakQuency");

@@ -6,7 +6,6 @@
 #include "ui/MainWindow.hpp"
 #include "engine/Spectrum.hpp"
 #include "engine/AudioSettings.hpp"
-#include "engine/WaveForm.hpp"
 
 namespace ui {
 
@@ -43,8 +42,6 @@ namespace ui {
         centralWidget->setLayout(gridLayout);
 
         setCentralWidget(centralWidget);
-
-        oscillatorWidget->setOscType(engine::WaveTypes::SINE);
     }
 
     void MainWindow::plotData(std::vector<double> amplitudes) {

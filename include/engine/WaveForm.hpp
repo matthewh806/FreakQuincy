@@ -9,7 +9,8 @@ namespace engine {
         SINE = 0,
         TRIANGLE,
         SAWTOOTH,
-        SQUARE
+        SQUARE,
+        NOT_SET
     };
 
     class WaveForm {
@@ -34,7 +35,7 @@ namespace engine {
 
         float freq;
 
-        WaveTypes wType;
+        WaveTypes wType = NOT_SET;
         std::vector<double> sineWaveTable;
         std::vector<double> triWaveTable;
         std::vector<double> sawWaveTable;

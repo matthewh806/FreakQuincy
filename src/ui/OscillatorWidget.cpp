@@ -25,6 +25,8 @@ namespace ui {
             case engine::WaveTypes::SQUARE:
                 squButton->toggle();
                 break;
+            default:
+                break;
         }
     }
 

@@ -60,7 +60,12 @@ namespace engine {
             case(SQUARE):
                 waveTable = &sqrWaveTable;
                 break;
+            case(NOT_SET):
+                waveTable = nullptr;
         }
+
+        if(!waveTable)
+            return 0.0;
 
         return (1-t) * waveTable->at(index0) + t * waveTable->at(index1);
     }
