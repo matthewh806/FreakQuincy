@@ -5,6 +5,7 @@
 #include "dep/qcustomplot.h"
 #include "ui/OscillatorWidget.hpp"
 #include "ui/ADSRSettingsWidget.hpp"
+#include "ui/OutputPlotsWidget.hpp"
 #include "ui/GeneralSettingsWidget.hpp"
 #include "ui/MasterSettingsWidget.hpp"
 
@@ -22,21 +23,17 @@ namespace ui {
         // TODO: Find a way to not have these be public...
         OscillatorWidget *oscillatorWidget;
         ADSRSettingsWidget *adsrWidget;
+        OutputPlotsWidget *outputPlotsWidget;
         MasterSettingsWidget *masterSettingsWidget;
         GeneralSettingsWidget *settingsWidget;
 
     private:
-        QVector<double> x_axis;
-
         QWidget *centralWidget;
         QGridLayout *gridLayout;
-        QCustomPlot *waveformPlot;
-        QCustomPlot *spectrumPlot;
 
         void setupAudioOutput();
 
         void setupMainWindow();
-        void setupPlottingWindow();
     };
 }
 
