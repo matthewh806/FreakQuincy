@@ -19,6 +19,8 @@ namespace ui {
 
         private slots:
             void toggleSin(bool checked);
+            void toggleTri(bool checked);
+            void toggleSaw(bool checked);
             void toggleSqu(bool checked);
         
         signals:
@@ -28,7 +30,7 @@ namespace ui {
             void setup();
 
             QVBoxLayout *vBox;
-            QRadioButton *sinButton, *squButton;
+            QRadioButton *sinButton, *triButton, *sawButton, *squButton;
 
     };
 }

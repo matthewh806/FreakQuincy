@@ -7,6 +7,8 @@
 namespace engine {
     enum WaveTypes {
         SINE = 0,
+        TRIANGLE,
+        SAWTOOTH,
         SQUARE
     };
 
@@ -34,10 +36,14 @@ namespace engine {
 
         WaveTypes wType;
         std::vector<double> sineWaveTable;
+        std::vector<double> triWaveTable;
+        std::vector<double> sawWaveTable;
         std::vector<double> sqrWaveTable;
 
         void generateWaveTables();
         void generateSineWaveTable();
+        void generateTriWaveTable();
+        void generateSawWaveTable();
         void generateSquareWaveTable();
     };
 }

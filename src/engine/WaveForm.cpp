@@ -4,7 +4,9 @@
 namespace engine {
 
     // TODO: RESIZE ARRAY IF BUFFER SIZE CHANGES!
-    WaveForm::WaveForm() : sineWaveTable(AudioSettings::getbufferSize()), sqrWaveTable(AudioSettings::getbufferSize()) {
+    WaveForm::WaveForm() : sineWaveTable(AudioSettings::getbufferSize()), sqrWaveTable(AudioSettings::getbufferSize()),
+                            triWaveTable(AudioSettings::getbufferSize()), sawWaveTable(AudioSettings::getbufferSize())
+    {
         phase = 0.0;
 
         generateWaveTables();
@@ -43,11 +45,30 @@ namespace engine {
         
         phase = fmod(phase + increment, AudioSettings::getbufferSize());
 
-        return (1-t) * wType == SINE ? sineWaveTable[index0] : sqrWaveTable[index0] + t * wType == SINE ? sineWaveTable[index1] : sqrWaveTable[index1];
+        std::vector<double> *waveTable = nullptr;
+
+        switch(wType) {
+            case(SINE):
+                waveTable = &sineWaveTable;
+                break;
+            case(TRIANGLE):
+                waveTable = &triWaveTable;
+                break;
+            case(SAWTOOTH):
+                waveTable = &sawWaveTable;
+                break;
+            case(SQUARE):
+                waveTable = &sqrWaveTable;
+                break;
+        }
+
+        return (1-t) * waveTable->at(index0) + t * waveTable->at(index1);
     }
 
     void WaveForm::generateWaveTables() {
         generateSineWaveTable();
+        generateTriWaveTable();
+        generateSawWaveTable();
         generateSquareWaveTable();
     }
 
@@ -58,6 +79,27 @@ namespace engine {
         for(int i = 0; i < AudioSettings::getbufferSize(); i++) {
             sineWaveTable[i] = sin(currentAngle);
             currentAngle += angleDelta;
+        }
+    }
+
+    void WaveForm::generateTriWaveTable() {
+        auto stepDelta = 1.0 / (AudioSettings::getbufferSize() - 1);
+        auto t = 0.0;
+
+        // Assuming period = 1 here
+        for(int i = 0; i < AudioSettings::getbufferSize(); i++) {
+            triWaveTable[i] = 2*abs(2*(t - floor(t + 1/2))) - 1;
+            t += stepDelta;
+        }
+    }
+
+    void WaveForm::generateSawWaveTable() {
+        auto stepDelta = 1.0 / (AudioSettings::getbufferSize() - 1);
+        auto t = 0.0;
+
+        for(int i = 0 ; i < AudioSettings::getbufferSize(); i++) {
+            sawWaveTable[i] = 2*(t-floor(t + 1/2));
+            t += stepDelta;
         }
     }
 
