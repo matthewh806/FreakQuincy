@@ -4,6 +4,8 @@
 #include <QGroupBox>
 #include <QSlider>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
 
 namespace ui {
     // TODO: Make a custom slider to allow for non linear scaling
@@ -14,6 +16,19 @@ namespace ui {
         public: 
             ADSRSettingsWidget(QWidget *parent = nullptr);
             ~ADSRSettingsWidget();
+
+            // These are common between the time based ADSR sliders
+            const int TICK_COUNT = 20;
+
+            const int TIME_MIN = 50;
+            const int TIME_MAX = 4000;
+            const int TIME_STEP = 100;
+            const int TIME_TICK_INTERVAL = (TIME_MAX - TIME_MIN) / TICK_COUNT;
+
+            const int SUSTAIN_MIN = 0;
+            const int SUSTAIN_MAX = 100;
+            const int SUSTAIN_STEP = 1;
+            const int SUSTAIN_TICK_INTERVAL = (SUSTAIN_MAX - SUSTAIN_MIN) / TICK_COUNT;
 
         signals:
             void attackValueChanged(int);

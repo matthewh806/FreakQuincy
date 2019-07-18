@@ -20,7 +20,7 @@ namespace engine {
             // TODO: Implement param values in constructor? (e.g. attack lvl may not be 1)
             ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime);
             ~ADSR();
-
+ 
             double getRate();
 
             float getAttackTime();

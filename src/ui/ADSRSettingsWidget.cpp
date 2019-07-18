@@ -13,39 +13,59 @@ namespace ui {
 
     void ADSRSettingsWidget::setup() {
         
+        QVBoxLayout *attackVBox = new QVBoxLayout;
+        QLabel *attackLabel = new QLabel(tr("Attack"));
         attackSlider = new QSlider(Qt::Vertical);
-        attackSlider->setMinimum(100);
-        attackSlider->setMaximum(4000);
-        attackSlider->setSingleStep(100);
+        attackSlider->setMinimum(TIME_MIN);
+        attackSlider->setMaximum(TIME_MAX);
+        attackSlider->setSingleStep(TIME_STEP);
         attackSlider->setTickPosition(QSlider::TicksLeft);
+        attackSlider->setTickInterval(TIME_TICK_INTERVAL);
         connect(attackSlider, SIGNAL(valueChanged(int)), this, SLOT(attackSliderValueChanged(int)));
+        attackVBox->addWidget(attackSlider);
+        attackVBox->addWidget(attackLabel);
 
+        QVBoxLayout *decayVBox = new QVBoxLayout;
+        QLabel *decayLabel = new QLabel(tr("Decay"));
         decaySlider = new QSlider(Qt::Vertical);
-        decaySlider->setMinimum(100);
-        decaySlider->setMaximum(4000);
-        decaySlider->setSingleStep(100);
+        decaySlider->setMinimum(TIME_MIN);
+        decaySlider->setMaximum(TIME_MAX);
+        decaySlider->setSingleStep(TIME_STEP);
         decaySlider->setTickPosition(QSlider::TicksLeft);
+        decaySlider->setTickInterval(TIME_TICK_INTERVAL);
         connect(decaySlider, SIGNAL(valueChanged(int)), this, SLOT(decaySliderValueChanged(int)));
+        decayVBox->addWidget(decaySlider);
+        decayVBox->addWidget(decayLabel);
 
+        QVBoxLayout *sustainVBox = new QVBoxLayout;
+        QLabel *sustainLabel = new QLabel(tr("Sustain"));
         sustainSlider = new QSlider(Qt::Vertical);
-        sustainSlider->setMinimum(0);
-        sustainSlider->setMaximum(100);
-        sustainSlider->setSingleStep(1);
+        sustainSlider->setMinimum(SUSTAIN_MIN);
+        sustainSlider->setMaximum(SUSTAIN_MAX);
+        sustainSlider->setSingleStep(SUSTAIN_STEP);
         sustainSlider->setTickPosition(QSlider::TicksLeft);
+        sustainSlider->setTickInterval(SUSTAIN_TICK_INTERVAL);
         connect(sustainSlider, SIGNAL(valueChanged(int)), this, SLOT(sustainSliderValueChanged(int)));
+        sustainVBox->addWidget(sustainSlider);
+        sustainVBox->addWidget(sustainLabel);
 
+        QVBoxLayout *releaseVBox = new QVBoxLayout;
+        QLabel *releaseLabel = new QLabel(tr("Release"));
         releaseSlider = new QSlider(Qt::Vertical);
-        releaseSlider->setMinimum(100);
-        releaseSlider->setMaximum(4000);
-        releaseSlider->setSingleStep(100);
+        releaseSlider->setMinimum(TIME_MIN);
+        releaseSlider->setMaximum(TIME_MAX);
+        releaseSlider->setSingleStep(TIME_STEP);
         releaseSlider->setTickPosition(QSlider::TicksLeft);
+        releaseSlider->setTickInterval(TIME_TICK_INTERVAL);
         connect(releaseSlider, SIGNAL(valueChanged(int)), this, SLOT(releaseSliderValueChanged(int)));
+        releaseVBox->addWidget(releaseSlider);
+        releaseVBox->addWidget(releaseLabel);
 
         hBox = new QHBoxLayout;
-        hBox->addWidget(attackSlider);
-        hBox->addWidget(decaySlider);
-        hBox->addWidget(sustainSlider);
-        hBox->addWidget(releaseSlider);
+        hBox->addLayout(attackVBox);
+        hBox->addLayout(decayVBox);
+        hBox->addLayout(sustainVBox);
+        hBox->addLayout(releaseVBox);
 
         setLayout(hBox);
     }
