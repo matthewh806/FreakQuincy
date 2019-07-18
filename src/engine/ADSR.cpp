@@ -61,11 +61,11 @@ namespace engine {
     }
 
     float ADSR::getReleaseTime() {
-        return m_paramValues[RELEASE];
+        return m_stageTimes[RELEASE];
     }
 
     void ADSR::setReleaseTime(float t) {
-        m_paramValues[RELEASE] = t;
+        m_stageTimes[RELEASE] = t;
     }
 
     void ADSR::notePressed(bool legato) {

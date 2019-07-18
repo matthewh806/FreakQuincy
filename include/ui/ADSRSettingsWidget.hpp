@@ -30,6 +30,8 @@ namespace ui {
             const int SUSTAIN_STEP = 1;
             const int SUSTAIN_TICK_INTERVAL = (SUSTAIN_MAX - SUSTAIN_MIN) / TICK_COUNT;
 
+            void setValues(int a, int d, int s, int r);
+
         signals:
             void attackValueChanged(int);
             void decayValueChanged(int);

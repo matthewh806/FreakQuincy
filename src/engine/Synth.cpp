@@ -36,6 +36,38 @@ namespace engine {
         m_waveForm->set_waveType(type);
     }
 
+    float Synth::getAttack() {
+        return m_adsr->getAttackTime();
+    }
+
+    void Synth::setAttack(float t) {
+        m_adsr->setAttackTime(t);
+    }
+
+    float Synth::getDecay() {
+        return m_adsr->getDecayTime();
+    }
+
+    void Synth::setDecay(float t) {
+        m_adsr->setDecayTime(t);
+    }
+
+    float Synth::getSustain() {
+        return m_adsr->getSustainLevel();
+    }
+
+    void Synth::setSustain(float t) {
+        m_adsr->setSustainLevel(t);
+    }
+
+    float Synth::getRelease() {
+        return m_adsr->getReleaseTime();
+    }
+
+    void Synth::setRelease(float t) {
+        m_adsr->setReleaseTime(t);
+    }
+
     double Synth::tick() {
         return m_waveForm->get_waveOutput() * m_adsr->getEnvelopeOutput();
     }

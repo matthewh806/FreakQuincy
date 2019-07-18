@@ -29,6 +29,7 @@ namespace ui {
         connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
 
         m_mainWindow->oscillatorWidget->setOscType(engine::WaveTypes::SINE);
+        m_mainWindow->adsrWidget->setValues(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
 
         m_mainWindow->resize(1024, 900);
         m_mainWindow->setWindowTitle("FreakQuency");
@@ -82,18 +83,23 @@ namespace ui {
 
     void EngineUiIntermediary::attackTimeChanged(int value) {
         std::cout << "New attack: " << value << std::endl;
+
+        m_synth->setAttack(value / 1000.0);
     }
 
     void EngineUiIntermediary::decayTimeChanged(int value) {
         std::cout << "New decay: " << value << std::endl;
+        m_synth->setDecay(value / 1000.0);
     }
 
     void EngineUiIntermediary::sustainLevelChanged(int value) {
         std::cout << "New sustain: " << value << std::endl;
+        m_synth->setSustain(value / 100.0);
     }
 
     void EngineUiIntermediary::releaseTimeChanged(int value) {
         std::cout << "New release: " << value << std::endl;
+        m_synth->setRelease(value / 1000.0);
     }
 
     void EngineUiIntermediary::sampleRateChanged(int rate) {

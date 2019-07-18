@@ -11,6 +11,13 @@ namespace ui {
     ADSRSettingsWidget::~ADSRSettingsWidget() {
     }
 
+    void ADSRSettingsWidget::setValues(int a, int d, int s, int r) {
+        attackSlider->setValue(a);
+        decaySlider->setValue(d);
+        sustainSlider->setValue(s);
+        releaseSlider->setValue(r);
+    }
+
     void ADSRSettingsWidget::setup() {
         
         QVBoxLayout *attackVBox = new QVBoxLayout;
