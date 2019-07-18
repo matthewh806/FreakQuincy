@@ -57,6 +57,7 @@ namespace engine {
     }
 
     void ADSR::setSustainLevel(float l) {
+        m_paramValues[DECAY] = l;
         m_paramValues[SUSTAIN] = l;
     }
 
