@@ -35,8 +35,8 @@ namespace engine {
             float getReleaseTime();
             void setReleaseTime(float t);
 
-            void NotePressed();
-            void NoteReleased();
+            void notePressed(bool legato);
+            void noteReleased(bool legato);
 
             // This is just the same as tick for now.
             double getEnvelopeOutput();

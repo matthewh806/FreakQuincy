@@ -4,6 +4,14 @@
 namespace engine {
     class AudioSettings {
         public:
+            static bool isLegatoEnabled() {
+                return legatoPlay;
+            }
+
+            static void setLegato(bool state) {
+                legatoPlay = state;
+            }
+
             static int getSampleRate() {
                 return sampleRate;
             }
@@ -43,6 +51,7 @@ namespace engine {
             }
 
         private:
+            static bool legatoPlay;
             static float masterVolume;
             static int sampleRate;
             static int channels;

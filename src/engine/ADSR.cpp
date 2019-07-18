@@ -68,15 +68,18 @@ namespace engine {
         m_paramValues[RELEASE] = t;
     }
 
-    void ADSR::NotePressed() {
+    void ADSR::notePressed(bool legato) {
+        if(legato)
+            return;
+
         m_stage = ATTACK;
         m_state = 0.0;
         m_curParamVal = 0.0;
         m_prevParamVal = 0.0;
     }
 
-    void ADSR::NoteReleased() {
-        if(m_stage >= RELEASE)
+    void ADSR::noteReleased(bool legato) {
+        if(m_stage >= RELEASE || legato)
             return;
         
         m_stage = RELEASE;

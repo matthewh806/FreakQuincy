@@ -50,18 +50,23 @@ namespace ui {
 
     void EngineUiIntermediary::midiMessageCallback(midi::MidiMessage msg) {        
         switch(msg.getStatusType()) {
-            case(midi::StatusType::NOTE_ON): noteOn(midi::midiNoteToFreq(msg.getNote())); break;
+            case(midi::StatusType::NOTE_ON): noteOn(); break;
             case(midi::StatusType::NOTE_OFF): noteOff(); break;
             default: std::cout << "UnrecognisedType: " << msg.getStatusType() << std::endl; break; // TODO: Print warning?
         }
     }
 
-    void EngineUiIntermediary::noteOn(float freq) {
-        m_synth->noteOn(freq);
+    void EngineUiIntermediary::noteOn() {
+        m_synth->noteOn(m_midiEngine->getLastNote(), m_midiEngine->notesHeldCount() > 1);
     }
 
     void EngineUiIntermediary::noteOff() {
-        m_synth->noteOff();
+        m_synth->noteOff(m_midiEngine->noteHeld());
+
+        // For now just treat it as another noteOn event.
+        if(m_midiEngine->noteHeld()) {
+            m_synth->noteOn(m_midiEngine->getLastNote(), m_midiEngine->notesHeldCount() >= 1);
+        }
     }
 
     void EngineUiIntermediary::frequencyChanged(double freq) {
@@ -97,6 +102,7 @@ namespace ui {
 
     void EngineUiIntermediary::legatoToggled(bool state) {
         std::cout << "Legato Toggled: " << state << std::endl;
+        engine::AudioSettings::setLegato(state);
     }
 
     void EngineUiIntermediary::masterVolumeChanged(float vol) {

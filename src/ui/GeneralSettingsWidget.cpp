@@ -29,11 +29,12 @@ namespace ui {
         sampleRateSpinBox = new QSpinBox;
         sampleRateSpinBox->setRange(1000, 44100);
         sampleRateSpinBox->setSingleStep(1000);
-        sampleRateSpinBox->setValue(engine::AudioSettings::getSampleRate());
         connect(sampleRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(sampleRateSpinBoxValChanged(int)));
+        sampleRateSpinBox->setValue(engine::AudioSettings::getSampleRate());
 
         legatoCheckBox = new QCheckBox(tr("Legato"), this);
         connect(legatoCheckBox, SIGNAL(stateChanged(int)), this, SLOT(legatoCheckBoxStateChanged(int)));
+        legatoCheckBox->setChecked(engine::AudioSettings::isLegatoEnabled());
 
         vBox = new QVBoxLayout;
         vBox->addWidget(sampleRateLabel);

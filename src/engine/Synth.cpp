@@ -1,5 +1,6 @@
 #include <iostream>
 #include "engine/Synth.hpp"
+#include "engine/AudioSettings.hpp"
 
 namespace engine {
     Synth::Synth() {
@@ -13,14 +14,18 @@ namespace engine {
         // TODO
     }
 
-    void Synth::noteOn(float freq) {
-        m_waveForm->NotePressed(freq);
-        m_adsr->NotePressed();
+    bool Synth::legatoPlay() {
+        return AudioSettings::isLegatoEnabled();
     }
 
-    void Synth::noteOff() {
+    void Synth::noteOn(float freq, bool legatoEvent) {
+        m_waveForm->NotePressed(freq);
+        m_adsr->notePressed(legatoPlay() && legatoEvent);
+    }
+
+    void Synth::noteOff(bool legatoEvent) {
         m_waveForm->NoteReleased();
-        m_adsr->NoteReleased();
+        m_adsr->noteReleased(legatoPlay() && legatoEvent);
     }
 
     void Synth::setOscFrequency(double freq) {

@@ -15,8 +15,10 @@ namespace engine {
             void setOscFrequency(double freq);
             void setOscType(WaveTypes type);
 
-            void noteOn(float freq=0);
-            void noteOff();
+            bool legatoPlay();
+
+            void noteOn(float freq=0, bool legatoEvent = false);
+            void noteOff(bool legatoEvent);
             double tick();
 
         private:
