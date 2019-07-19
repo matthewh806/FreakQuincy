@@ -27,6 +27,9 @@ namespace engine {
     }
 
     void Spectrum::generatePowerSpectrum(double* input, std::function<double (int, size_t)> windowFunc) {
+        frequencies.clear();
+        power_spectrum.clear();
+
         if(windowFunc == nullptr) {
             windowFunc = defaultWindow;
     }
