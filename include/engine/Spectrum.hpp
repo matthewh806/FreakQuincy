@@ -8,18 +8,15 @@
 namespace engine {
     class Spectrum {
     public:
-        Spectrum(double* input, std::function<double (int, size_t)> windowFunc = nullptr);
+        Spectrum();
         ~Spectrum();
 
         std::vector<double> get_frequencyRange();
         std::vector<double> get_powerSpectrum();
 
-        void generatePowerSpectrum();
+        void generatePowerSpectrum(double* input, std::function<double (int, size_t)> windowFunc);
         
     private:
-        RealFFT *fft;
-        double* in;
-
         std::vector<double> frequencies;
         std::vector<double> power_spectrum;
     };

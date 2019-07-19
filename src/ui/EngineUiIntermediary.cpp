@@ -45,8 +45,7 @@ namespace ui {
     }
 
     void EngineUiIntermediary::updateUI() {
-        std::vector<double> amplitudes = m_engine->getBuffer();
-        m_mainWindow->plotData(amplitudes);
+        m_mainWindow->plotData(m_engine->getAudioBuffer(), m_engine->getFrequencies(), m_engine->getPowerSpectrum());
     }
 
     void EngineUiIntermediary::midiMessageCallback(midi::MidiMessage msg) {        

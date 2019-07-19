@@ -3,8 +3,16 @@
 
 namespace engine {
     
+    // TODO: Find somewhere more apt. for this
+    double hammingWindow(int index, size_t length) {
+        double alpha = 0.53836;
+        return alpha - (1-alpha) * cos(2 * M_PI * index / (length - 1));
+    }
+    
     AudioEngine::AudioEngine(std::shared_ptr<Synth> synth) : p_synth(synth) {
         setupAudioOutput();
+
+        p_spectrum = std::unique_ptr<Spectrum>(new Spectrum());
     }
 
     AudioEngine::~AudioEngine() {
@@ -38,6 +46,8 @@ namespace engine {
                 *(engine->buffer++) = lastValues[j];
             }
         }
+
+        engine->p_spectrum->generatePowerSpectrum(engine->getAudioBuffer().data(), hammingWindow);
 
         return 0;
     }

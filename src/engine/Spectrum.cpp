@@ -8,20 +8,8 @@ namespace engine {
         return 1;
     }
 
-    Spectrum::Spectrum(double* input, std::function<double (int, size_t)> windowFunc) : in(input) 
+    Spectrum::Spectrum() 
     {
-        // Apply window function
-        if(windowFunc == nullptr) {
-            windowFunc = defaultWindow;
-        }
-
-        double windowedInput[AudioSettings::getbufferSize()];
-        for(int i = 0; i < AudioSettings::getbufferSize(); i++) {
-            windowedInput[i] = windowFunc(i, AudioSettings::getbufferSize()) * input[i];
-        }
-
-        fft = new RealFFT(AudioSettings::getbufferSize(), windowedInput);
-
         frequencies.reserve(AudioSettings::getbufferSize()/2 + 1);
         power_spectrum.reserve(AudioSettings::getbufferSize()/2 + 1);
     }
@@ -38,7 +26,17 @@ namespace engine {
         return power_spectrum;
     }
 
-    void Spectrum::generatePowerSpectrum() {
+    void Spectrum::generatePowerSpectrum(double* input, std::function<double (int, size_t)> windowFunc) {
+        if(windowFunc == nullptr) {
+            windowFunc = defaultWindow;
+    }
+
+        double windowedInput[AudioSettings::getbufferSize()];
+        for(int i = 0; i < AudioSettings::getbufferSize(); i++) {
+            windowedInput[i] = windowFunc(i, AudioSettings::getbufferSize()) * input[i];
+        }
+
+        RealFFT *fft = new RealFFT(AudioSettings::getbufferSize(), windowedInput);
         fft->execute_freak_quincys_evil_plan();
 
         // TODO: What happens when N is even?

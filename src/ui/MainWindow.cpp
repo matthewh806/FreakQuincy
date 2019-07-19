@@ -44,8 +44,8 @@ namespace ui {
         setCentralWidget(centralWidget);
     }
 
-    void MainWindow::plotData(std::vector<double> amplitudes) {
-        outputPlotsWidget->plotData(amplitudes);
+    void MainWindow::plotData(std::vector<double> amplitudes, std::vector<double> frequencies, std::vector<double> powerSpectrum) {
+        outputPlotsWidget->plotData(amplitudes, frequencies, powerSpectrum);
     }
 }
 

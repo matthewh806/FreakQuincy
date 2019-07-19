@@ -15,7 +15,7 @@ namespace ui {
             OutputPlotsWidget(QWidget *parent = nullptr);
             ~OutputPlotsWidget();
 
-            void plotData(std::vector<double> amplitudes);
+            void plotData(std::vector<double> amplitudes, std::vector<double> frequencies, std::vector<double> powerSpectrum);
 
         private:
             void setup();

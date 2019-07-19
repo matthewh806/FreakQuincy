@@ -3,6 +3,7 @@
 
 #include "dep/RtAudio.h"
 #include "engine/Synth.hpp"
+#include "engine/Spectrum.hpp"
 
 namespace engine {
     class AudioEngine {
@@ -10,14 +11,23 @@ namespace engine {
             AudioEngine(std::shared_ptr<Synth> synth);
             ~AudioEngine();
 
-            std::vector<double> getBuffer() {
+            std::vector<double> getAudioBuffer() {
                 return _printBuffer;
+            }
+
+            std::vector<double> getPowerSpectrum() {
+                return p_spectrum->get_powerSpectrum();
+            }
+
+            std::vector<double> getFrequencies() {
+                return p_spectrum->get_frequencyRange();
             }
 
         private:
             RtAudio *dac = NULL;
             double *buffer;
             std::shared_ptr<Synth> p_synth;
+            std::unique_ptr<Spectrum> p_spectrum;
             
             // TODO: I'm maintaining this here just because directly
             // converting the *buffer ptr to vector and trying to display it

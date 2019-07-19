@@ -18,7 +18,7 @@ namespace ui {
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
-        void plotData(std::vector<double> amplitudes);
+        void plotData(std::vector<double> amplitudes, std::vector<double> frequencies, std::vector<double> powerSpectrum);
 
         // TODO: Find a way to not have these be public...
         OscillatorWidget *oscillatorWidget;
