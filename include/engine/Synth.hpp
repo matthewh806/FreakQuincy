@@ -28,6 +28,10 @@ namespace engine {
             float getRelease();
             void setRelease(float t);
 
+            void setLfoOscType(WaveTypes type);
+            void setLfoFrequency(double freq);
+            void setLfoDestination(Destinations dest);
+
             bool legatoPlay();
 
             void noteOn(float freq=0, bool legatoEvent = false);

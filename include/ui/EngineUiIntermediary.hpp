@@ -41,6 +41,10 @@ namespace ui {
             void sustainLevelChanged(int);
             void releaseTimeChanged(int);
 
+            void lfoOscTypeChanged(int);
+            void lfoFreqChanged(double);
+            void lfoDestinationChanged(int);
+
             void sampleRateChanged(int);
             void legatoToggled(bool);
 

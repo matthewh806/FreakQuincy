@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QRadioButton>
 
+#include "ui/WaveformSelectorWidget.hpp"
 #include "engine/WaveForm.hpp"
 
 namespace ui {
@@ -16,22 +17,15 @@ namespace ui {
             ~OscillatorWidget();
 
             void setOscType(engine::WaveTypes type);
-
-        private slots:
-            void toggleSin(bool checked);
-            void toggleTri(bool checked);
-            void toggleSaw(bool checked);
-            void toggleSqu(bool checked);
         
         signals:
-            void oscTypeChanged(int type);
+            void oscTypeChanged(int type);            
 
         private:
             void setup();
 
             QVBoxLayout *vBox;
-            QRadioButton *sinButton, *triButton, *sawButton, *squButton;
-
+            WaveformSelectorWidget *waveformSelector;
     };
 }
 

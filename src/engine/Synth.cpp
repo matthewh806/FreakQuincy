@@ -34,6 +34,7 @@ namespace engine {
 
         m_VCO->NoteReleased(legato);
         m_adsr->noteReleased(legato);
+        m_LFO->NoteReleased(legato);
     }
 
     void Synth::setOscFrequency(double freq) {
@@ -74,6 +75,18 @@ namespace engine {
 
     void Synth::setRelease(float t) {
         m_adsr->setReleaseTime(t);
+    }
+
+    void Synth::setLfoOscType(WaveTypes type) {
+        m_LFO->setWaveType(type);
+    }
+
+    void Synth::setLfoFrequency(double freq) {
+        m_LFO->setFrequency((float)freq);
+    }
+
+    void Synth::setLfoDestination(Destinations dest) {
+        m_LFO->setDestination(dest);
     }
 
     double Synth::tick() {

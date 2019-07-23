@@ -27,17 +27,19 @@ namespace ui {
 
         oscillatorWidget = new OscillatorWidget();
         adsrWidget = new ADSRSettingsWidget();
+        lfoWidget = new LFOSettingsWidget();
         outputPlotsWidget = new OutputPlotsWidget();
         settingsWidget = new GeneralSettingsWidget();
         masterSettingsWidget = new MasterSettingsWidget();
 
         gridLayout->addWidget(oscillatorWidget, 0, 0);
         gridLayout->addWidget(adsrWidget, 0, 1);
-        gridLayout->addWidget(outputPlotsWidget, 1, 0, 1, 2);
-        gridLayout->addWidget(masterSettingsWidget, 2, 0);
-        gridLayout->addWidget(settingsWidget, 2, 1);
+        gridLayout->addWidget(lfoWidget, 1, 0);
+        gridLayout->addWidget(outputPlotsWidget, 2, 0, 1, 2);
+        gridLayout->addWidget(masterSettingsWidget, 3, 0);
+        gridLayout->addWidget(settingsWidget, 3, 1);
 
-        gridLayout->setRowMinimumHeight(1, 300);
+        gridLayout->setRowMinimumHeight(2, 300);
 
         centralWidget->setLayout(gridLayout);
 

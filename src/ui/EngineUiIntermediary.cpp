@@ -3,6 +3,7 @@
 #include "ui/EngineUiIntermediary.hpp"
 #include "engine/AudioSettings.hpp"
 #include "engine/WaveForm.hpp"
+#include "engine/LFO.hpp"
 
 namespace ui {
     // TODO: A proper solution for running a process thread - using UI thread for MIDI at the moment is not good...
@@ -23,6 +24,10 @@ namespace ui {
         connect(m_mainWindow->adsrWidget, SIGNAL(sustainValueChanged(int)), this, SLOT(sustainLevelChanged(int)));
         connect(m_mainWindow->adsrWidget, SIGNAL(releaseValueChanged(int)), this, SLOT(releaseTimeChanged(int)));
         
+        connect(m_mainWindow->lfoWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(lfoOscTypeChanged(int)));
+        connect(m_mainWindow->lfoWidget, SIGNAL(frequencyChanged(double)), this, SLOT(lfoFreqChanged(double)));
+        connect(m_mainWindow->lfoWidget, SIGNAL(destinationChanged(int)), this, SLOT(lfoDestinationChanged(int)));
+
         connect(m_mainWindow->settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(sampleRateChanged(int)));
         connect(m_mainWindow->settingsWidget, SIGNAL(legatoToggled(bool)), this, SLOT(legatoToggled(bool)));
 
@@ -94,6 +99,18 @@ namespace ui {
 
     void EngineUiIntermediary::releaseTimeChanged(int value) {
         m_synth->setRelease(value / 1000.0);
+    }
+
+    void EngineUiIntermediary::lfoOscTypeChanged(int index) {
+        m_synth->setLfoOscType((engine::WaveTypes)index);
+    }
+
+    void EngineUiIntermediary::lfoFreqChanged(double freq) {
+        m_synth->setLfoFrequency(freq);
+    }
+
+    void EngineUiIntermediary::lfoDestinationChanged(int index) {
+        m_synth->setLfoDestination((engine::Destinations)index);
     }
 
     void EngineUiIntermediary::sampleRateChanged(int rate) {
