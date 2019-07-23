@@ -3,7 +3,8 @@
 
 // This will eventually be a subtractive synth (haven't read that section of the book yet...)
 #include <memory>
-#include "engine/WaveForm.hpp"
+#include "engine/VCO.hpp"
+#include "engine/LFO.hpp"
 #include "engine/ADSR.hpp"
 
 namespace engine {
@@ -35,8 +36,9 @@ namespace engine {
 
         private:
             // TODO: Check if these still actually have any benefit being shared.
-            std::shared_ptr<WaveForm> m_waveForm;
-            ADSR *m_adsr;
+            std::unique_ptr<VCO> m_VCO;
+            std::unique_ptr<LFO> m_LFO;
+            std::unique_ptr<ADSR> m_adsr;
     };
 }
 

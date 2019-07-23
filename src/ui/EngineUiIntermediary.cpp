@@ -81,23 +81,18 @@ namespace ui {
     }
 
     void EngineUiIntermediary::attackTimeChanged(int value) {
-        std::cout << "New attack: " << value << std::endl;
-
         m_synth->setAttack(value / 1000.0);
     }
 
     void EngineUiIntermediary::decayTimeChanged(int value) {
-        std::cout << "New decay: " << value << std::endl;
         m_synth->setDecay(value / 1000.0);
     }
 
     void EngineUiIntermediary::sustainLevelChanged(int value) {
-        std::cout << "New sustain: " << value << std::endl;
         m_synth->setSustain(value / 100.0);
     }
 
     void EngineUiIntermediary::releaseTimeChanged(int value) {
-        std::cout << "New release: " << value << std::endl;
         m_synth->setRelease(value / 1000.0);
     }
 
@@ -106,7 +101,6 @@ namespace ui {
     }
 
     void EngineUiIntermediary::legatoToggled(bool state) {
-        std::cout << "Legato Toggled: " << state << std::endl;
         engine::AudioSettings::setLegato(state);
     }
 

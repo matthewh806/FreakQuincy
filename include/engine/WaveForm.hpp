@@ -18,34 +18,38 @@ namespace engine {
         WaveForm();
         ~WaveForm();
         
-        WaveTypes get_wave_type() const;
-        void set_waveType(WaveTypes w_type);
+        WaveTypes getWaveType() const;
+        void setWaveType(WaveTypes w_type);
 
-        void NotePressed(float freq);
-        void NoteReleased();
+        virtual void NotePressed(float freq, bool legato) = 0;
+        virtual void NoteReleased(bool legato);
 
-        void setFrequency(float freq);
+        virtual double getOutput();
 
-        double get_waveOutput();
-        void generateWaves(float frequency);
-
+        virtual void setFrequency(float freq);
+    
+    protected:
+        float m_freq;
+    
     private:
         double phase;
         float increment;
 
-        float freq;
 
-        WaveTypes wType = NOT_SET;
-        std::vector<double> sineWaveTable;
-        std::vector<double> triWaveTable;
-        std::vector<double> sawWaveTable;
-        std::vector<double> sqrWaveTable;
+        WaveTypes wType = WaveTypes::NOT_SET;
 
-        void generateWaveTables();
-        void generateSineWaveTable();
-        void generateTriWaveTable();
-        void generateSawWaveTable();
-        void generateSquareWaveTable();
+        static bool tablesInitialized;
+
+        static std::vector<double> sineWaveTable;
+        static std::vector<double> triWaveTable;
+        static std::vector<double> sawWaveTable;
+        static std::vector<double> sqrWaveTable;
+
+        static void generateWaveTables();
+        static void generateSineWaveTable();
+        static void generateTriWaveTable();
+        static void generateSawWaveTable();
+        static void generateSquareWaveTable();
     };
 }
 

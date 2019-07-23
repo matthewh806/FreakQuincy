@@ -4,10 +4,14 @@
 
 namespace engine {
     Synth::Synth() {
-        m_waveForm = std::make_shared<WaveForm>();
-        m_adsr = new ADSR(1, 0.2, 0.1, 0.2); // TODO: better way of handling defaults than this.
+        m_VCO = std::unique_ptr<VCO>(new VCO());
+        m_LFO = std::unique_ptr<LFO>(new LFO());
+        // TODO: better way of handling defaults than this.
+        m_adsr = std::unique_ptr<ADSR>(new ADSR(1, 0.2, 0.1, 0.2));
 
-        std::cout << *m_adsr << std::endl;
+        m_LFO->setDestination(Destinations::VOLUME);
+        m_LFO->setFrequency(20);
+        m_LFO->setWaveType(WaveTypes::SINE);
     }
 
     Synth::~Synth() {
@@ -19,21 +23,25 @@ namespace engine {
     }
 
     void Synth::noteOn(float freq, bool legatoEvent) {
-        m_waveForm->NotePressed(freq);
+        bool legato = legatoPlay() && legatoEvent;
+
+        m_VCO->NotePressed(freq, legato);
         m_adsr->notePressed(legatoPlay() && legatoEvent);
     }
 
     void Synth::noteOff(bool legatoEvent) {
-        m_waveForm->NoteReleased();
-        m_adsr->noteReleased(legatoPlay() && legatoEvent);
+        bool legato = legatoPlay() && legatoEvent;
+
+        m_VCO->NoteReleased(legato);
+        m_adsr->noteReleased(legato);
     }
 
     void Synth::setOscFrequency(double freq) {
-        m_waveForm->setFrequency(freq);
+        m_VCO->setFrequency(freq);
     }
 
     void Synth::setOscType(WaveTypes type) {
-        m_waveForm->set_waveType(type);
+        m_VCO->setWaveType(type);
     }
 
     float Synth::getAttack() {
@@ -69,6 +77,6 @@ namespace engine {
     }
 
     double Synth::tick() {
-        return m_waveForm->get_waveOutput() * m_adsr->getEnvelopeOutput();
+        return m_VCO->getOutput() * m_adsr->getEnvelopeOutput() * m_LFO->getOutput();
     }
 }

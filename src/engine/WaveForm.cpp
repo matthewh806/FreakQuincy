@@ -4,41 +4,46 @@
 #include "engine/AudioSettings.hpp"
 
 namespace engine {
-
+    
     // TODO: RESIZE ARRAY IF BUFFER SIZE CHANGES!
-    WaveForm::WaveForm() : sineWaveTable(AudioSettings::getbufferSize()), sqrWaveTable(AudioSettings::getbufferSize()),
-                            triWaveTable(AudioSettings::getbufferSize()), sawWaveTable(AudioSettings::getbufferSize())
-    {
+
+    // TODO: Check when this initialization occurs...?
+    std::vector<double> WaveForm::sineWaveTable(AudioSettings::getbufferSize());
+    std::vector<double> WaveForm::sqrWaveTable(AudioSettings::getbufferSize());
+    std::vector<double> WaveForm::triWaveTable(AudioSettings::getbufferSize()); 
+    std::vector<double> WaveForm::sawWaveTable(AudioSettings::getbufferSize());
+
+    bool WaveForm::tablesInitialized = false;
+
+    WaveForm::WaveForm() {
         phase = 0.0;
 
-        generateWaveTables();
+        if(!tablesInitialized) {
+            generateWaveTables();
+            tablesInitialized = true;
+        }
     }
 
     WaveForm::~WaveForm() {
     }
 
-    WaveTypes WaveForm::get_wave_type() const {
+    WaveTypes WaveForm::getWaveType() const {
         return wType;
     }
 
-    void WaveForm::NotePressed(float freq) {
-        setFrequency(freq);
+    void WaveForm::setWaveType(WaveTypes w_type) {
+        wType = w_type;
     }
     
-    void WaveForm::NoteReleased() {
-        // TODO: What happens here?    
+    void WaveForm::NoteReleased(bool legato) {
     }
 
     void WaveForm::setFrequency(float freq) {
-        this->freq = freq;
+        this->m_freq = freq;
     }
 
-    void WaveForm::set_waveType(WaveTypes w_type) {
-        wType = w_type;
-    }
-
-    double WaveForm::get_waveOutput() {
-        increment = (AudioSettings::getbufferSize() * freq) / AudioSettings::getSampleRate();
+    double WaveForm::getOutput() {
+        increment = (AudioSettings::getbufferSize() * m_freq) / AudioSettings::getSampleRate();
         
         int index0 = (int)phase;
         int index1 = (index0 == AudioSettings::getbufferSize() - 1) ? 0 : index0 + 1;
@@ -67,7 +72,7 @@ namespace engine {
         }
 
         if(!waveTable)
-            return 0.0;
+            return 1.0;
 
         return (1-t) * waveTable->at(index0) + t * waveTable->at(index1);
     }
