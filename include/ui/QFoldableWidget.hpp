@@ -32,6 +32,9 @@ namespace ui {
             void setFolded(bool isFolded);
             void toggleFolded();
 
+        signals:
+            void widgetFolded(QFoldableWidget *widget);
+
         protected:
             QFrame *m_titleFrame;
             QPushButton *m_foldButton;

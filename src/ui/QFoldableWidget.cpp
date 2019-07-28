@@ -38,6 +38,8 @@ namespace ui {
     void QFoldableWidget::setFolded(bool fold) {
         m_contentFrame->setVisible(!fold);
         this->QWidget::updateGeometry();
+
+        emit widgetFolded(this);
     }
 
     void QFoldableWidget::toggleFolded() {

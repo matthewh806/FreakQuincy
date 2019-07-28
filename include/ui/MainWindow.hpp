@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "dep/qcustomplot.h"
+
+#include "ui/QFoldableWidget.hpp"
 #include "ui/OscillatorWidget.hpp"
 #include "ui/ADSRSettingsWidget.hpp"
 #include "ui/LFOSettingsWidget.hpp"
@@ -28,13 +30,15 @@ namespace ui {
         OutputPlotsWidget *outputPlotsWidget;
         MasterSettingsWidget *masterSettingsWidget;
         GeneralSettingsWidget *settingsWidget;
+    
+    private slots:
+        void onWidgetFolded(QFoldableWidget *widget);
 
     private:
         QWidget *centralWidget;
         QGridLayout *gridLayout;
 
         void setupAudioOutput();
-
         void setupMainWindow();
     };
 }
