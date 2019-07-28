@@ -1,12 +1,13 @@
 #ifndef MASTERSETTINGS_hpp
 #define MASTERSETTINGS_hpp
 
-#include <QGroupBox>
 #include <QVBoxLayout>
 #include <QDial>
 
+#include "ui/QFoldableWidget.hpp"
+
 namespace ui {
-    class MasterSettingsWidget : public QGroupBox {
+    class MasterSettingsWidget : public QFoldableWidget {
         Q_OBJECT
 
         public:

@@ -25,6 +25,6 @@ namespace ui {
 
         vBox = new QVBoxLayout;
         vBox->addWidget(waveformSelector);
-        this->setLayout(vBox);
+        this->contentFrame()->setLayout(vBox);
     }
 }

@@ -30,7 +30,7 @@ namespace ui {
         vBox = new QVBoxLayout;
         vBox->addWidget(volumeDial);
         vBox->addWidget(volumeLabel);
-        setLayout(vBox);
+        this->contentFrame()->setLayout(vBox);
     }
 
     void MasterSettingsWidget::volumeSliderValueChanged(int v) {

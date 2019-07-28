@@ -1,16 +1,16 @@
 #ifndef LFOSETTINGSWIDGET_HPP
 #define LFOSETTINGSWIDGET_HPP
 
-#include <QGroupBox>
 #include <QVBoxLayout>
 #include <QRadioButton>
 #include <QDoubleSpinBox>
 
+#include "ui/QFoldableWidget.hpp"
 #include "ui/WaveformSelectorWidget.hpp"
 #include "engine/LFO.hpp"
 
 namespace ui {
-    class LFOSettingsWidget : public QGroupBox {
+    class LFOSettingsWidget : public QFoldableWidget {
         Q_OBJECT
 
         public:

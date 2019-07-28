@@ -1,13 +1,14 @@
 #ifndef GENERALSETTINGS_hpp
 #define GENERALSETTINGS_hpp
 
-#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QSpinBox>
 #include <QCheckBox>
 
+#include <ui/QFoldableWidget.hpp>
+
 namespace ui {
-    class GeneralSettingsWidget : public QGroupBox {
+    class GeneralSettingsWidget : public QFoldableWidget {
         Q_OBJECT
 
         public:

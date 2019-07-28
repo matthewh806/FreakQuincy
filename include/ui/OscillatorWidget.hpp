@@ -1,15 +1,15 @@
 #ifndef OSCILLATORWIDGET_hpp
 #define OSCILLATORWIDGET_hpp
 
-#include <QGroupBox>
 #include <QVBoxLayout>
 #include <QRadioButton>
 
 #include "ui/WaveformSelectorWidget.hpp"
+#include "ui/QFoldableWidget.hpp"
 #include "engine/WaveForm.hpp"
 
 namespace ui {
-    class OscillatorWidget : public QGroupBox {
+    class OscillatorWidget : public QFoldableWidget {
         Q_OBJECT
 
         public:

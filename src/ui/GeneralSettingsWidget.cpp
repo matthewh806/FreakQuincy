@@ -41,6 +41,6 @@ namespace ui {
         vBox->addWidget(sampleRateSpinBox);
         vBox->addWidget(legatoCheckBox);
 
-        setLayout(vBox);
+        this->contentFrame()->setLayout(vBox);
     }
 }

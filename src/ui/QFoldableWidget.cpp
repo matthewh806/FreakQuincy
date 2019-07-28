@@ -1,4 +1,3 @@
-
 #include <QApplication>
 #include <QResizeEvent>
 
@@ -21,11 +20,9 @@ namespace ui {
         m_titleFrame->setFrameStyle(QFrame::Box | QFrame::Plain);
         m_titleFrame->setAutoFillBackground(true);
 
-        m_titleLabel = new QLabel(title, m_titleFrame);
-        m_titleLabel->setPalette(QApplication::palette());
-
         m_foldButton = new QPushButton(m_titleFrame);
         m_foldButton->setFlat(true);
+        m_foldButton->setText(title);
         
         m_contentFrame = new QFrame(this);
         m_contentFrame->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
@@ -35,25 +32,24 @@ namespace ui {
     }
 
     void QFoldableWidget::setTitle(const QString& title) {
-        m_titleLabel->setText(title);
+        m_foldButton->setText(title);
     }
 
-    void QFoldableWidget::setFolded(bool isFolded) {
-        // TODO: update button state.
-        m_contentFrame->setVisible(!isFolded);
+    void QFoldableWidget::setFolded(bool fold) {
+        m_contentFrame->setVisible(!fold);
         this->QWidget::updateGeometry();
     }
 
     void QFoldableWidget::toggleFolded() {
-        setFolded(!m_contentFrame->isVisible());
+        setFolded(m_contentFrame->isVisible());
     }
 
     QSize QFoldableWidget::minimumSizeHint() const {
-        QSize labelSize = m_titleLabel->sizeHint();
-        QSize titleBarHint = labelSize + QSize(labelSize.height() + 8, 8);
+        QSize buttonSize = m_foldButton->sizeHint();
+        QSize titleBarHint = buttonSize;
 
         if(m_contentFrame->isVisible()) {
-            QSize titleBarMin(0, labelSize.height() + 8);
+            QSize titleBarMin(0, buttonSize.height());
             QSize contentsMin(m_contentFrame->minimumSizeHint());
             QSize total = contentsMin.expandedTo(titleBarMin);
             total.rheight() += titleBarMin.height();
@@ -68,15 +64,12 @@ namespace ui {
 
         int width = event->size().width();
         int height = event->size().height();
-        int labelHeight = m_titleLabel->sizeHint().height();
-        int titleHeight = labelHeight + 8;
-        int buttonSize = titleHeight - 2;
+        int buttonHeight = m_foldButton->sizeHint().height();
 
-        m_titleFrame->setGeometry(0, 0, width, titleHeight);
-        m_titleLabel->setGeometry(4, titleHeight-labelHeight-4, width - buttonSize - 1, labelHeight);
-        m_foldButton->setGeometry(width-buttonSize - 1, 1, buttonSize, buttonSize);
+        m_titleFrame->setGeometry(0, 0, width, buttonHeight);
+        m_foldButton->setGeometry(0, 0, width, buttonHeight);
 
-        m_contentFrame->setGeometry(0, titleHeight-1, width, height - titleHeight - 1);
+        m_contentFrame->setGeometry(0, buttonHeight-1, width, height - buttonHeight - 1);
     }
 
     bool QFoldableWidget::event(QEvent *event) {

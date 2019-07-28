@@ -47,6 +47,9 @@ namespace ui {
     }
 
     void MainWindow::plotData(std::vector<double> amplitudes, std::vector<double> frequencies, std::vector<double> powerSpectrum) {
+        if(!outputPlotsWidget->isVisible())
+            return; 
+            
         outputPlotsWidget->plotData(amplitudes, frequencies, powerSpectrum);
     }
 }

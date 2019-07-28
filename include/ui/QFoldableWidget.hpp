@@ -34,7 +34,6 @@ namespace ui {
 
         protected:
             QFrame *m_titleFrame;
-            QLabel *m_titleLabel;
             QPushButton *m_foldButton;
             QFrame *m_contentFrame;
 

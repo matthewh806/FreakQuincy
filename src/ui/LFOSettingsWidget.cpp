@@ -43,7 +43,7 @@ namespace ui {
 
         volDestButton = new QRadioButton(tr("volume"));
         connect(
-            this, &LFOSettingsWidget::toggled, 
+            volDestButton, &QRadioButton::toggled, 
             this, [=](bool checked) { 
                 if(!checked)
                     return;
@@ -53,7 +53,7 @@ namespace ui {
 
         pitchDestButton = new QRadioButton(tr("pitch"));
         connect(
-            this, &LFOSettingsWidget::toggled, 
+            pitchDestButton, &QRadioButton::toggled, 
             this, [=](bool checked) {
                 if(!checked)
                     return;
@@ -82,6 +82,6 @@ namespace ui {
         vBox->addWidget(frequencyLabel);
         vBox->addWidget(frequencySpinBox);
         
-        setLayout(vBox);
+        this->contentFrame()->setLayout(vBox);
     }
 }
