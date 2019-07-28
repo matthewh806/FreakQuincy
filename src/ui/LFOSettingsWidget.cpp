@@ -18,11 +18,20 @@ namespace ui {
     }
 
     void LFOSettingsWidget::setFrequency(float freq) {
-
+        frequencySpinBox->setValue((double)freq);
     }
 
     void LFOSettingsWidget::setDestination(engine::Destinations dest) {
-        
+        switch(dest) {
+            case engine::Destinations::PITCH:
+                pitchDestButton->toggle();
+                break;
+            case engine::Destinations::VOLUME:
+                volDestButton->toggle();
+                break;
+            default:
+                break;
+        }
     }
 
     void LFOSettingsWidget::setup() {

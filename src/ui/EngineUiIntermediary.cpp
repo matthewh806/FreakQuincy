@@ -35,6 +35,10 @@ namespace ui {
 
         m_mainWindow->oscillatorWidget->setOscType(engine::WaveTypes::SINE);
         m_mainWindow->adsrWidget->setValues(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
+        
+        m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType());
+        m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency());
+        m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination());
 
         m_mainWindow->resize(1024, 900);
         m_mainWindow->setWindowTitle("FreakQuency");

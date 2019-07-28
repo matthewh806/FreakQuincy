@@ -26,6 +26,7 @@ namespace engine {
 
         virtual double getOutput();
 
+        float getFrequency() { return m_freq; }
         virtual void setFrequency(float freq);
     
     protected:
