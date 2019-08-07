@@ -2,14 +2,13 @@
 #define OUTPUTPlOTSWIDGET_hpp
 
 #include <QHBoxLayout>
-
-#include "ui/QFoldableWidget.hpp"
+#include <QGroupBox>
 #include "dep/qcustomplot.h"
 
 namespace ui {
     // TODO: Make a custom slider to allow for non linear scaling
 
-    class OutputPlotsWidget : public QFoldableWidget {
+    class OutputPlotsWidget : public QGroupBox {
         Q_OBJECT
 
         public: 

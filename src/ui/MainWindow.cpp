@@ -31,30 +31,26 @@ namespace ui {
         outputPlotsWidget = new OutputPlotsWidget();
         settingsWidget = new GeneralSettingsWidget();
         masterSettingsWidget = new MasterSettingsWidget();
-        QWidget* emptySpaceWidget = new QWidget();
 
         connect(oscillatorWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(adsrWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(lfoWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
-        connect(outputPlotsWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(settingsWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(masterSettingsWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
 
         gridLayout->addWidget(oscillatorWidget, 0, 0);
         gridLayout->addWidget(adsrWidget, 0, 1);
         gridLayout->addWidget(lfoWidget, 1, 0);
-        gridLayout->addWidget(outputPlotsWidget, 2, 0, 1, 2);
-        gridLayout->addWidget(masterSettingsWidget, 3, 0);
-        gridLayout->addWidget(settingsWidget, 3, 1);
-        gridLayout->addWidget(emptySpaceWidget, 4, 0, 1, 2);
+        gridLayout->addWidget(masterSettingsWidget, 2, 0);
+        gridLayout->addWidget(settingsWidget, 2, 1);
+        gridLayout->addWidget(outputPlotsWidget, 3, 0, 1, 2);
 
         gridLayout->setRowStretch(0, 0);
         gridLayout->setRowStretch(1, 0);
         gridLayout->setRowStretch(2, 0);
-        gridLayout->setRowStretch(3, 0);
-        gridLayout->setRowStretch(4, 1);
+        gridLayout->setRowStretch(3, 1);
         
-        gridLayout->setRowMinimumHeight(2, 300);
+        gridLayout->setRowMinimumHeight(3, 300);
 
         centralWidget->setLayout(gridLayout);
         setCentralWidget(centralWidget);
@@ -74,13 +70,9 @@ namespace ui {
         if(idx == -1)
             return;
 
-        int row, column, rowSpan, columnSpan;
-        widget->sizePolicy().setVerticalPolicy(widget->isVisible() ? QSizePolicy::Policy::Expanding : QSizePolicy::Policy::Fixed);
-        
+        int row, column, rowSpan, columnSpan;        
         gridLayout->getItemPosition(idx, &row, &column, &rowSpan, &columnSpan);
         gridLayout->setRowMinimumHeight(row, widget->minimumSizeHint().height());
-        // gridLayout->setRowStretch(row, widget->isVisible() ? 1 : 0);
-
         std::cout << "row: " << row << ", minHeight: " << gridLayout->rowMinimumHeight(row) << std::endl;
 
         centralWidget->QWidget::updateGeometry();

@@ -40,7 +40,7 @@ namespace ui {
         hBox->addWidget(waveformPlot);
         hBox->addWidget(spectrumPlot);
 
-        this->contentFrame()->setLayout(hBox);
+        this->setLayout(hBox);
     }
 
     void OutputPlotsWidget::plotData(std::vector<double> amplitudes, std::vector<double> frequencies, std::vector<double> powerSpectrum) {
