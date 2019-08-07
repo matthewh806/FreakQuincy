@@ -44,9 +44,13 @@ namespace ui {
         m_mainWindow->setWindowTitle("FreakQuency");
         m_mainWindow->show();
 
-        m_timer = new QTimer(this);
-        connect(m_timer, SIGNAL(timeout()), this, SLOT(updateUI()));
-        m_timer->start(100); // 100 ms timer
+        m_UiTimer = new QTimer(this);
+        connect(m_UiTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
+        m_UiTimer->start(100); // 100 ms timer
+
+        m_midiTimer = new QTimer(this);
+        connect(m_midiTimer, &QTimer::timeout, this, [=]() { this->m_midiEngine->process();});
+        m_midiTimer->start(1); 
     }
 
     EngineUiIntermediary::~EngineUiIntermediary() {

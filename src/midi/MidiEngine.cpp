@@ -1,4 +1,5 @@
 #include "midi/MidiEngine.hpp"
+#include "midi/RtMidiInputDevice.hpp"
 
 namespace midi {
 
@@ -10,8 +11,16 @@ namespace midi {
 
     }
 
+    void MidiEngine::process() {
+        if(!curInputDevice) return;
+
+        midi::MidiMessage msg;
+        while(curInputDevice->msgQueue.getMessage(&msg)) {
+            this->onMessage(msg);
+        }
+    }
+
     void MidiEngine::onMessage(MidiMessage message) {
-        // TODO: Introduce a message queue?
         switch(message.getStatusType()) {
             case(StatusType::NOTE_ON): notePressed(message.getNote(), 1); break;
             case(StatusType::NOTE_OFF): noteReleased(message.getNote(), 1); break;
@@ -41,26 +50,8 @@ namespace midi {
     void MidiEngine::setupMidi() {
         heldNotes.reserve(128);
 
-        try {
-            midiIn = new RtMidiIn(RtMidi::MACOSX_CORE);
-        } catch(RtMidiError &error) {
-            error.printMessage();
-            return;
-        }
-
-        std::cout << "Port Count: " << midiIn->getPortCount() << std::endl;
-
-        try {
-            // TODO: Give option?
-            midiIn->openPort(0);
-        } catch(RtMidiError &error) {
-            error.printMessage();
-            return;
-        }
-
-        midiIn->setCallback(&midiInCallback, this);
-        midiIn->ignoreTypes(true, true, true);
-
+        inputDevices.push_back( new RtMidiInputDevice() );
+        this->setMidiInputDevice(inputDevices[0]);
     }
 
     void MidiEngine::notePressed(uint8_t note, int channel) {
@@ -84,26 +75,5 @@ namespace midi {
         messageCallbacks.push_back(cb);
 
         std::cout << "Vector size: "  << messageCallbacks.size() << std::endl;
-    }
-
-    void MidiEngine::midiInCallback(double deltatime, std::vector<unsigned char> *message, void *userData) {
-
-        MidiEngine *engine = (MidiEngine*) userData;
-
-        unsigned int nBytes = message->size();
-
-        if(nBytes > 3) return; // This is a problem...
-
-        MidiMessage msg;
-        msg.size = nBytes;
-
-        for(unsigned int i=0; i<nBytes; i++) {
-            msg.bytes[i] = message->at(i);
-        }
-
-        msg.printBinary();
-        msg.printHex();
-
-        engine->onMessage(msg);
     }
 }

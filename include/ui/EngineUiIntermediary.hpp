@@ -52,7 +52,8 @@ namespace ui {
 
         private:
             MainWindow *m_mainWindow = nullptr;
-            QTimer *m_timer = nullptr;
+            QTimer *m_UiTimer = nullptr;
+            QTimer *m_midiTimer = nullptr;
 
             std::shared_ptr<engine::Synth> m_synth;
             std::unique_ptr<engine::AudioEngine> m_engine;

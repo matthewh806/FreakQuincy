@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "dep/RtMidi.h"
+#include "midi/MidiInputDevice.hpp"
 #include "midi/MidiMessage.hpp"
 
 namespace midi {
@@ -14,18 +15,23 @@ namespace midi {
             void registerMessageCallback(const std::function<void(MidiMessage)> &cb);
             void onMessage(MidiMessage message);
 
+            void process();
+            
+            void setMidiInputDevice(MidiInputDevice* input) { curInputDevice = input; }
+            MidiInputDevice* getMidiInputDevice() { return curInputDevice; }
+
             int notesHeldCount();
             bool noteHeld();
             float getLastNote();
 
         private:
-            RtMidiIn *midiIn = NULL;
+            std::vector<MidiInputDevice*> inputDevices;
+            MidiInputDevice* curInputDevice = NULL;
+
             std::function<void(MidiMessage)> messageCallback = NULL;
             std::vector<std::function<void(MidiMessage)>> messageCallbacks;
 
             std::vector<uint8_t> heldNotes;
-
-            static void midiInCallback(double deltatime, std::vector<unsigned char> *message, void *userData);
             
             void setupMidi();
             void notePressed(uint8_t note, int channel);
