@@ -28,8 +28,16 @@ namespace midi {
             return bytes[0] & 0x0f;
         }
 
+        void setChannel(uint8_t ch) {
+            bytes[0] = (bytes[0] & 0xf0) | (ch & 0x0f);
+        }
+
         uint8_t getStatus() {
             return bytes[0] >> 4;
+        }
+
+        void setStatus(uint8_t status) {
+            bytes[0] = (bytes[0] & 0xf) | (status << 4);
         }
 
         StatusType getStatusType() {
@@ -40,9 +48,17 @@ namespace midi {
             return bytes[1];
         }
 
+        uint8_t setNote(uint8_t note) {
+            bytes[1] = note & 0x7f;
+        }
+
         // e.g. velocity
         uint8_t getValue() {
             return bytes[2];
+        }
+
+        uint8_t setValue(uint8_t val) {
+            bytes[2] = val & 0x7f;
         }
 
         void printBinary() {

@@ -34,6 +34,14 @@ namespace ui {
     private slots:
         void onWidgetFolded(QFoldableWidget *widget);
 
+    protected:
+        void keyPressEvent(QKeyEvent *event);
+        void keyReleaseEvent(QKeyEvent *event);
+
+    signals:
+        void keyPressedEvent(QKeyEvent *event);
+        void keyReleasedEvent(QKeyEvent *event);
+
     private:
         QWidget *centralWidget;
         QGridLayout *gridLayout;

@@ -23,11 +23,11 @@ namespace ui {
             EngineUiIntermediary();
             ~EngineUiIntermediary();
 
+            void midiMessageCallback(midi::MidiMessage msg);
+        
         public slots:
             void updateUI();
 
-            void midiMessageCallback(midi::MidiMessage msg);
-            
             void noteOn();
             void noteOff();
 

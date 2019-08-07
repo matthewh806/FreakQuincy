@@ -2,6 +2,8 @@
 #define MIDIENGINE_HPP
 
 #include <vector>
+// TODO: Wrap in custom event class to avoid this here
+#include <QKeyEvent>
 #include "dep/RtMidi.h"
 #include "midi/MidiInputDevice.hpp"
 #include "midi/MidiMessage.hpp"
@@ -16,6 +18,9 @@ namespace midi {
             void onMessage(MidiMessage message);
 
             void process();
+
+            void computerKeyPressed(QKeyEvent *event);
+            void computerKeyReleased(QKeyEvent *event);
             
             void setMidiInputDevice(MidiInputDevice* input) { curInputDevice = input; }
             MidiInputDevice* getMidiInputDevice() { return curInputDevice; }

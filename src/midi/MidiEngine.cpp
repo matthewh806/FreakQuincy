@@ -1,5 +1,6 @@
 #include "midi/MidiEngine.hpp"
 #include "midi/RtMidiInputDevice.hpp"
+#include "midi/ComputerKeyboardInputDevice.hpp"
 
 namespace midi {
 
@@ -19,6 +20,24 @@ namespace midi {
             this->onMessage(msg);
         }
     }
+
+    void MidiEngine::computerKeyPressed(QKeyEvent *event) {
+        // TODO: Not very nice or object oriented.
+        ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
+        if(!computerInput)
+            return;
+
+        computerInput->keyPressed(event->key());
+    }
+
+    void MidiEngine::computerKeyReleased(QKeyEvent *event) {
+        ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
+        if(!computerInput)
+            return;
+
+        computerInput->keyReleased(event->key());
+    }
+
 
     void MidiEngine::onMessage(MidiMessage message) {
         switch(message.getStatusType()) {
@@ -50,8 +69,13 @@ namespace midi {
     void MidiEngine::setupMidi() {
         heldNotes.reserve(128);
 
-        inputDevices.push_back( new RtMidiInputDevice() );
-        this->setMidiInputDevice(inputDevices[0]);
+        RtMidiInputDevice* rtMidi = new RtMidiInputDevice();
+        ComputerKeyboardInputDevice* computerMidi = new ComputerKeyboardInputDevice();
+
+        inputDevices.push_back(rtMidi);
+        inputDevices.push_back(computerMidi);
+
+        this->setMidiInputDevice(inputDevices[1]);
     }
 
     void MidiEngine::notePressed(uint8_t note, int channel) {

@@ -19,6 +19,20 @@ namespace ui {
         delete centralWidget;
     }
 
+    void MainWindow::keyPressEvent(QKeyEvent *event) {
+        if(event->isAutoRepeat())
+            return;
+            
+        emit keyPressedEvent(event);
+    }
+
+    void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+        if(event->isAutoRepeat())
+            return;
+
+        emit keyReleasedEvent(event);
+    }
+
     void MainWindow::setupMainWindow() {
         centralWidget = new QWidget();
         centralWidget->setObjectName(QStringLiteral("centralWidget"));

@@ -51,6 +51,14 @@ namespace ui {
         m_midiTimer = new QTimer(this);
         connect(m_midiTimer, &QTimer::timeout, this, [=]() { this->m_midiEngine->process();});
         m_midiTimer->start(1); 
+
+        connect(m_mainWindow, &MainWindow::keyPressedEvent, this, [=](QKeyEvent *event) {
+            this->m_midiEngine->computerKeyPressed(event);
+        });
+
+        connect(m_mainWindow, &MainWindow::keyReleasedEvent, this, [=](QKeyEvent *event) {
+            this->m_midiEngine->computerKeyReleased(event);
+        });
     }
 
     EngineUiIntermediary::~EngineUiIntermediary() {
