@@ -69,7 +69,7 @@ namespace engine {
         m_stageTimes[RELEASE] = t;
     }
 
-    void ADSR::notePressed(bool legato) {
+    void ADSR::notePressed(float freq, bool legato) {
         if(legato)
             return;
 
@@ -88,7 +88,7 @@ namespace engine {
         m_prevParamVal = m_curParamVal;
     }
 
-    double ADSR::getEnvelopeOutput() {
+    double ADSR::tick() {
         m_state += m_rate;
 
         if(m_state >= m_stageTimes[m_stage]) {

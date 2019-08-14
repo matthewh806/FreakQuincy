@@ -10,7 +10,7 @@ namespace engine {
     
     LFO::~LFO() {}
 
-    void LFO::NotePressed(float freq, bool legato) {
+    void LFO::notePressed(float freq, bool legato) {
         if(!free && !legato)
             m_state = 0.0;
     }
@@ -22,6 +22,6 @@ namespace engine {
         if(freq > MAX_FREQUENCY)
             freq = MAX_FREQUENCY;
 
-        m_freq = freq;
+        m_waveForm->setFrequency(freq);
     }
 }

@@ -25,16 +25,16 @@ namespace engine {
     void Synth::noteOn(float freq, bool legatoEvent) {
         bool legato = legatoPlay() && legatoEvent;
 
-        m_VCO->NotePressed(freq, legato);
-        m_adsr->notePressed(legatoPlay() && legatoEvent);
+        m_VCO->notePressed(freq, legato);
+        m_adsr->notePressed(freq, legato);
     }
 
     void Synth::noteOff(bool legatoEvent) {
         bool legato = legatoPlay() && legatoEvent;
 
-        m_VCO->NoteReleased(legato);
+        m_VCO->noteReleased(legato);
         m_adsr->noteReleased(legato);
-        m_LFO->NoteReleased(legato);
+        m_LFO->noteReleased(legato);
     }
 
     void Synth::setOscFrequency(double freq) {
@@ -90,6 +90,6 @@ namespace engine {
     }
 
     double Synth::tick() {
-        return m_VCO->getOutput() * m_adsr->getEnvelopeOutput() * m_LFO->getOutput();
+        return m_VCO->tick() * m_adsr->tick() * m_LFO->tick();
     }
 }

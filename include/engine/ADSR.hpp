@@ -2,9 +2,10 @@
 #define ADSR_HPP
 
 #include <vector>
+#include "engine/Module.hpp"
 
 namespace engine {
-    class ADSR {
+    class ADSR : public Module {
         enum STAGE {
             ATTACK,
             DECAY,
@@ -35,11 +36,11 @@ namespace engine {
             float getReleaseTime();
             void setReleaseTime(float t);
 
-            void notePressed(bool legato);
-            void noteReleased(bool legato);
+            void notePressed(float freq, bool legato) override;
+            void noteReleased(bool legato) override;
 
             // This is just the same as tick for now.
-            double getEnvelopeOutput();
+            double tick() override;
 
             friend std::ostream& operator<<(std::ostream& out, const ADSR& adsr);
         private:

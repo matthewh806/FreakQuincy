@@ -21,13 +21,10 @@ namespace engine {
         WaveTypes getWaveType() const;
         void setWaveType(WaveTypes w_type);
 
-        virtual void NotePressed(float freq, bool legato) = 0;
-        virtual void NoteReleased(bool legato);
-
-        virtual double getOutput();
+        double getOutput();
 
         float getFrequency() { return m_freq; }
-        virtual void setFrequency(float freq);
+        void setFrequency(float freq);
     
     protected:
         float m_freq;

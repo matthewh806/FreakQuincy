@@ -35,9 +35,6 @@ namespace engine {
         wType = w_type;
     }
     
-    void WaveForm::NoteReleased(bool legato) {
-    }
-
     void WaveForm::setFrequency(float freq) {
         this->m_freq = freq;
     }
