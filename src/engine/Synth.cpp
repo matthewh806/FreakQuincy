@@ -4,13 +4,17 @@
 
 namespace engine {
     Synth::Synth() {
-        m_VCO = std::unique_ptr<VCO>(new VCO());
-        m_LFO = std::unique_ptr<LFO>(new LFO());
+
+        // Modules
+
+        m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(1, std::unique_ptr<VCO>(new VCO())));
         m_VCA = std::unique_ptr<VCA>(new VCA());
 
-        m_LFO->setDestination(Destinations::AMP);
-        m_LFO->setFrequency(20);
-        m_LFO->setWaveType(WaveTypes::SINE);
+        // Modulators
+        m_LFOs.insert(std::pair<int, std::unique_ptr<LFO>>(1, std::unique_ptr<LFO>(new LFO())));
+        m_LFOs[1]->setDestination(Destinations::AMP);
+        m_LFOs[1]->setFrequency(20);
+        m_LFOs[1]->setWaveType(WaveTypes::SINE);
     }
 
     Synth::~Synth() {
@@ -24,25 +28,44 @@ namespace engine {
     void Synth::noteOn(float freq, bool legatoEvent) {
         bool legato = legatoPlay() && legatoEvent;
 
-        m_VCO->notePressed(freq, legato);
-        m_LFO->notePressed(freq, legato);
+        for(const auto& kv : m_VCOs) {
+            kv.second->notePressed(freq, legato);
+        }
+
+        for(const auto& kv : m_LFOs) {
+            kv.second->notePressed(freq, legato);
+        }
+        
+        
         m_VCA->notePressed(freq, legato);
     }
 
     void Synth::noteOff(bool legatoEvent) {
         bool legato = legatoPlay() && legatoEvent;
 
-        m_VCO->noteReleased(legato);
+        for(const auto& kv : m_VCOs) {
+            kv.second->noteReleased(legato);
+        }
+
+        for(const auto& kv : m_LFOs) {
+            kv.second->noteReleased(legato);
+        }
+
         m_VCA->noteReleased(legato);
-        m_LFO->noteReleased(legato);
     }
 
-    void Synth::setOscFrequency(double freq) {
-        m_VCO->setFrequency(freq);
+    void Synth::setOscFrequency(int idx, double freq) {
+        if( m_VCOs.find(idx) == m_VCOs.end())
+            return;
+
+        m_VCOs[idx]->setFrequency(freq);
     }
 
-    void Synth::setOscType(WaveTypes type) {
-        m_VCO->setWaveType(type);
+    void Synth::setOscType(int idx, WaveTypes type) {
+        if( m_VCOs.find(idx) == m_VCOs.end())
+            return;
+
+        m_VCOs[idx]->setWaveType(type);
     }
 
     float Synth::getAttack() {
@@ -77,19 +100,51 @@ namespace engine {
         m_VCA->getEnvelope()->setReleaseTime(t);
     }
 
-    void Synth::setLfoOscType(WaveTypes type) {
-        m_LFO->setWaveType(type);
+    WaveTypes Synth::getLfoOscType(int idx) { 
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return WaveTypes::NOT_SET;
+
+        return m_LFOs[idx]->getWaveType(); 
     }
 
-    void Synth::setLfoFrequency(double freq) {
-        m_LFO->setFrequency((float)freq);
+    void Synth::setLfoOscType(int idx, WaveTypes type) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return;
+
+        m_LFOs[idx]->setWaveType(type);
     }
 
-    void Synth::setLfoDestination(Destinations dest) {
-        m_LFO->setDestination(dest);
+    float Synth::getLfoFrequency(int idx) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return -1.0;
+
+        return m_LFOs[idx]->getFrequency(); 
+    };
+
+    void Synth::setLfoFrequency(int idx, double freq) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return;
+
+        m_LFOs[idx]->setFrequency((float)freq);
+    }
+
+    Destinations Synth::getLfoDestination(int idx) { 
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return Destinations::NONE;
+
+        return m_LFOs[idx]->getDestination(); 
+    }
+
+    void Synth::setLfoDestination(int idx, Destinations dest) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return;
+
+
+        m_LFOs[idx]->setDestination(dest);
     }
 
     double Synth::tick() {
-        return m_VCO->tick() * m_VCA->tick() * m_LFO->tick();
+        // TODO: This indexing will later be removed and handled by a VCO mixer
+        return m_VCOs[1]->tick() * m_VCA->tick();
     }
 }

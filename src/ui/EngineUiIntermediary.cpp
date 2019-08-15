@@ -36,9 +36,9 @@ namespace ui {
         m_mainWindow->oscillatorWidget->setOscType(engine::WaveTypes::SINE);
         m_mainWindow->vcaWidget->initialize(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
         
-        m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType());
-        m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency());
-        m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination());
+        m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType(1));
+        m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency(1));
+        m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination(1));
 
         m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());
 
@@ -97,14 +97,14 @@ namespace ui {
     }
 
     void EngineUiIntermediary::frequencyChanged(double freq) {
-        m_synth->setOscFrequency(freq);
+        m_synth->setOscFrequency(1, freq);
     }
 
     void EngineUiIntermediary::phaseChanged(double phase) {
     }
 
     void EngineUiIntermediary::waveformChanged(int index) {
-        m_synth->setOscType((engine::WaveTypes)index);
+        m_synth->setOscType(1, (engine::WaveTypes)index);
     }
 
     void EngineUiIntermediary::attackTimeChanged(int value) {
@@ -124,15 +124,15 @@ namespace ui {
     }
 
     void EngineUiIntermediary::lfoOscTypeChanged(int index) {
-        m_synth->setLfoOscType((engine::WaveTypes)index);
+        m_synth->setLfoOscType(1, (engine::WaveTypes)index);
     }
 
     void EngineUiIntermediary::lfoFreqChanged(double freq) {
-        m_synth->setLfoFrequency(freq);
+        m_synth->setLfoFrequency(1, freq);
     }
 
     void EngineUiIntermediary::lfoDestinationChanged(int index) {
-        m_synth->setLfoDestination((engine::Destinations)index);
+        m_synth->setLfoDestination(1, (engine::Destinations)index);
     }
 
     void EngineUiIntermediary::sampleRateChanged(int rate) {

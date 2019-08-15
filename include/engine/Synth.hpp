@@ -3,6 +3,8 @@
 
 // This will eventually be a subtractive synth (haven't read that section of the book yet...)
 #include <memory>
+#include <map>
+
 #include "engine/VCO.hpp"
 #include "engine/LFO.hpp"
 #include "engine/VCA.hpp"
@@ -13,8 +15,8 @@ namespace engine {
             Synth();
             ~Synth();
 
-            void setOscFrequency(double freq);
-            void setOscType(WaveTypes type);
+            void setOscFrequency(int idx, double freq);
+            void setOscType(int idx, WaveTypes type);
 
             float getAttack();
             void setAttack(float t);
@@ -28,14 +30,14 @@ namespace engine {
             float getRelease();
             void setRelease(float t);
 
-            WaveTypes getLfoOscType() { return m_LFO->getWaveType(); }
-            void setLfoOscType(WaveTypes type);
+            WaveTypes getLfoOscType(int idx);
+            void setLfoOscType(int idx, WaveTypes type);
 
-            float getLfoFrequency() { return m_LFO->getFrequency(); };
-            void setLfoFrequency(double freq);
+            float getLfoFrequency(int idx);
+            void setLfoFrequency(int idx, double freq);
 
-            Destinations getLfoDestination() { return m_LFO->getDestination(); }
-            void setLfoDestination(Destinations dest);
+            Destinations getLfoDestination(int idx);
+            void setLfoDestination(int idx, Destinations dest);
 
             bool legatoPlay();
 
@@ -45,8 +47,8 @@ namespace engine {
             double tick();
 
         private:
-            std::unique_ptr<VCO> m_VCO;
-            std::unique_ptr<LFO> m_LFO;
+            std::map<int, std::unique_ptr<VCO>> m_VCOs;
+            std::map<int, std::unique_ptr<LFO>> m_LFOs;
             std::unique_ptr<VCA> m_VCA;
     };
 }
