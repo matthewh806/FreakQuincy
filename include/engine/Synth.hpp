@@ -5,7 +5,7 @@
 #include <memory>
 #include "engine/VCO.hpp"
 #include "engine/LFO.hpp"
-#include "engine/ADSR.hpp"
+#include "engine/VCA.hpp"
 
 namespace engine {
     class Synth {
@@ -47,7 +47,7 @@ namespace engine {
         private:
             std::unique_ptr<VCO> m_VCO;
             std::unique_ptr<LFO> m_LFO;
-            std::unique_ptr<ADSR> m_adsr;
+            std::unique_ptr<VCA> m_VCA;
     };
 }
 

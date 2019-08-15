@@ -15,7 +15,7 @@ namespace engine {
     }
 
     double Oscillator::tick() {
-        m_waveForm->getOutput();
+        return m_waveForm->getOutput();
     }
 
 }

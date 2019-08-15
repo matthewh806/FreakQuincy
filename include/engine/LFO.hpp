@@ -7,8 +7,10 @@
 namespace engine {
     enum class Destinations {
         PITCH,
-        VOLUME,
-        NOT_SET
+        AMP,
+        FILTER,
+        RESONANCE,
+        NONE
     };
 
     // TODO: This should inherit from something else maybe? Modulator?
@@ -34,7 +36,7 @@ namespace engine {
             double m_state; // between 0 and 1
             bool m_free;
 
-            Destinations m_destination = Destinations::NOT_SET;
+            Destinations m_destination = Destinations::NONE;
     };
 }
 

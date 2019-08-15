@@ -6,10 +6,9 @@ namespace engine {
     Synth::Synth() {
         m_VCO = std::unique_ptr<VCO>(new VCO());
         m_LFO = std::unique_ptr<LFO>(new LFO());
-        // TODO: better way of handling defaults than this.
-        m_adsr = std::unique_ptr<ADSR>(new ADSR(1, 0.2, 0.1, 0.2));
+        m_VCA = std::unique_ptr<VCA>(new VCA());
 
-        m_LFO->setDestination(Destinations::VOLUME);
+        m_LFO->setDestination(Destinations::AMP);
         m_LFO->setFrequency(20);
         m_LFO->setWaveType(WaveTypes::SINE);
     }
@@ -26,14 +25,15 @@ namespace engine {
         bool legato = legatoPlay() && legatoEvent;
 
         m_VCO->notePressed(freq, legato);
-        m_adsr->notePressed(freq, legato);
+        m_LFO->notePressed(freq, legato);
+        m_VCA->notePressed(freq, legato);
     }
 
     void Synth::noteOff(bool legatoEvent) {
         bool legato = legatoPlay() && legatoEvent;
 
         m_VCO->noteReleased(legato);
-        m_adsr->noteReleased(legato);
+        m_VCA->noteReleased(legato);
         m_LFO->noteReleased(legato);
     }
 
@@ -46,35 +46,35 @@ namespace engine {
     }
 
     float Synth::getAttack() {
-        return m_adsr->getAttackTime();
+        return m_VCA->getEnvelope()->getAttackTime();
     }
 
     void Synth::setAttack(float t) {
-        m_adsr->setAttackTime(t);
+        m_VCA->getEnvelope()->setAttackTime(t);
     }
 
     float Synth::getDecay() {
-        return m_adsr->getDecayTime();
+        return m_VCA->getEnvelope()->getDecayTime();
     }
 
     void Synth::setDecay(float t) {
-        m_adsr->setDecayTime(t);
+        m_VCA->getEnvelope()->setDecayTime(t);
     }
 
     float Synth::getSustain() {
-        return m_adsr->getSustainLevel();
+        return m_VCA->getEnvelope()->getSustainLevel();
     }
 
     void Synth::setSustain(float t) {
-        m_adsr->setSustainLevel(t);
+        m_VCA->getEnvelope()->setSustainLevel(t);
     }
 
     float Synth::getRelease() {
-        return m_adsr->getReleaseTime();
+        return m_VCA->getEnvelope()->getReleaseTime();
     }
 
     void Synth::setRelease(float t) {
-        m_adsr->setReleaseTime(t);
+        m_VCA->getEnvelope()->setReleaseTime(t);
     }
 
     void Synth::setLfoOscType(WaveTypes type) {
@@ -90,6 +90,6 @@ namespace engine {
     }
 
     double Synth::tick() {
-        return m_VCO->tick() * m_adsr->tick() * m_LFO->tick();
+        return m_VCO->tick() * m_VCA->tick() * m_LFO->tick();
     }
 }

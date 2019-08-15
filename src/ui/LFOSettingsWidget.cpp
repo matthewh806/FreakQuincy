@@ -1,5 +1,4 @@
 #include <QLabel>
-
 #include "ui/LFOSettingsWidget.hpp"
 
 namespace ui {
@@ -26,7 +25,7 @@ namespace ui {
             case engine::Destinations::PITCH:
                 pitchDestButton->toggle();
                 break;
-            case engine::Destinations::VOLUME:
+            case engine::Destinations::AMP:
                 volDestButton->toggle();
                 break;
             default:
@@ -47,7 +46,7 @@ namespace ui {
             this, [=](bool checked) { 
                 if(!checked)
                     return;
-                this->emit setDestination(engine::Destinations::VOLUME);
+                this->emit setDestination(engine::Destinations::AMP);
             }
         );
 

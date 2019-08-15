@@ -11,7 +11,7 @@ namespace engine {
             Oscillator();
             ~Oscillator();
 
-            virtual void notePressed(float freq, bool legato);
+            virtual void notePressed(float freq, bool legato) override;
             virtual double tick() override;
             
             float getFrequency() { return m_waveForm->getFrequency(); }
