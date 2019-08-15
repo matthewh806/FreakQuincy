@@ -6,7 +6,7 @@
 
 #include "ui/QFoldableWidget.hpp"
 #include "ui/OscillatorWidget.hpp"
-#include "ui/ADSRSettingsWidget.hpp"
+#include "ui/VCAWidget.hpp"
 #include "ui/LFOSettingsWidget.hpp"
 #include "ui/OutputPlotsWidget.hpp"
 #include "ui/GeneralSettingsWidget.hpp"
@@ -25,7 +25,7 @@ namespace ui {
 
         // TODO: Find a way to not have these be public...
         OscillatorWidget *oscillatorWidget;
-        ADSRSettingsWidget *adsrWidget;
+        VCAWidget *vcaWidget;
         LFOSettingsWidget *lfoWidget;
         OutputPlotsWidget *outputPlotsWidget;
         MasterSettingsWidget *masterSettingsWidget;

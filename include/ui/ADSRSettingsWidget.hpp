@@ -1,17 +1,16 @@
 #ifndef ADSRSETTINGSWINDOW_hpp
 #define ADSRSETTINGSWINDOW_hpp
 
+#include <QGroupBox>
 #include <QSlider>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
 
-#include "ui/QFoldableWidget.hpp"
-
 namespace ui {
     // TODO: Make a custom slider to allow for non linear scaling
 
-    class ADSRSettingsWidget : public QFoldableWidget {
+    class ADSRSettingsWidget : public QGroupBox {
         Q_OBJECT
 
         public: 
@@ -49,10 +48,7 @@ namespace ui {
             void setup();
 
             QHBoxLayout *hBox;
-            QSlider *attackSlider;
-            QSlider *decaySlider;
-            QSlider *sustainSlider;
-            QSlider *releaseSlider;
+            QSlider *attackSlider, *decaySlider, *sustainSlider, *releaseSlider;
     };
 }
 

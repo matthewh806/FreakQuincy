@@ -74,7 +74,7 @@ namespace ui {
         hBox->addLayout(sustainVBox);
         hBox->addLayout(releaseVBox);
 
-        this->contentFrame()->setLayout(hBox);
+        this->setLayout(hBox);
     }
 
     void ADSRSettingsWidget::attackSliderValueChanged(int value) {

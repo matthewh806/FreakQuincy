@@ -40,20 +40,20 @@ namespace ui {
         gridLayout = new QGridLayout(this);
 
         oscillatorWidget = new OscillatorWidget();
-        adsrWidget = new ADSRSettingsWidget();
+        vcaWidget = new VCAWidget();
         lfoWidget = new LFOSettingsWidget();
         outputPlotsWidget = new OutputPlotsWidget();
         settingsWidget = new GeneralSettingsWidget();
         masterSettingsWidget = new MasterSettingsWidget();
 
         connect(oscillatorWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
-        connect(adsrWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
+        connect(vcaWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(lfoWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(settingsWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
         connect(masterSettingsWidget, SIGNAL(widgetFolded(QFoldableWidget *)), this, SLOT(onWidgetFolded(QFoldableWidget *)));
 
         gridLayout->addWidget(oscillatorWidget, 0, 0);
-        gridLayout->addWidget(adsrWidget, 0, 1);
+        gridLayout->addWidget(vcaWidget, 0, 1);
         gridLayout->addWidget(lfoWidget, 1, 0);
         gridLayout->addWidget(masterSettingsWidget, 2, 0);
         gridLayout->addWidget(settingsWidget, 2, 1);

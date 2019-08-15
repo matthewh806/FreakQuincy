@@ -19,10 +19,10 @@ namespace ui {
 
         connect(m_mainWindow->oscillatorWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(waveformChanged(int)));
         
-        connect(m_mainWindow->adsrWidget, SIGNAL(attackValueChanged(int)), this, SLOT(attackTimeChanged(int)));
-        connect(m_mainWindow->adsrWidget, SIGNAL(decayValueChanged(int)), this, SLOT(decayTimeChanged(int)));
-        connect(m_mainWindow->adsrWidget, SIGNAL(sustainValueChanged(int)), this, SLOT(sustainLevelChanged(int)));
-        connect(m_mainWindow->adsrWidget, SIGNAL(releaseValueChanged(int)), this, SLOT(releaseTimeChanged(int)));
+        connect(m_mainWindow->vcaWidget, SIGNAL(ampAttackValChanged(int)), this, SLOT(attackTimeChanged(int)));
+        connect(m_mainWindow->vcaWidget, SIGNAL(ampDecayValChanged(int)), this, SLOT(decayTimeChanged(int)));
+        connect(m_mainWindow->vcaWidget, SIGNAL(ampSustainValChanged(int)), this, SLOT(sustainLevelChanged(int)));
+        connect(m_mainWindow->vcaWidget, SIGNAL(ampReleaseValChanged(int)), this, SLOT(releaseTimeChanged(int)));
         
         connect(m_mainWindow->lfoWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(lfoOscTypeChanged(int)));
         connect(m_mainWindow->lfoWidget, SIGNAL(frequencyChanged(double)), this, SLOT(lfoFreqChanged(double)));
@@ -34,7 +34,7 @@ namespace ui {
         connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
 
         m_mainWindow->oscillatorWidget->setOscType(engine::WaveTypes::SINE);
-        m_mainWindow->adsrWidget->setValues(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
+        m_mainWindow->vcaWidget->initialize(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
         
         m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType());
         m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency());
