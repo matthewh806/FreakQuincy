@@ -40,6 +40,8 @@ namespace ui {
         m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency());
         m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination());
 
+        m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());
+
         m_mainWindow->resize(1024, 900);
         m_mainWindow->setWindowTitle("FreakQuency");
         m_mainWindow->show();
@@ -59,6 +61,10 @@ namespace ui {
         connect(m_mainWindow, &MainWindow::keyReleasedEvent, this, [=](QKeyEvent *event) {
             this->m_midiEngine->computerKeyReleased(event);
         });
+
+        connect(m_mainWindow->settingsWidget, &GeneralSettingsWidget::midiInputChanged, 
+            this, [=](int idx) { this->m_midiEngine->setMidiInputDevice(idx); }
+        );
     }
 
     EngineUiIntermediary::~EngineUiIntermediary() {

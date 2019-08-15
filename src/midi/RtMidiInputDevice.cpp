@@ -14,6 +14,20 @@ namespace midi {
         delete midiIn;
     }
 
+    int RtMidiInputDevice::getDeviceId() {
+        if(midiIn->isPortOpen())
+            return 1;
+
+        return -1;
+    }
+
+    std::string RtMidiInputDevice::getDeviceName() {
+        if(midiIn->isPortOpen())
+            return midiIn->getPortName();
+            
+        return "";
+    }
+
     void RtMidiInputDevice::setup() {
         try {
             midiIn = new RtMidiIn(RtMidi::MACOSX_CORE);

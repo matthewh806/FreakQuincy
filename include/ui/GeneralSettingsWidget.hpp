@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QSpinBox>
 #include <QCheckBox>
+#include <QComboBox>
 
 #include <ui/QFoldableWidget.hpp>
 
@@ -15,9 +16,12 @@ namespace ui {
             GeneralSettingsWidget(QWidget *parent = nullptr);
             ~GeneralSettingsWidget();
 
+            void initializeMidiInOptions(std::map<int, std::string> midiInputOptions);
+
         signals:
             void sampleRateChanged(int);
             void legatoToggled(bool);
+            void midiInputChanged(int);
 
         private slots:
             void sampleRateSpinBoxValChanged(int);
@@ -28,6 +32,7 @@ namespace ui {
 
             QVBoxLayout *vBox;
             QSpinBox *sampleRateSpinBox;
+            QComboBox *midiInputComboBox;
             QCheckBox *legatoCheckBox;
     };
 }

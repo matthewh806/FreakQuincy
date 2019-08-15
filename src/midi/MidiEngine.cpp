@@ -21,6 +21,13 @@ namespace midi {
         }
     }
 
+    void MidiEngine::setMidiInputDevice(int idx) {
+        if( inputDevices.find(idx) == inputDevices.end())
+            return;
+
+        curInputDevice = inputDevices[idx];
+    }
+
     void MidiEngine::computerKeyPressed(QKeyEvent *event) {
         // TODO: Not very nice or object oriented.
         ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
@@ -66,16 +73,26 @@ namespace midi {
         return midiNoteToFreq(heldNotes.back());
     }
 
+    std::map<int, std::string> MidiEngine::getMidiInputDevices() { 
+        std::map<int, std::string> m;
+
+        for(auto const& x : inputDevices) {
+            m.insert(std::pair<int, std::string>(x.first, x.second->getDeviceName()));
+        }
+
+        return m;
+    }
+
     void MidiEngine::setupMidi() {
         heldNotes.reserve(128);
 
-        RtMidiInputDevice* rtMidi = new RtMidiInputDevice();
         ComputerKeyboardInputDevice* computerMidi = new ComputerKeyboardInputDevice();
+        RtMidiInputDevice* rtMidi = new RtMidiInputDevice(); // Handle more devices ?
 
-        inputDevices.push_back(rtMidi);
-        inputDevices.push_back(computerMidi);
+        inputDevices.insert(std::pair<int, MidiInputDevice*>(0, computerMidi)); // Let this be the default
+        inputDevices.insert(std::pair<int, MidiInputDevice*>(1, rtMidi));
 
-        this->setMidiInputDevice(inputDevices[1]);
+        this->setMidiInputDevice(computerMidi);
     }
 
     void MidiEngine::notePressed(uint8_t note, int channel) {
@@ -97,7 +114,5 @@ namespace midi {
 
     void MidiEngine::registerMessageCallback(const std::function<void(MidiMessage)> &cb) {
         messageCallbacks.push_back(cb);
-
-        std::cout << "Vector size: "  << messageCallbacks.size() << std::endl;
     }
 }

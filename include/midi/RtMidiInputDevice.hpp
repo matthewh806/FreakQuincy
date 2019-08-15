@@ -10,6 +10,9 @@ namespace midi {
             RtMidiInputDevice();
             ~RtMidiInputDevice();
 
+            int getDeviceId() override;
+            std::string getDeviceName() override;
+
         private:
             RtMidiIn *midiIn = NULL;
             void setup() override;

@@ -15,6 +15,12 @@ namespace ui {
 
     }
 
+    void GeneralSettingsWidget::initializeMidiInOptions(std::map<int, std::string> midiInputOptions) {
+        for(auto const& x : midiInputOptions) {
+            midiInputComboBox->insertItem(x.first, QString::fromStdString(x.second));
+        }
+    }
+
     void GeneralSettingsWidget::sampleRateSpinBoxValChanged(int rate) {
         emit sampleRateChanged(rate);
     }
@@ -25,7 +31,6 @@ namespace ui {
 
     void GeneralSettingsWidget::setup() {
         QLabel *sampleRateLabel = new QLabel(tr("Sample Rate"));
-
         sampleRateSpinBox = new QSpinBox;
         sampleRateSpinBox->setRange(1000, 44100);
         sampleRateSpinBox->setSingleStep(1000);
@@ -35,11 +40,18 @@ namespace ui {
         legatoCheckBox = new QCheckBox(tr("Legato"), this);
         connect(legatoCheckBox, SIGNAL(stateChanged(int)), this, SLOT(legatoCheckBoxStateChanged(int)));
         legatoCheckBox->setChecked(engine::AudioSettings::isLegatoEnabled());
+        
+        QLabel *midiInputLabel = new QLabel(tr("Midi Input device"));
+        midiInputComboBox = new QComboBox;
+        connect(midiInputComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), 
+            [=](int val) { this->emit midiInputChanged(val); });
 
         vBox = new QVBoxLayout;
         vBox->addWidget(sampleRateLabel);
         vBox->addWidget(sampleRateSpinBox);
         vBox->addWidget(legatoCheckBox);
+        vBox->addWidget(midiInputLabel);
+        vBox->addWidget(midiInputComboBox);
 
         this->contentFrame()->setLayout(vBox);
     }

@@ -27,7 +27,10 @@ namespace midi {
             MidiInputDevice();
             ~MidiInputDevice();
 
-            InputQueue msgQueue; 
+            virtual int getDeviceId() { return -1; };
+            virtual std::string getDeviceName() { return ""; };
+
+            InputQueue msgQueue;
         protected:
             void onMessage(MidiMessage msg);
             virtual void setup() = 0;

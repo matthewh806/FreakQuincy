@@ -2,6 +2,7 @@
 #define MIDIENGINE_HPP
 
 #include <vector>
+#include <map>
 // TODO: Wrap in custom event class to avoid this here
 #include <QKeyEvent>
 #include "dep/RtMidi.h"
@@ -21,7 +22,11 @@ namespace midi {
 
             void computerKeyPressed(QKeyEvent *event);
             void computerKeyReleased(QKeyEvent *event);
+
+            std::map<int, std::string> getMidiInputDevices();
             
+            void setMidiInputDevice(int idx);
+
             void setMidiInputDevice(MidiInputDevice* input) { curInputDevice = input; }
             MidiInputDevice* getMidiInputDevice() { return curInputDevice; }
 
@@ -30,7 +35,7 @@ namespace midi {
             float getLastNote();
 
         private:
-            std::vector<MidiInputDevice*> inputDevices;
+            std::map<int, MidiInputDevice*> inputDevices;
             MidiInputDevice* curInputDevice = NULL;
 
             std::function<void(MidiMessage)> messageCallback = NULL;

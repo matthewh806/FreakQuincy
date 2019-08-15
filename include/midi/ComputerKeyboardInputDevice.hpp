@@ -15,6 +15,8 @@ namespace midi {
             void keyPressed(int key);
             void keyReleased(int key);
 
+            std::string getDeviceName() override { return "ComputerKeyboard"; };
+
         private:
             const std::map<int, int> keyToNoteMap = {
                 {Qt::Key_Q, 60},
