@@ -144,6 +144,11 @@ namespace engine {
     }
 
     double Synth::tick() {
+        // Tick LFOs first so we can use the last value in the modules
+        for(const auto& kv : m_VCOs) {
+            kv.second->tick();
+        }
+
         // TODO: This indexing will later be removed and handled by a VCO mixer
         return m_VCOs[1]->tick() * m_VCA->tick();
     }

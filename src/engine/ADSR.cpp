@@ -100,7 +100,10 @@ namespace engine {
 
         double gamma = m_state / m_stageTimes[m_stage];
         m_curParamVal = (1-gamma) * m_prevParamVal + gamma * m_paramValues[m_stage];
-        return m_curParamVal;
+        
+        m_lastOut = m_curParamVal * m_depth;
+
+        return m_lastOut;
     }
 
     std::ostream& operator<<(std::ostream& out, const ADSR& adsr) {

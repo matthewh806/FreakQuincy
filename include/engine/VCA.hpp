@@ -1,11 +1,12 @@
 #ifndef VCA_HPP
 #define VCA_HPP
 
-#include "engine/Module.hpp"
+#include "engine/ModuleBase.hpp"
+#include "engine/Modulatable.hpp"
 #include "engine/ADSR.hpp"
 
 namespace engine {
-    class VCA : public Module {
+    class VCA : public ModuleBase, public Modulatable {
         public:
             VCA();
             ~VCA();

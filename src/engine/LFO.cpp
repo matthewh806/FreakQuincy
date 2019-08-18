@@ -10,6 +10,12 @@ namespace engine {
     
     LFO::~LFO() {}
 
+    double LFO::tick() {
+        m_lastOut = m_waveForm->getOutput() * m_depth;
+
+        return m_lastOut;
+    }
+
     void LFO::notePressed(float freq, bool legato) {
         if(!free && !legato)
             m_state = 0.0;

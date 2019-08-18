@@ -2,10 +2,10 @@
 #define ADSR_HPP
 
 #include <vector>
-#include "engine/Module.hpp"
+#include "engine/Modulator.hpp"
 
 namespace engine {
-    class ADSR : public Module {
+    class ADSR : public Modulator {
         enum STAGE {
             ATTACK,
             DECAY,
