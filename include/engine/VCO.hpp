@@ -10,8 +10,8 @@ namespace engine {
 
     class VCO : public Oscillator, public ModuleBase, public Modulatable {
         public:
-            VCO();
-            ~VCO();
+            VCO(WaveTypes wType, double freq) : Oscillator(wType, freq) {}
+            ~VCO() {};
 
             void notePressed(float freq, bool legato) override { m_waveForm->setFrequency(freq); };
             double tick() override;

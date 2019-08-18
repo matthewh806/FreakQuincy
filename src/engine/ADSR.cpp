@@ -4,7 +4,7 @@
 
 namespace engine {
 
-    ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime) {
+    ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime, double depth, bool bypass) : Modulator(depth, bypass) {
         m_stageTimes = std::vector<float> { 
             attackTime, 
             decayTime, 

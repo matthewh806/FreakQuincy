@@ -2,20 +2,12 @@
 #include "engine/VCO.hpp"
 
 namespace engine {
-    
-    VCO::VCO() {
-        
-    }
-
-    VCO::~VCO() {}
-
     double VCO::tick() {
-        double modVal = 1.0;
+        float freqModVal = 0.0;
 
-        for(const auto& m : m_modulators) {
-            modVal *= m->getLastOut();
-        }
+        for(const auto& m : m_modulators)
+            freqModVal += m->getLastOut();
 
-        return m_waveForm->getOutput() * modVal;
+        return m_waveForm->getOutput(freqModVal);
     }
 }

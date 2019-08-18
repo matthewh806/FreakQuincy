@@ -9,7 +9,7 @@ namespace engine {
     class LFO : public Oscillator, public Modulator {
 
         public: 
-            LFO();
+            LFO(WaveTypes type, double freq, double depth, bool bypass);
             ~LFO();
 
             double tick() override;

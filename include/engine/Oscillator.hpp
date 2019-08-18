@@ -10,6 +10,8 @@ namespace engine {
             Oscillator();
             ~Oscillator();
 
+            Oscillator(WaveTypes type, float freq);
+
             float getFrequency() { return m_waveForm->getFrequency(); }
             virtual void setFrequency(float freq) { m_waveForm->setFrequency(freq); }
             

@@ -7,14 +7,12 @@ namespace engine {
 
         // Modules
 
-        m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(1, std::unique_ptr<VCO>(new VCO())));
+        m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(1, std::unique_ptr<VCO>(new VCO(WaveTypes::SINE, 220))));
         m_VCA = std::unique_ptr<VCA>(new VCA());
 
         // Modulators
-        m_LFOs.insert(std::pair<int, std::unique_ptr<LFO>>(1, std::unique_ptr<LFO>(new LFO())));
-        m_LFOs[1]->setDestination(Destinations::AMP);
-        m_LFOs[1]->setFrequency(20);
-        m_LFOs[1]->setWaveType(WaveTypes::SINE);
+        m_LFOs.insert(std::pair<int, std::unique_ptr<LFO>>(1, std::unique_ptr<LFO>(new LFO(WaveTypes::SINE, 1.0, 1.0, false))));
+        m_VCOs[1]->attachModulator(m_LFOs[1].get());
     }
 
     Synth::~Synth() {
@@ -128,6 +126,34 @@ namespace engine {
         m_LFOs[idx]->setFrequency((float)freq);
     }
 
+    float Synth::getLfoDepth(int idx) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return 0.0;
+
+        m_LFOs[idx]->getModulationDepth();
+    }
+
+    void Synth::setLfoDepth(int idx, double depth) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return;
+
+        m_LFOs[idx]->setModulationDepth(depth);
+    }
+
+    bool Synth::getLfoBypassState(int idx) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return false;
+
+        m_LFOs[idx]->bypass();
+    }
+
+    void Synth::setLfoBypass(int idx, bool bypass) {
+        if( m_LFOs.find(idx) == m_LFOs.end())
+            return;
+
+        m_LFOs[idx]->setBypass(bypass);
+    }
+
     Destinations Synth::getLfoDestination(int idx) { 
         if( m_LFOs.find(idx) == m_LFOs.end())
             return Destinations::NONE;
@@ -145,7 +171,7 @@ namespace engine {
 
     double Synth::tick() {
         // Tick LFOs first so we can use the last value in the modules
-        for(const auto& kv : m_VCOs) {
+        for(const auto& kv : m_LFOs) {
             kv.second->tick();
         }
 

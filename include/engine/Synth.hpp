@@ -36,6 +36,12 @@ namespace engine {
             float getLfoFrequency(int idx);
             void setLfoFrequency(int idx, double freq);
 
+            float getLfoDepth(int idx);
+            void setLfoDepth(int idx, double depth);
+
+            bool getLfoBypassState(int idx);
+            void setLfoBypass(int idx, bool bypass);
+
             Destinations getLfoDestination(int idx);
             void setLfoDestination(int idx, Destinations dest);
 

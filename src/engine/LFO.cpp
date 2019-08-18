@@ -1,8 +1,10 @@
+#include <iostream>
+
 #include "engine/LFO.hpp"
 #include "engine/AudioSettings.hpp"
 
 namespace engine {
-    LFO::LFO() {
+    LFO::LFO(WaveTypes type, double freq, double depth, bool bypass) : Oscillator(type, freq), Modulator(depth, bypass) {
         m_rate = 1.0 / AudioSettings::getSampleRate();
         m_state = 0.0;
         m_free = true;
@@ -12,7 +14,6 @@ namespace engine {
 
     double LFO::tick() {
         m_lastOut = m_waveForm->getOutput() * m_depth;
-
         return m_lastOut;
     }
 

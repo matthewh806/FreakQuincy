@@ -5,7 +5,7 @@ namespace engine {
     void Modulatable::attachModulator(Modulator *modulator) {
         auto it = std::find(m_modulators.begin(), m_modulators.end(), modulator);
 
-        if(it != m_modulators.end())
+        if(it == m_modulators.end())
             m_modulators.push_back(modulator);
     }
 

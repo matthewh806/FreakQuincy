@@ -21,7 +21,7 @@ namespace engine {
         WaveTypes getWaveType() const;
         void setWaveType(WaveTypes w_type);
 
-        double getOutput();
+        double getOutput(float freqOffset = 0);
 
         float getFrequency() { return m_freq; }
         void setFrequency(float freq);

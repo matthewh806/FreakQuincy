@@ -39,8 +39,8 @@ namespace engine {
         this->m_freq = freq;
     }
 
-    double WaveForm::getOutput() {
-        increment = (AudioSettings::getbufferSize() * m_freq) / AudioSettings::getSampleRate();
+    double WaveForm::getOutput(float freqOffset) {
+        increment = (AudioSettings::getbufferSize() * (m_freq + freqOffset)) / AudioSettings::getSampleRate();
         
         int index0 = (int)phase;
         int index1 = (index0 == AudioSettings::getbufferSize() - 1) ? 0 : index0 + 1;
