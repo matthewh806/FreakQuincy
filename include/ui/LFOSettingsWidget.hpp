@@ -2,8 +2,11 @@
 #define LFOSETTINGSWIDGET_HPP
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QRadioButton>
 #include <QDoubleSpinBox>
+#include <QCheckBox>
+#include <QDial>
 
 #include "ui/QFoldableWidget.hpp"
 #include "ui/WaveformSelectorWidget.hpp"
@@ -22,19 +25,24 @@ namespace ui {
             // void setFree(bool free);
             void setFrequency(float freq);
             void setDestination(engine::Destinations dest);
+            void setBypassState(bool bypass);
+            void setModDepth(int depth);
             
             signals:
                 void oscTypeChanged(int);
                 void frequencyChanged(double);
                 void destinationChanged(int);
+                void bypassToggled(int);
+                void depthSliderValueChanged(int);
 
             private:
                 void setup();
 
                 QVBoxLayout *vBox;
                 WaveformSelectorWidget *waveformSelector;
-                QRadioButton *volDestButton, *pitchDestButton;
                 QDoubleSpinBox *frequencySpinBox;
+                QCheckBox *bypassCheckBox;
+                QDial *depthDial;
 
     };
 }

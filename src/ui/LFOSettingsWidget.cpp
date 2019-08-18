@@ -20,17 +20,25 @@ namespace ui {
         frequencySpinBox->setValue((double)freq);
     }
 
+    void LFOSettingsWidget::setBypassState(bool bypass) {
+        bypassCheckBox->setChecked(bypass);
+    }
+
+    void LFOSettingsWidget::setModDepth(int depth) {
+        depthDial->setValue(depth);
+    }
+
     void LFOSettingsWidget::setDestination(engine::Destinations dest) {
-        switch(dest) {
-            case engine::Destinations::PITCH:
-                pitchDestButton->toggle();
-                break;
-            case engine::Destinations::AMP:
-                volDestButton->toggle();
-                break;
-            default:
-                break;
-        }
+        // switch(dest) {
+        //     case engine::Destinations::PITCH:
+        //         pitchDestButton->toggle();
+        //         break;
+        //     case engine::Destinations::AMP:
+        //         volDestButton->toggle();
+        //         break;
+        //     default:
+        //         break;
+        // }
     }
 
     void LFOSettingsWidget::setup() {
@@ -38,26 +46,6 @@ namespace ui {
         connect(
             waveformSelector, &WaveformSelectorWidget::oscTypeToggled, 
             this, [=](int type) { this->emit oscTypeChanged(type); }
-        );
-
-        volDestButton = new QRadioButton(tr("volume"));
-        connect(
-            volDestButton, &QRadioButton::toggled, 
-            this, [=](bool checked) { 
-                if(!checked)
-                    return;
-                this->emit setDestination(engine::Destinations::AMP);
-            }
-        );
-
-        pitchDestButton = new QRadioButton(tr("pitch"));
-        connect(
-            pitchDestButton, &QRadioButton::toggled, 
-            this, [=](bool checked) {
-                if(!checked)
-                    return;
-                this->emit setDestination(engine::Destinations::PITCH);
-            }
         );
 
         QLabel *frequencyLabel = new QLabel(tr("Frequency"));
@@ -74,13 +62,39 @@ namespace ui {
         );
         frequencySpinBox->setValue(0.0);
 
+        bypassCheckBox = new QCheckBox(tr("Bypass"), this);
+        connect(bypassCheckBox, &QCheckBox::stateChanged, this, 
+            [=](int val) { this->emit bypassToggled(val);
+        });
+        
+        QLabel *depthLabel = new QLabel(tr("Depth"));
+        depthLabel->setAlignment(Qt::AlignHCenter);
+        depthDial = new QDial();
+        depthDial->setMinimum(0);
+        depthDial->setMaximum(100);
+        depthDial->setSingleStep(5);
+        connect(depthDial, &QDial::valueChanged, this, 
+            [=](int val) { this->emit depthSliderValueChanged(val);
+        });
+        
+        QWidget *dialLabelWidget = new QWidget;
+        QVBoxLayout *dialLayoutBox = new QVBoxLayout;
+        dialLayoutBox->addWidget(depthDial);
+        dialLayoutBox->addWidget(depthLabel);
+        dialLabelWidget->setLayout(dialLayoutBox);
+
+        QWidget *rhsWidget = new QWidget;
         vBox = new QVBoxLayout;
-        vBox->addWidget(waveformSelector);
-        vBox->addWidget(volDestButton);
-        vBox->addWidget(pitchDestButton);
         vBox->addWidget(frequencyLabel);
         vBox->addWidget(frequencySpinBox);
+        vBox->addWidget(dialLabelWidget);
+        vBox->addWidget(bypassCheckBox);
+        rhsWidget->setLayout(vBox);
+
+        QHBoxLayout *hBoxLayout = new QHBoxLayout;
+        hBoxLayout->addWidget(waveformSelector);
+        hBoxLayout->addWidget(rhsWidget);
         
-        this->contentFrame()->setLayout(vBox);
+        this->contentFrame()->setLayout(hBoxLayout);
     }
 }

@@ -27,6 +27,14 @@ namespace ui {
         connect(m_mainWindow->lfoWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(lfoOscTypeChanged(int)));
         connect(m_mainWindow->lfoWidget, SIGNAL(frequencyChanged(double)), this, SLOT(lfoFreqChanged(double)));
         connect(m_mainWindow->lfoWidget, SIGNAL(destinationChanged(int)), this, SLOT(lfoDestinationChanged(int)));
+        connect(m_mainWindow->lfoWidget, &LFOSettingsWidget::bypassToggled, this, 
+            [=](bool bypass) { 
+                m_synth->setLfoBypass(1, bypass);
+        });
+        connect(m_mainWindow->lfoWidget, &LFOSettingsWidget::depthSliderValueChanged, this,
+            [=](int val) {
+                m_synth->setLfoDepth(1, (val / 100.0));
+        });
 
         connect(m_mainWindow->settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(sampleRateChanged(int)));
         connect(m_mainWindow->settingsWidget, SIGNAL(legatoToggled(bool)), this, SLOT(legatoToggled(bool)));
@@ -39,6 +47,8 @@ namespace ui {
         m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType(1));
         m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency(1));
         m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination(1));
+        m_mainWindow->lfoWidget->setBypassState(m_synth->getLfoBypassState(1));
+        m_mainWindow->lfoWidget->setModDepth((int)(m_synth->getLfoDepth(1) * 100));
 
         m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());
 

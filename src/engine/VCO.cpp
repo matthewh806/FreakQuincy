@@ -5,8 +5,11 @@ namespace engine {
     double VCO::tick() {
         float freqModVal = 0.0;
 
-        for(const auto& m : m_modulators)
+        for(const auto& m : m_modulators) {
+            if(m->bypass()) continue;
+            
             freqModVal += m->getLastOut();
+        }
 
         return m_waveForm->getOutput(freqModVal);
     }
