@@ -6,9 +6,12 @@ namespace engine {
     Synth::Synth() {
 
         // Modules
-
         m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(1, std::unique_ptr<VCO>(new VCO(WaveTypes::SINE, 220))));
+        m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(2, std::unique_ptr<VCO>(new VCO(WaveTypes::SQUARE, 440))));
         m_VCA = std::unique_ptr<VCA>(new VCA());
+        m_mixer = std::unique_ptr<Mixer>(new Mixer());
+
+        m_mixer->addVCO(m_VCOs[1].get(), 1);
 
         // Modulators
         m_LFOs.insert(std::pair<int, std::unique_ptr<LFO>>(1, std::unique_ptr<LFO>(new LFO(WaveTypes::SINE, 1.0, 1.0, false))));
@@ -175,7 +178,12 @@ namespace engine {
             kv.second->tick();
         }
 
+        // Tick VCOs to pass to the mixer.
+        for(const auto& kv : m_VCOs) {
+            kv.second->tick();
+        }
+
         // TODO: This indexing will later be removed and handled by a VCO mixer
-        return m_VCOs[1]->tick() * m_VCA->tick();
+        return m_mixer->tick() * m_VCA->tick();
     }
 }

@@ -13,8 +13,13 @@ namespace engine {
             VCO(WaveTypes wType, double freq) : Oscillator(wType, freq) {}
             ~VCO() {};
 
+            double getLastOut() { return m_lastOut; }
+
             void notePressed(float freq, bool legato) override { m_waveForm->setFrequency(freq); };
             double tick() override;
+        
+        private:
+            double m_lastOut;
     };
 }
 

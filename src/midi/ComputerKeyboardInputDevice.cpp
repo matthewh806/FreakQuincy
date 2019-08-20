@@ -16,8 +16,6 @@ namespace midi {
     void ComputerKeyboardInputDevice::keyPressed(int key) {
         auto it = keyToNoteMap.find(key);
 
-        std::cout << "keyPressed" << key << std::endl;
-
         if(it == keyToNoteMap.end()) {
             return;
         }
@@ -32,8 +30,6 @@ namespace midi {
     
     void ComputerKeyboardInputDevice::keyReleased(int key) {
         auto it = keyToNoteMap.find(key);
-
-        std::cout << "keyReleased" << key << std::endl;
 
         if(it == keyToNoteMap.end())
             return;

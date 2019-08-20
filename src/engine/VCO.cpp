@@ -11,6 +11,8 @@ namespace engine {
             freqModVal += m->getLastOut();
         }
 
-        return m_waveForm->getOutput(freqModVal);
+        m_lastOut = m_waveForm->getOutput(freqModVal);
+
+        return m_lastOut;
     }
 }
