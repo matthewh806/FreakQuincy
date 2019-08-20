@@ -30,7 +30,7 @@ namespace engine {
             };
 
             bool bypass() { return m_bypass; }
-            bool setBypass(bool state) { m_bypass = state; }
+            void setBypass(bool state) { m_bypass = state; }
 
             double getLastOut() { return m_lastOut; }
 

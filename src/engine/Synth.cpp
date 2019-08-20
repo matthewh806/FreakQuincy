@@ -148,7 +148,7 @@ namespace engine {
         if( m_LFOs.find(idx) == m_LFOs.end())
             return 0.0;
 
-        m_LFOs[idx]->getModulationDepth();
+        return m_LFOs[idx]->getModulationDepth();
     }
 
     void Synth::setLfoDepth(int idx, double depth) {
@@ -162,7 +162,7 @@ namespace engine {
         if( m_LFOs.find(idx) == m_LFOs.end())
             return false;
 
-        m_LFOs[idx]->bypass();
+        return m_LFOs[idx]->bypass();
     }
 
     void Synth::setLfoBypass(int idx, bool bypass) {

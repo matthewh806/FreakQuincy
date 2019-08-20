@@ -67,6 +67,8 @@ namespace ui {
         m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency(1));
         m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination(1));
         m_mainWindow->lfoWidget->setBypassState(m_synth->getLfoBypassState(1));
+
+        std::cout << m_synth->getLfoDepth(1) << std::endl;
         m_mainWindow->lfoWidget->setModDepth(m_synth->getLfoDepth(1) * 100);
 
         m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());
