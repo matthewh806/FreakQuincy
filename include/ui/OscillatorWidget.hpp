@@ -2,11 +2,10 @@
 #define OSCILLATORWIDGET_hpp
 
 #include <QVBoxLayout>
-#include <QRadioButton>
-
-#include "ui/WaveformSelectorWidget.hpp"
+#include <QHBoxLayout>
 #include "ui/QFoldableWidget.hpp"
-#include "engine/WaveForm.hpp"
+#include "ui/VCOWidget.hpp"
+#include "ui/MixerWidget.hpp"
 
 namespace ui {
     class OscillatorWidget : public QFoldableWidget {
@@ -16,16 +15,11 @@ namespace ui {
             OscillatorWidget(QWidget *parent = nullptr);
             ~OscillatorWidget();
 
-            void setOscType(engine::WaveTypes type);
-        
-        signals:
-            void oscTypeChanged(int type);            
+            VCOWidget *vco1, *vco2;
+            MixerWidget *mixerWidget;
 
         private:
             void setup();
-
-            QVBoxLayout *vBox;
-            WaveformSelectorWidget *waveformSelector;
     };
 }
 

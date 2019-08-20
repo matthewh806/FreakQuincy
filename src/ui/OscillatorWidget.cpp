@@ -2,8 +2,7 @@
 
 namespace ui {
     OscillatorWidget::OscillatorWidget(QWidget *parent) {
-        setTitle(tr("Oscillator"));
-
+        setTitle(tr("Oscillators"));
         setup();
     }
 
@@ -11,20 +10,22 @@ namespace ui {
 
     }
 
-    void OscillatorWidget::setOscType(engine::WaveTypes type) {
-        waveformSelector->setOscType(type);
-    }
-
     void OscillatorWidget::setup() {
-        waveformSelector = new WaveformSelectorWidget();
+        vco1 = new VCOWidget("vco 1", this);
+        vco2 = new VCOWidget("vco 2", this);
+        mixerWidget = new MixerWidget();
 
-        connect(
-            waveformSelector, &WaveformSelectorWidget::oscTypeToggled, 
-            this, [=](int type) { this->emit oscTypeChanged(type); }
-        );
+        QWidget *vcoWidget = new QWidget;
+        QVBoxLayout *vcoVBox = new QVBoxLayout;
+        vcoVBox->addWidget(vco1);
+        vcoVBox->addWidget(vco2);
+        vcoWidget->setLayout(vcoVBox);
 
-        vBox = new QVBoxLayout;
-        vBox->addWidget(waveformSelector);
-        this->contentFrame()->setLayout(vBox);
+
+        QHBoxLayout *hBox = new QHBoxLayout;
+        hBox->addWidget(vcoWidget);
+        hBox->addWidget(mixerWidget);
+
+        this->contentFrame()->setLayout(hBox);
     }
 }

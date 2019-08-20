@@ -26,11 +26,23 @@ namespace engine {
                 m_vco_weights.erase(vco);
             }
 
+            float getVCOWeight(VCO* vco) {
+                auto it = m_vco_weights.find(vco);
+
+                if(it == m_vco_weights.end()) 
+                    return 0.0;
+
+                return m_vco_weights[vco];
+            }
+
             void changeVCOWeight(VCO* vco, float weight) {
                 auto it = m_vco_weights.find(vco);
 
                 if(it == m_vco_weights.end())
                     return;
+
+                if(weight < 0.0) weight = 0.0;
+                if(weight > 1.0) weight = 1.0;
 
                 m_vco_weights[vco] = weight;
             }

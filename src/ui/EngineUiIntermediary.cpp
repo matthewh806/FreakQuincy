@@ -17,7 +17,20 @@ namespace ui {
 
         m_mainWindow = new MainWindow();
 
-        connect(m_mainWindow->oscillatorWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(waveformChanged(int)));
+        connect(m_mainWindow->oscillatorWidget->vco1, &VCOWidget::oscTypeChanged, this, 
+            [=](int val) {
+                m_synth->setOscType(1, (engine::WaveTypes)val);
+        });
+
+        connect(m_mainWindow->oscillatorWidget->vco2, &VCOWidget::oscTypeChanged, this, 
+            [=](int val) {
+                m_synth->setOscType(2, (engine::WaveTypes)val);
+        });
+
+        connect(m_mainWindow->oscillatorWidget->mixerWidget, &MixerWidget::mixValChanged, this,
+            [=](int id, int val) {
+                m_synth->setVCOMixValue(id, val / 100.0);
+        });
         
         connect(m_mainWindow->vcaWidget, SIGNAL(ampAttackValChanged(int)), this, SLOT(attackTimeChanged(int)));
         connect(m_mainWindow->vcaWidget, SIGNAL(ampDecayValChanged(int)), this, SLOT(decayTimeChanged(int)));
@@ -31,6 +44,7 @@ namespace ui {
             [=](bool bypass) { 
                 m_synth->setLfoBypass(1, bypass);
         });
+
         connect(m_mainWindow->lfoWidget, &LFOSettingsWidget::depthSliderValueChanged, this,
             [=](int val) {
                 m_synth->setLfoDepth(1, (val / 100.0));
@@ -41,14 +55,19 @@ namespace ui {
 
         connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
 
-        m_mainWindow->oscillatorWidget->setOscType(engine::WaveTypes::SINE);
+        m_mainWindow->oscillatorWidget->vco1->setOscType(engine::WaveTypes::SINE);
+        m_mainWindow->oscillatorWidget->vco2->setOscType(engine::WaveTypes::SQUARE);
+
+        m_mainWindow->oscillatorWidget->mixerWidget->setMixValue(1, (m_synth->getVCOMixValue(1) * 100));
+        m_mainWindow->oscillatorWidget->mixerWidget->setMixValue(2, (m_synth->getVCOMixValue(2) * 100));
+
         m_mainWindow->vcaWidget->initialize(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
         
         m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType(1));
         m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency(1));
         m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination(1));
         m_mainWindow->lfoWidget->setBypassState(m_synth->getLfoBypassState(1));
-        m_mainWindow->lfoWidget->setModDepth((int)(m_synth->getLfoDepth(1) * 100));
+        m_mainWindow->lfoWidget->setModDepth(m_synth->getLfoDepth(1) * 100);
 
         m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());
 

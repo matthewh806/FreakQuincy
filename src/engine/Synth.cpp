@@ -8,10 +8,11 @@ namespace engine {
         // Modules
         m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(1, std::unique_ptr<VCO>(new VCO(WaveTypes::SINE, 220))));
         m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(2, std::unique_ptr<VCO>(new VCO(WaveTypes::SQUARE, 440))));
-        m_VCA = std::unique_ptr<VCA>(new VCA());
         m_mixer = std::unique_ptr<Mixer>(new Mixer());
+        m_VCA = std::unique_ptr<VCA>(new VCA());
 
         m_mixer->addVCO(m_VCOs[1].get(), 1);
+        m_mixer->addVCO(m_VCOs[2].get(), 0.5);
 
         // Modulators
         m_LFOs.insert(std::pair<int, std::unique_ptr<LFO>>(1, std::unique_ptr<LFO>(new LFO(WaveTypes::SINE, 1.0, 1.0, false))));
@@ -67,6 +68,20 @@ namespace engine {
             return;
 
         m_VCOs[idx]->setWaveType(type);
+    }
+
+    float Synth::getVCOMixValue(int idx) {
+        if( m_VCOs.find(idx) == m_VCOs.end())
+            return 0.0;
+
+        return m_mixer->getVCOWeight(m_VCOs[idx].get());
+    }
+
+    void Synth::setVCOMixValue(int idx, float value) {
+        if( m_VCOs.find(idx) == m_VCOs.end())
+            return;
+        
+        m_mixer->changeVCOWeight(m_VCOs[idx].get(), value);
     }
 
     float Synth::getAttack() {
