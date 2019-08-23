@@ -43,6 +43,7 @@ namespace ui {
                 QDoubleSpinBox *frequencySpinBox;
                 QCheckBox *bypassCheckBox;
                 QDial *depthDial;
+                QFrame *rhsWidget;
 
     };
 }

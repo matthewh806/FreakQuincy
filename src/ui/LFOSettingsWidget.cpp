@@ -83,7 +83,7 @@ namespace ui {
         dialLayoutBox->addWidget(depthLabel);
         dialLabelWidget->setLayout(dialLayoutBox);
 
-        QWidget *rhsWidget = new QWidget;
+        rhsWidget = new QFrame;
         vBox = new QVBoxLayout;
         vBox->addWidget(frequencyLabel);
         vBox->addWidget(frequencySpinBox);

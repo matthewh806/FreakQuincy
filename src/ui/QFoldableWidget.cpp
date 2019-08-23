@@ -1,12 +1,17 @@
 #include <QApplication>
 #include <QResizeEvent>
+#include <QPainter>
+#include <QStyleOption>
 
 #include "ui/QFoldableWidget.hpp"
 
 namespace ui {
 
-    QFoldableWidget::QFoldableWidget(QWidget *parent) {
+    QFoldableWidget::QFoldableWidget(QWidget *parent) : QWidget(parent) {
         this->initialize("");
+        this->setAttribute(Qt::WA_StyleSheet, true);
+        this->setAttribute(Qt::WA_StyleSheetTarget, true);
+        this->setAttribute(Qt::WA_StyledBackground, true);
     }
 
     QFoldableWidget::QFoldableWidget(const QString &title, QWidget *parent) {
@@ -79,5 +84,12 @@ namespace ui {
                 this->QWidget::updateGeometry();
             
             return this->QWidget::event(event);
+    }
+
+    void QFoldableWidget::paintEvent(QPaintEvent *) {
+        QStyleOption opt;
+        opt.init(this);
+        QPainter p(this);
+        style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
     }
 }

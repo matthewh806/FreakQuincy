@@ -42,6 +42,7 @@ namespace ui {
 
             virtual void resizeEvent(QResizeEvent *event) override;
             virtual bool event(QEvent *event) override;
+            virtual void paintEvent(QPaintEvent *) override;
 
         private:
             void initialize(const QString &title);
