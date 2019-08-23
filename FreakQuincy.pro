@@ -14,6 +14,8 @@ INCLUDEPATH += include/
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
 LIBS += -framework CoreFoundation -framework CoreAudio -framework CoreMIDI
 
+RESOURCES   = FreakQuincy.qrc
+
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
 
 CONFIG(debug, debug|release) {
