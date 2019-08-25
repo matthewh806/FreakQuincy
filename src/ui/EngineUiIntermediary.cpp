@@ -28,8 +28,8 @@ namespace ui {
         });
 
         connect(m_mainWindow->oscillatorWidget->mixerWidget, &MixerWidget::mixValChanged, this,
-            [=](int id, int val) {
-                m_synth->setVCOMixValue(id, val / 100.0);
+            [=](int id, double val) {
+                m_synth->setVCOMixValue(id, val);
         });
         
         connect(m_mainWindow->vcaWidget, SIGNAL(ampAttackValChanged(int)), this, SLOT(attackTimeChanged(int)));
@@ -58,8 +58,8 @@ namespace ui {
         m_mainWindow->oscillatorWidget->vco1->setOscType(engine::WaveTypes::SINE);
         m_mainWindow->oscillatorWidget->vco2->setOscType(engine::WaveTypes::SQUARE);
 
-        m_mainWindow->oscillatorWidget->mixerWidget->setMixValue(1, (m_synth->getVCOMixValue(1) * 100));
-        m_mainWindow->oscillatorWidget->mixerWidget->setMixValue(2, (m_synth->getVCOMixValue(2) * 100));
+        m_mainWindow->oscillatorWidget->mixerWidget->setMixValue(1, (m_synth->getVCOMixValue(1)));
+        m_mainWindow->oscillatorWidget->mixerWidget->setMixValue(2, (m_synth->getVCOMixValue(2)));
 
         m_mainWindow->vcaWidget->initialize(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
         

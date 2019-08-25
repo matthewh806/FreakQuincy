@@ -5,7 +5,8 @@
 
 #include <QGroupBox>
 #include <QVBoxLayout> 
-#include <QDial>
+
+#include "ui/QLabelDoubleDialWrapper.hpp"
 
 namespace ui {
     class MixerWidget : public QGroupBox {
@@ -15,15 +16,15 @@ namespace ui {
             MixerWidget(QWidget *parent = nullptr);
             ~MixerWidget();
 
-            void setMixValue(int id, int v);
+            void setMixValue(int id, double v);
 
         signals:
-            void mixValChanged(int id, int v);
+            void mixValChanged(int id, double v);
         
         private:
             void setup();
-            QDial* createMixerDial(int id);
-            std::map<int, QDial*> mixDials;
+            QLabelDoubleDialWrapper* createMixerDial(int id);
+            std::map<int, QLabelDoubleDialWrapper*> mixDials;
     };
 }
 
