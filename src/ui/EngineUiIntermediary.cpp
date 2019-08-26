@@ -46,14 +46,16 @@ namespace ui {
         });
 
         connect(m_mainWindow->lfoWidget, &LFOSettingsWidget::depthSliderValueChanged, this,
-            [=](int val) {
-                m_synth->setLfoDepth(1, (val / 100.0));
+            [=](double val) {
+                m_synth->setLfoDepth(1, val);
         });
 
         connect(m_mainWindow->settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(sampleRateChanged(int)));
         connect(m_mainWindow->settingsWidget, SIGNAL(legatoToggled(bool)), this, SLOT(legatoToggled(bool)));
 
-        connect(m_mainWindow->masterSettingsWidget, SIGNAL(masterVolumeChanged(float)), this, SLOT(masterVolumeChanged(float)));
+        connect(m_mainWindow->masterSettingsWidget, &MasterSettingsWidget::masterVolumeChanged, this,
+            [=](float val) { engine::AudioSettings::setMasterVolume(val); }
+        );
 
         m_mainWindow->oscillatorWidget->vco1->setOscType(engine::WaveTypes::SINE);
         m_mainWindow->oscillatorWidget->vco2->setOscType(engine::WaveTypes::SQUARE);
@@ -172,9 +174,5 @@ namespace ui {
 
     void EngineUiIntermediary::legatoToggled(bool state) {
         engine::AudioSettings::setLegato(state);
-    }
-
-    void EngineUiIntermediary::masterVolumeChanged(float vol) {
-        engine::AudioSettings::setMasterVolume(vol);
     }
 }

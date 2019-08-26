@@ -26,9 +26,13 @@ namespace ui {
         Q_PROPERTY(double arcWidth READ getArcWidth WRITE setArcWidth)
 
         public:
-            QDoubleDial(QWidget *parent = nullptr, int mag = 1) : 
+            explicit QDoubleDial(QWidget* parent = nullptr);
+
+            QDoubleDial(const QString& text, QWidget *parent = nullptr, int mag = 1) : 
             QDial(parent),
+            m_text(text),
             m_arcRect(new QRectF),
+            m_textRect(new QRectF),
             m_valueRect(new QRectF),
             m_arcColor(new QColor),
             m_arcPen(new QPen)
@@ -42,18 +46,29 @@ namespace ui {
                 );
 
                 setMinimumSize(100, 100);
-                setMaximumSize(100, 100);
+                setMaximumSize(100, 100); 
                 setMaximumAngle(-360);
 
-                // QSizePolicy* verticalPol = new QSizePolicy();
-                // verticalPol->setWidthForHeight(true);
-                // QSizePolicy sizePolicy = this->sizePolicy();
-                // sizePolicy.setVerticalPolicy(verticalPol->);
-
-                std::cout << QDial::width() << ", " << QDial::height() << std::endl;
+                QSizePolicy p(sizePolicy());
+                p.setHorizontalPolicy( QSizePolicy::Preferred );
+                p.setVerticalPolicy( QSizePolicy::Preferred );
+                p.setHeightForWidth(true);
+                setSizePolicy(p);
             };
 
             ~QDoubleDial() {};
+
+            QSize sizeHint() const override {
+                return QSize(100, 100);
+            }
+
+            QSize minimumSizeHint() const override {
+                return QSize(100, 100);
+            }
+
+            int heightForWidth(int w) const override {
+                return w;
+            }
 
             void setArcColor(const QString& color) {
                 m_arcColor->setNamedColor(color);
@@ -97,6 +112,14 @@ namespace ui {
                 return m_arcWidth;
             }
 
+            void setText(const QString& text) {
+                m_text = text;
+            }
+
+            QString getText() const {
+                return m_text;
+            }
+
             void setMinimum(double val) {
                 QDial::setMinimum(val * this->m_multi);
             }
@@ -138,8 +161,10 @@ namespace ui {
             double m_angleSpan;
 
             QString m_valueString;
+            QString m_text;
 
             QSharedPointer<QRectF> m_arcRect;
+            QSharedPointer<QRectF> m_textRect;
             QSharedPointer<QRectF> m_valueRect;
             QSharedPointer<QColor> m_arcColor;
             QSharedPointer<QPen> m_arcPen;

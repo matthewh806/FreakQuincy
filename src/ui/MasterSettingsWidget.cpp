@@ -5,7 +5,7 @@
 #include "engine/AudioSettings.hpp"
 
 namespace ui {
-    MasterSettingsWidget::MasterSettingsWidget(QWidget *parent) {
+    MasterSettingsWidget::MasterSettingsWidget(QWidget *parent) : QFoldableWidget(parent) {
         setTitle("Master");
 
         setup();
@@ -16,24 +16,18 @@ namespace ui {
     }
 
     void MasterSettingsWidget::setup() {
-        volumeDial = new QDial();
-        volumeDial->setMinimum(0);
-        volumeDial->setMaximum(100);
-        volumeDial->setSingleStep(10);
-        volumeDial->setValue((int)(engine::AudioSettings::getMasterVolume() * 100)); // TODO: Handle this elsewhere
+        volumeDial = new QDoubleDial("Volume", this, 1);
+        volumeDial->setMinimum(0.0);
+        volumeDial->setMaximum(1.0);
+        volumeDial->setSingleStep(0.05);
+        volumeDial->setValue(engine::AudioSettings::getMasterVolume());
         volumeDial->setNotchesVisible(true);
-        connect(volumeDial, SIGNAL(valueChanged(int)), this, SLOT(volumeSliderValueChanged(int)));
-
-        QLabel *volumeLabel = new QLabel(tr("volume"));
-        volumeLabel->setAlignment(Qt::AlignHCenter);
+        connect(volumeDial, &QDoubleDial::doubleValueChanged, this, 
+            [=](double val) { this->emit masterVolumeChanged(val); }
+        );
 
         vBox = new QVBoxLayout;
-        vBox->addWidget(volumeDial);
-        vBox->addWidget(volumeLabel);
+        vBox->addWidget(volumeDial, 0, Qt::AlignHCenter);
         this->contentFrame()->setLayout(vBox);
-    }
-
-    void MasterSettingsWidget::volumeSliderValueChanged(int v) {
-        emit masterVolumeChanged((float)v/100.0);
     }
 }

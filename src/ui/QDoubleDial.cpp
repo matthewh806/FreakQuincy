@@ -12,23 +12,25 @@ namespace ui {
 
         QPen textPen = painter.pen();
         painter.setPen(QPen(Qt::NoPen));
-        painter.drawEllipse(QDial::rect());
+        painter.drawEllipse(0, 0, QDial::height(), QDial::height());
 
         painter.setPen(textPen);
         painter.drawText(*m_valueRect, Qt::AlignCenter, m_valueString);
+        painter.drawText(*m_textRect, Qt::AlignHCenter | Qt::AlignBottom, m_text);
 
         painter.setPen(*m_arcPen);
         painter.drawArc(*m_arcRect, m_startAngle, m_angleSpan);
     }
 
     void QDoubleDial::resizeEvent(QResizeEvent* event) {
-        std::cout << "Size: " << event->size().width() << ", " << event->size().height() << std::endl;
         QDial::setMinimumSize(event->size());
         
         double w = QDial::width() - (2 * m_arcWidth);
         double h = w / 2;
 
+        *m_textRect = QRectF(m_arcWidth, h, w, h);
         *m_valueRect = QRectF(m_arcWidth, h, w, h);
+
         *m_arcRect = QRectF(
             m_arcWidth / 2,
             m_arcWidth / 2,

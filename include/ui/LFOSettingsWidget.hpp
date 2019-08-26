@@ -6,10 +6,11 @@
 #include <QRadioButton>
 #include <QDoubleSpinBox>
 #include <QCheckBox>
-#include <QDial>
 
 #include "ui/QFoldableWidget.hpp"
 #include "ui/WaveformSelectorWidget.hpp"
+#include "ui/QDoubleDial.hpp"
+
 #include "engine/LFO.hpp"
 
 namespace ui {
@@ -33,7 +34,7 @@ namespace ui {
                 void frequencyChanged(double);
                 void destinationChanged(int);
                 void bypassToggled(int);
-                void depthSliderValueChanged(int);
+                void depthSliderValueChanged(double);
 
             private:
                 void setup();
@@ -42,7 +43,7 @@ namespace ui {
                 WaveformSelectorWidget *waveformSelector;
                 QDoubleSpinBox *frequencySpinBox;
                 QCheckBox *bypassCheckBox;
-                QDial *depthDial;
+                QDoubleDial *depthDial;
                 QFrame *rhsWidget;
 
     };

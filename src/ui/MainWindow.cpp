@@ -79,18 +79,18 @@ namespace ui {
 
     void MainWindow::onWidgetFolded(QFoldableWidget *widget) {
         // TODO: Check status of neighbours to determine if whole row should collapse.
-        int idx = gridLayout->indexOf(widget);
+        // int idx = gridLayout->indexOf(widget);
 
-        if(idx == -1)
-            return;
+        // if(idx == -1)
+        //     return;
 
-        int row, column, rowSpan, columnSpan;        
-        gridLayout->getItemPosition(idx, &row, &column, &rowSpan, &columnSpan);
-        gridLayout->setRowMinimumHeight(row, widget->minimumSizeHint().height());
-        std::cout << "row: " << row << ", minHeight: " << gridLayout->rowMinimumHeight(row) << std::endl;
+        // int row, column, rowSpan, columnSpan;        
+        // gridLayout->getItemPosition(idx, &row, &column, &rowSpan, &columnSpan);
+        // gridLayout->setRowMinimumHeight(row, widget->minimumSizeHint().height());
+        // std::cout << "row: " << row << ", minHeight: " << gridLayout->rowMinimumHeight(row) << std::endl;
 
-        centralWidget->QWidget::updateGeometry();
-        centralWidget->adjustSize();
+        // centralWidget->QWidget::updateGeometry();
+        // centralWidget->adjustSize();
     }
 }
 

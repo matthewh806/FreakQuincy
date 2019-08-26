@@ -11,7 +11,7 @@ namespace ui {
     MixerWidget::~MixerWidget() {}
 
     void MixerWidget::setMixValue(int id, double v) {
-        mixDials[id]->dial->setValue(v);
+        mixDials[id]->setValue(v);
     }
 
     void MixerWidget::setup() {
@@ -21,20 +21,20 @@ namespace ui {
         QVBoxLayout *vBox = new QVBoxLayout;
         
         for(const auto& kv : mixDials) {
-            vBox->addWidget(kv.second);
+            vBox->addWidget(kv.second, 0, Qt::AlignHCenter);
         }
 
         this->setLayout(vBox);
     }
 
-    QLabelDoubleDialWrapper* MixerWidget::createMixerDial(int id) {
+    QDoubleDial* MixerWidget::createMixerDial(int id) {
         QString labelStr = QString::fromStdString("VCO " + std::to_string(id));
-        QLabelDoubleDialWrapper *vcoMixDial = new QLabelDoubleDialWrapper(this, labelStr, 1);
-        vcoMixDial->dial->setMinimum(0.0);
-        vcoMixDial->dial->setMaximum(1.0);
-        vcoMixDial->dial->setSingleStep(0.05);
+        QDoubleDial *vcoMixDial = new QDoubleDial(labelStr, this, 1);
+        vcoMixDial->setMinimum(0.0);
+        vcoMixDial->setMaximum(1.0);
+        vcoMixDial->setSingleStep(0.05);
 
-        connect(vcoMixDial->dial, &QDoubleDial::doubleValueChanged, this, 
+        connect(vcoMixDial, &QDoubleDial::doubleValueChanged, this, 
             [=](double val) { this->emit mixValChanged(id, val); }
         );
 

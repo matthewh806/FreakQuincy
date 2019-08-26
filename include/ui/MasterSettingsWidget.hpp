@@ -2,9 +2,9 @@
 #define MASTERSETTINGS_hpp
 
 #include <QVBoxLayout>
-#include <QDial>
 
 #include "ui/QFoldableWidget.hpp"
+#include "ui/QDoubleDial.hpp"
 
 namespace ui {
     class MasterSettingsWidget : public QFoldableWidget {
@@ -17,14 +17,11 @@ namespace ui {
         signals:
             void masterVolumeChanged(float);
 
-        private slots:
-            void volumeSliderValueChanged(int);
-
         private:
             void setup();
 
             QVBoxLayout *vBox;
-            QDial *volumeDial;
+            QDoubleDial *volumeDial;
     };
 }
 

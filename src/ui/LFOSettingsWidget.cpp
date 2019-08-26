@@ -67,27 +67,19 @@ namespace ui {
             [=](int val) { this->emit bypassToggled(val);
         });
         
-        QLabel *depthLabel = new QLabel(tr("Depth"));
-        depthLabel->setAlignment(Qt::AlignHCenter);
-        depthDial = new QDial();
+        depthDial = new QDoubleDial("Depth", this, 1);
         depthDial->setMinimum(0);
-        depthDial->setMaximum(100);
-        depthDial->setSingleStep(5);
+        depthDial->setMaximum(1);
+        depthDial->setSingleStep(0.05);
         connect(depthDial, &QDial::valueChanged, this, 
-            [=](int val) { this->emit depthSliderValueChanged(val);
+            [=](double val) { this->emit depthSliderValueChanged(val);
         });
         
-        QWidget *dialLabelWidget = new QWidget;
-        QVBoxLayout *dialLayoutBox = new QVBoxLayout;
-        dialLayoutBox->addWidget(depthDial);
-        dialLayoutBox->addWidget(depthLabel);
-        dialLabelWidget->setLayout(dialLayoutBox);
-
         rhsWidget = new QFrame;
         vBox = new QVBoxLayout;
         vBox->addWidget(frequencyLabel);
         vBox->addWidget(frequencySpinBox);
-        vBox->addWidget(dialLabelWidget);
+        vBox->addWidget(depthDial, 0, Qt::AlignHCenter);
         vBox->addWidget(bypassCheckBox);
         rhsWidget->setLayout(vBox);
 
