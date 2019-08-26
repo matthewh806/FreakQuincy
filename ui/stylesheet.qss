@@ -35,9 +35,12 @@ QSlider::sub-page:vertical {
     background: pink;
 }
 
-QDial { 
-    color: "transparent";
-}
+ui--QDoubleDial {
+  background-color: transparent;
+  font-size: 18px;
+  color: white;
+  qproperty-arcColor: #28b7bf;
+  qproperty-arcWidth: 3; }
 
 QSpinBox, QDoubleSpinBox {
     color: black;
