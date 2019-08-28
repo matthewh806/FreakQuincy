@@ -6,6 +6,7 @@ namespace engine {
 
     ADSR::ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime, double depth, bool bypass) : Modulator(depth, bypass) {
         m_stageTimes = std::vector<float> { 
+            0.03,
             attackTime, 
             decayTime, 
             std::numeric_limits<float>::infinity(),
@@ -14,6 +15,7 @@ namespace engine {
         };
 
         m_paramValues = std::vector<float> {
+            0,
             1,
             sustainLevel,
             sustainLevel,
@@ -73,10 +75,25 @@ namespace engine {
         if(legato)
             return;
 
-        m_stage = ATTACK;
         m_state = 0.0;
-        m_curParamVal = 0.0;
-        m_prevParamVal = 0.0;
+
+        /*
+            TODO: Ramp down does not actually go to zero 
+            The value gets closer to zero - and then attack 
+            just starts from that value again
+
+            maybe its not noticeable as the value tends to be < 10^-4
+            but the higher the value the ramp down begins from
+            the further from 0 it will actually be after the 0.03 seconds 
+            have elapsed. 
+        */
+        if(m_curParamVal > 0.0) {
+            m_stage = RAMP_DOWN;
+            m_prevParamVal = m_curParamVal;
+        } else {
+            m_stage = ATTACK;
+            m_prevParamVal = 0.0;
+        }
     }
 
     void ADSR::noteReleased(bool legato) {
@@ -94,7 +111,7 @@ namespace engine {
         if(m_state >= m_stageTimes[m_stage]) {
             m_state -= m_stageTimes[m_stage];
             m_prevParamVal = m_curParamVal;
-            
+
             m_stage = static_cast<STAGE>((m_stage + 1) % NUM_STAGES);
         }
 
@@ -107,7 +124,7 @@ namespace engine {
     }
 
     std::ostream& operator<<(std::ostream& out, const ADSR& adsr) {
-        out << "ADSR: " << adsr.m_rate << ", " << adsr.m_stageTimes[0] << ", " << adsr.m_stageTimes[1] << ", " << adsr.m_stageTimes[3];
+        out << "ADSR: (Rate, Attack, Decay, Release): " << adsr.m_rate << ", " << adsr.m_stageTimes[1] << ", " << adsr.m_stageTimes[2] << ", " << adsr.m_stageTimes[4];
         return out;
     }
 }

@@ -7,6 +7,7 @@
 namespace engine {
     class ADSR : public Modulator {
         enum STAGE {
+            RAMP_DOWN,
             ATTACK,
             DECAY,
             SUSTAIN,
@@ -18,7 +19,6 @@ namespace engine {
         public:
             ADSR();
 
-            // TODO: Implement param values in constructor? (e.g. attack lvl may not be 1)
             ADSR(float attackTime, float decayTime, float sustainLevel, float releaseTime, double depth, bool bypass);
             ~ADSR();
  
@@ -50,9 +50,9 @@ namespace engine {
             double m_curParamVal; // current parameter value
             double m_prevParamVal; // Parameter value at start of current stage
 
-            // The following vectors follow this pattern: A, De, S, R, Do (De = Decay, Do = Done)
+            // The following vectors follow this pattern: RAMP, A, De, S, R, Do (De = Decay, Do = Done)
             std::vector<float> m_stageTimes;  // Time when each stage ends S,D = inf
-            std::vector<float> m_paramValues; // Target param. value of stage De = S, R=Do = 0
+            std::vector<float> m_paramValues; // Target param. value of stage De = S, RAMP=R=Do= 0
     };
 }
 
