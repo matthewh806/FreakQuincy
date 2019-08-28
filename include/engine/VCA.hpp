@@ -3,7 +3,7 @@
 
 #include "engine/ModuleBase.hpp"
 #include "engine/Modulatable.hpp"
-#include "engine/ADSR.hpp"
+#include "engine/AbstractEnvelope.hpp"
 
 namespace engine {
     class VCA : public ModuleBase, public Modulatable {
@@ -14,7 +14,7 @@ namespace engine {
             void setGain(double g) { this->gain = g; }
             double getGain() { return gain; }
 
-            ADSR* getEnvelope() { return envelope.get(); }
+            AbstractEnvelope* getEnvelope() { return envelope.get(); }
 
             void notePressed(float freq, bool legato) override { envelope->notePressed(freq, legato); };
             void noteReleased(bool legato) override { envelope->noteReleased(legato); };
@@ -22,7 +22,7 @@ namespace engine {
 
         private:
             double gain;
-            std::unique_ptr<ADSR> envelope;
+            std::unique_ptr<AbstractEnvelope> envelope;
     };
 }
 
