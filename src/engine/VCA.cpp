@@ -1,10 +1,11 @@
 #include "engine/VCA.hpp"
+#include "engine/ExponentialTimeADSR.hpp"
 #include "engine/LinearTimeADSR.hpp"
 
 namespace engine {
     VCA::VCA() {
         gain = 1.0;
-        envelope = std::unique_ptr<LinearTimeADSR>(new LinearTimeADSR(1, 0.2, 0.1, 0.2, 1.0, false));
+        envelope = std::unique_ptr<AbstractEnvelope>(new ExponentialTimeADSR(1, 0.2, 0.1, 0.2, 1.0, false));
     }
 
     VCA::~VCA() {}

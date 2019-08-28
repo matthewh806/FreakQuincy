@@ -53,8 +53,8 @@ namespace engine {
             float getReleaseTime() { return m_stageTimes[RELEASE]; }
             void setReleaseTime(float t) { m_stageTimes[RELEASE] = t; }
             
-            void notePressed(float freq, bool legato) override = 0;
-            void noteReleased(bool legato) override = 0;
+            void notePressed(float freq, bool legato) override;
+            void noteReleased(bool legato) override;
 
             friend std::ostream& operator<<(std::ostream& out, const AbstractEnvelope& adsr) {
                 out << "ADSR: (Rate, Attack, Decay, Release): " << adsr.m_rate << ", " << adsr.m_stageTimes[1] << ", " << adsr.m_stageTimes[2] << ", " << adsr.m_stageTimes[4];
@@ -81,6 +81,8 @@ namespace engine {
             // The following vectors follow this pattern: RAMP, A, De, S, R, Do (De = Decay, Do = Done)
             std::vector<float> m_stageTimes;  // Time when each stage ends S,D = inf
             std::vector<float> m_paramValues; // Target param. value of stage De = S, RAMP=R=Do= 0
+
+            virtual void goToStage(STAGE stage);
     };
 }
 

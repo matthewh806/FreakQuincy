@@ -65,8 +65,8 @@ namespace midi {
             msg.bytes[i] = message->at(i);
         }
 
-        msg.printBinary();
-        msg.printHex();
+        // msg.printBinary();
+        // msg.printHex();
 
         device->onMessage(msg);
     }
