@@ -10,6 +10,7 @@ namespace engine {
         m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(2, std::unique_ptr<VCO>(new VCO(WaveTypes::SQUARE, 440))));
         m_mixer = std::unique_ptr<Mixer>(new Mixer());
         m_VCA = std::unique_ptr<VCA>(new VCA());
+        m_filter = std::unique_ptr<Filter>(new Filter(100, 20, Filter::LOWPASS));
 
         m_mixer->addVCO(m_VCOs[1].get(), 1);
         m_mixer->addVCO(m_VCOs[2].get(), 0.5);
@@ -198,7 +199,7 @@ namespace engine {
             kv.second->tick();
         }
 
-        // TODO: This indexing will later be removed and handled by a VCO mixer
-        return m_mixer->tick() * m_VCA->tick();
+        double mixerOut = m_mixer->tick();
+        return m_filter->tick(mixerOut) * m_VCA->tick();
     }
 }

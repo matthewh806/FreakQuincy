@@ -12,7 +12,7 @@ namespace engine {
             LFO(WaveTypes type, double freq, double depth, bool bypass);
             ~LFO();
 
-            double tick() override;
+            double tick(double input = 0) override;
 
             void notePressed(float freq, bool legato) override;
             void setFrequency(float freq) override;

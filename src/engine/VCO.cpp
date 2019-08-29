@@ -2,7 +2,7 @@
 #include "engine/VCO.hpp"
 
 namespace engine {
-    double VCO::tick() {
+    double VCO::tick(double input) {
         float freqModVal = 0.0;
 
         for(const auto& m : m_modulators) {

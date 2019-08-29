@@ -15,7 +15,7 @@ namespace engine {
 
             ~ExponentialTimeADSR() {};
  
-            double tick() override;
+            double tick(double input = 0) override;
 
         protected:
             void goToStage(STAGE stage) override;

@@ -47,7 +47,7 @@ namespace engine {
                 m_vco_weights[vco] = weight;
             }
 
-            double tick();
+            double tick(double input = 0) override;
 
         private:
             std::map<VCO*, float> m_vco_weights;

@@ -18,7 +18,7 @@ namespace engine {
 
             void notePressed(float freq, bool legato) override { envelope->notePressed(freq, legato); };
             void noteReleased(bool legato) override { envelope->noteReleased(legato); };
-            double tick() override;
+            double tick(double input = 0) override;
 
         private:
             double gain;

@@ -3,7 +3,7 @@
 
 namespace engine {
     
-    double ExponentialTimeADSR::tick() {
+    double ExponentialTimeADSR::tick(double input) {
         m_state += m_rate;
 
         if(m_state >= m_stageTimes[m_stage]) {

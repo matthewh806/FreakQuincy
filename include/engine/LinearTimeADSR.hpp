@@ -13,7 +13,7 @@ namespace engine {
 
             ~LinearTimeADSR() {};
  
-            double tick() override;
+            double tick(double input = 0) override;
     };
 }
 

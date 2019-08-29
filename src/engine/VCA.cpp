@@ -10,7 +10,7 @@ namespace engine {
 
     VCA::~VCA() {}
 
-    double VCA::tick() {
+    double VCA::tick(double input) {
         float modVal = 1.0;
 
         for(const auto& m : m_modulators) {

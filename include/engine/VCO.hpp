@@ -16,7 +16,7 @@ namespace engine {
             double getLastOut() { return m_lastOut; }
 
             void notePressed(float freq, bool legato) override { m_waveForm->setFrequency(freq); };
-            double tick() override;
+            double tick(double input = 0) override;
         
         private:
             double m_lastOut;

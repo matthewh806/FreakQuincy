@@ -12,7 +12,7 @@ namespace engine {
     
     LFO::~LFO() {}
 
-    double LFO::tick() {
+    double LFO::tick(double _) {
         m_lastOut = m_waveForm->getOutput() * m_depth;
         return m_lastOut;
     }

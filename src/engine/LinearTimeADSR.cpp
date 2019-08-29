@@ -2,7 +2,7 @@
 
 namespace engine {
 
-    double LinearTimeADSR::tick() {
+    double LinearTimeADSR::tick(double input) {
         m_state += m_rate;
 
         if(m_state >= m_stageTimes[m_stage]) {

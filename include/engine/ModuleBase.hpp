@@ -24,7 +24,7 @@ namespace engine {
 
             virtual void notePressed(float freq, bool legato) {};
             virtual void noteReleased(bool legato) {};
-            virtual double tick() = 0;
+            virtual double tick(double input = 0) = 0;
 
             int getId() const { return m_id; }
 

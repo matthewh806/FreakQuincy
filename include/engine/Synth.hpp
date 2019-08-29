@@ -9,6 +9,7 @@
 #include "engine/Mixer.hpp"
 #include "engine/LFO.hpp"
 #include "engine/VCA.hpp"
+#include "engine/Filter.hpp"
 
 namespace engine {
     class Synth {
@@ -60,6 +61,7 @@ namespace engine {
             std::map<int, std::unique_ptr<VCO>> m_VCOs;
             std::map<int, std::unique_ptr<LFO>> m_LFOs;
             std::unique_ptr<VCA> m_VCA;
+            std::unique_ptr<Filter> m_filter;
             std::unique_ptr<Mixer> m_mixer;
     };
 }

@@ -10,7 +10,7 @@ namespace engine {
     * 
     *  f(t) gives the output of the vco for the current tick
     */
-    double Mixer::tick() {
+    double Mixer::tick(double input) {
         double sum_weights = 0.0f;
         double sum_vco_output = 0.0f;
 
