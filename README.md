@@ -13,6 +13,10 @@ I'm also using qmake as part of the build process
 ### fftw3
 For handling the calculation of fourier transforms I'm using the [FFTW](http://www.fftw.org/) library. 
 
+### spdlog
+For logging purposes I'm using the header-only library [spdlog](https://github.com/gabime/spdlog)
+I used: `brew install spdlog`
+
 ### Apple Frameworks
 CoreFoundation, CoreAudio, CoreMidi
 
