@@ -13,8 +13,6 @@ namespace engine {
                 }
 
                 ~SecondOrderButterworthLowPassFilter() {};
-
-                void setCutoff(double cutoff) override;
             
             protected:
                 void calculateCoefficients() override;

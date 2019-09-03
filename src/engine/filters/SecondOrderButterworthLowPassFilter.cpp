@@ -5,11 +5,6 @@
 #include "engine/filters/SecondOrderButterworthLowPassFilter.hpp"
 #include "engine/AudioSettings.hpp"
 
-void engine::filters::SecondOrderButterworthLowPassFilter::setCutoff(double cutoff) {
-    m_cutoff = cutoff;
-    calculateCoefficients();
-}
-
 void engine::filters::SecondOrderButterworthLowPassFilter::calculateCoefficients() {
     // calculate angular frequency 
     // TODO: do we need to warp it...? Text says no - but I don't trust / understand that.

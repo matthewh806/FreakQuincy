@@ -33,10 +33,25 @@ namespace engine {
                 ~AbstractFilter() {};
 
                 double getCutoff() { return m_cutoff; }
-                virtual void setCutoff(double cutoff) = 0;
+                virtual void setCutoff(double cutoff) {
+                    m_cutoff = cutoff;
+
+                    calculateCoefficients();
+                };
 
                 double getResonance() { return m_resonance; }
-                void setResonance(double resonance) { m_resonance = resonance; }
+                void setResonance(double resonance) { 
+                    m_resonance = resonance; 
+
+                    calculateCoefficients();
+                }
+
+                void setCutoffAndResonance(double cutoff, double resonance) {
+                    m_cutoff = cutoff;
+                    m_resonance = resonance;
+
+                    calculateCoefficients();
+                }
 
                 FilterType getType() { return m_type; }
                 void setType(FilterType type) { m_type = type; }

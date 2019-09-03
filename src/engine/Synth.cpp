@@ -121,6 +121,22 @@ namespace engine {
         m_VCA->getEnvelope()->setReleaseTime(t);
     }
 
+    float Synth::getFilterCutoff() {
+        return m_filter->getCutoff();
+    }
+
+    void Synth::setFilterCutoff(float c) {
+        m_filter->setCutoff(c);
+    }
+
+    float Synth::getFilterResonance() {
+        return m_filter->getResonance();
+    }
+
+    void Synth::setFilterResonance(float r) {
+        m_filter->setResonance(r);
+    }
+
     WaveTypes Synth::getLfoOscType(int idx) { 
         if( m_LFOs.find(idx) == m_LFOs.end())
             return WaveTypes::NOT_SET;

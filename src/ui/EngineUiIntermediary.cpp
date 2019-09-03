@@ -37,6 +37,13 @@ namespace ui {
         connect(m_mainWindow->vcaWidget, SIGNAL(ampSustainValChanged(int)), this, SLOT(sustainLevelChanged(int)));
         connect(m_mainWindow->vcaWidget, SIGNAL(ampReleaseValChanged(int)), this, SLOT(releaseTimeChanged(int)));
         
+        connect(m_mainWindow->filterWidget, &FilterWidget::cutoffChanged, this,
+            [=](double val) { m_synth->setFilterCutoff(val); }
+        );
+        connect(m_mainWindow->filterWidget, &FilterWidget::resonanceChanged, this,
+            [=](double val) { m_synth->setFilterResonance(val); }
+        );
+
         connect(m_mainWindow->lfoWidget, SIGNAL(oscTypeChanged(int)), this, SLOT(lfoOscTypeChanged(int)));
         connect(m_mainWindow->lfoWidget, SIGNAL(frequencyChanged(double)), this, SLOT(lfoFreqChanged(double)));
         connect(m_mainWindow->lfoWidget, SIGNAL(destinationChanged(int)), this, SLOT(lfoDestinationChanged(int)));
@@ -65,12 +72,14 @@ namespace ui {
 
         m_mainWindow->vcaWidget->initialize(m_synth->getAttack() * 1000, m_synth->getDecay() * 1000, m_synth->getSustain() * 100, m_synth->getRelease() * 1000);
         
+        m_mainWindow->filterWidget->setCutoff(m_synth->getFilterCutoff());
+        m_mainWindow->filterWidget->setResonance(m_synth->getFilterResonance());
+
         m_mainWindow->lfoWidget->setOscType(m_synth->getLfoOscType(1));
         m_mainWindow->lfoWidget->setFrequency(m_synth->getLfoFrequency(1));
         m_mainWindow->lfoWidget->setDestination(m_synth->getLfoDestination(1));
         m_mainWindow->lfoWidget->setBypassState(m_synth->getLfoBypassState(1));
 
-        std::cout << m_synth->getLfoDepth(1) << std::endl;
         m_mainWindow->lfoWidget->setModDepth(m_synth->getLfoDepth(1) * 100);
 
         m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());

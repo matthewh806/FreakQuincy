@@ -35,6 +35,12 @@ namespace engine {
             float getRelease();
             void setRelease(float t);
 
+            float getFilterCutoff();
+            void setFilterCutoff(float c);
+
+            float getFilterResonance();
+            void setFilterResonance(float r);
+
             WaveTypes getLfoOscType(int idx);
             void setLfoOscType(int idx, WaveTypes type);
 
