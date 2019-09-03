@@ -12,7 +12,7 @@ namespace engine {
             public:
                 static std::unique_ptr<AbstractFilter> createButterworthLowPass(double cutoff, double resonance) {
                     return std::unique_ptr<AbstractFilter>(
-                        new SecondOrderButterworthLowPassFilter(100, 20)
+                        new SecondOrderButterworthLowPassFilter(cutoff, resonance)
                     );
                 }
         };

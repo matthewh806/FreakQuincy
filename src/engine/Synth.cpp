@@ -1,10 +1,13 @@
-#include <iostream>
+#include "spdlog/sinks/stdout_color_sinks.h"
 #include "engine/Synth.hpp"
 #include "engine/AudioSettings.hpp"
 #include "engine/filters/FilterBuilder.hpp"
 
+
 namespace engine {
     Synth::Synth() {
+        // Engine Logger
+        auto console = spdlog::stdout_color_mt("engine");
 
         // Modules
         m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(1, std::unique_ptr<VCO>(new VCO(WaveTypes::SINE, 220))));
