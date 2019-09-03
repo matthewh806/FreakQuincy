@@ -1,7 +1,7 @@
 #include <iostream>
 #include "engine/Synth.hpp"
 #include "engine/AudioSettings.hpp"
-#include "engine/FilterBuilder.hpp"
+#include "engine/filters/FilterBuilder.hpp"
 
 namespace engine {
     Synth::Synth() {
@@ -11,7 +11,7 @@ namespace engine {
         m_VCOs.insert(std::pair<int, std::unique_ptr<VCO>>(2, std::unique_ptr<VCO>(new VCO(WaveTypes::SQUARE, 440))));
         m_mixer = std::unique_ptr<Mixer>(new Mixer());
         m_VCA = std::unique_ptr<VCA>(new VCA());
-        m_filter = FilterBuilder::createSimplestLowPass(100, 20);
+        m_filter = filters::FilterBuilder::createButterworthLowPass(10000, 0.707);
 
         m_mixer->addVCO(m_VCOs[1].get(), 1);
         m_mixer->addVCO(m_VCOs[2].get(), 0.5);

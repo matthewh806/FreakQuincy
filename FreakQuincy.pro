@@ -48,10 +48,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # Input
 HEADERS += include/dep/*.h
 HEADERS += include/engine/*.hpp
+HEADERS += include/engine/filters/*.hpp
 HEADERS += include/midi/*.hpp
 HEADERS += include/ui/*.hpp
-SOURCES  += src/dep/*.cpp
+SOURCES += src/dep/*.cpp
 SOURCES += src/*.cpp
 SOURCES += src/engine/*.cpp
+SOURCES += src/engine/filters/*.cpp
 SOURCES += src/midi/*.cpp
 SOURCES += src/ui/*.cpp

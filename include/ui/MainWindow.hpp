@@ -8,12 +8,12 @@
 #include "ui/OscillatorWidget.hpp"
 #include "ui/VCAWidget.hpp"
 #include "ui/LFOSettingsWidget.hpp"
+#include "ui/FilterWidget.hpp"
 #include "ui/OutputPlotsWidget.hpp"
 #include "ui/GeneralSettingsWidget.hpp"
 #include "ui/MasterSettingsWidget.hpp"
 
 namespace ui {
-    // TODO: This is a bit monolithic right now - split up!
     class MainWindow : public QMainWindow {
         Q_OBJECT
 
@@ -26,6 +26,7 @@ namespace ui {
         // TODO: Find a way to not have these be public...
         OscillatorWidget *oscillatorWidget;
         VCAWidget *vcaWidget;
+        FilterWidget *filterWidget;
         LFOSettingsWidget *lfoWidget;
         OutputPlotsWidget *outputPlotsWidget;
         MasterSettingsWidget *masterSettingsWidget;
