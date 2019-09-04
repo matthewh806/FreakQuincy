@@ -18,8 +18,11 @@ RESOURCES   = FreakQuincy.qrc
 
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
 
+config += debug_and_release
+
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS += -g
+    CONFIG += qt debug
     DESTDIR = bin/debug
     BUILDIR = build/debug
 } else {
