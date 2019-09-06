@@ -1,7 +1,10 @@
 
-TARGET = freaklib
+TARGET = freak
 CXX=clang++
-CXXFLAGS += -Wc++11-extensions -std=c++11 -Wall
+CXXFLAGS += -Wc++11-extensions -std=c++11 -Wall -D__MACOSX_CORE__
+
+TARGET_LIB = libfreak.a
+ARFLAGS += -rv
 
 LDFLAGS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
 LDFLAGS += -framework CoreFoundation -framework CoreAudio -framework CoreMIDI
@@ -21,7 +24,9 @@ RM=rm -f
 SOURCES += $(wildcard src/*.cpp src/*/*.cpp src/*/*/*.cpp)
 OBJS = $(SOURCES:%.cpp=$(OBJ_DIR)/%.o)
 
-TARGET_TEST = freaklib_test
+OBJ_LIB := $(filter-out $(OBJ_DIR)/src/main.o, $(OBJS))
+
+TARGET_TEST = freak
 CXXFLAGS_TEST += $(CXXFLAGS)
 LDFLAGSS_TEST += $(LDFLAGS)
 INC_TEST += $(INCLUDE) -Itests/catch.hpp
@@ -54,6 +59,15 @@ release: all
 clean:
 	-@rm -rvf $(OBJ_DIR)/*
 	-@rm -rvf $(APP_DIR)/*
+
+.PHONY: lib
+lib: build_lib $(TARGET_LIB)
+
+build_lib:
+	@mkdir -p $(OBJ_DIR)
+
+$(TARGET_LIB) : $(OBJ_LIB)
+	ar $(ARFLAGS) $(TARGET_LIB) $(OBJ_LIB)
 
 .PHONY: test
 test: build_test $(APP_DIR)/$(TARGET_TEST)

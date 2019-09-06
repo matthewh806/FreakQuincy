@@ -11,7 +11,9 @@ INCLUDEPATH += .
 INCLUDEPATH += /usr/include 
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += include/
+INCLUDEPATH += ../lib/include
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
+LIBS += ./libfreak.a
 LIBS += -framework CoreFoundation -framework CoreAudio -framework CoreMIDI
 
 RESOURCES   = FreakQuincy.qrc
@@ -50,13 +52,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 # Input
 HEADERS += include/dep/*.h
-HEADERS += include/engine/*.hpp
-HEADERS += include/engine/filters/*.hpp
-HEADERS += include/midi/*.hpp
 HEADERS += include/ui/*.hpp
 SOURCES += src/dep/*.cpp
-SOURCES += src/*.cpp
-SOURCES += src/engine/*.cpp
-SOURCES += src/engine/filters/*.cpp
-SOURCES += src/midi/*.cpp
 SOURCES += src/ui/*.cpp
+SOURCES += src/*.cpp
