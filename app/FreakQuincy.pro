@@ -11,15 +11,20 @@ INCLUDEPATH += .
 INCLUDEPATH += /usr/include 
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += include/
+INCLUDEPATH += ../lib/include
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
+LIBS += ./libfreak.a
 LIBS += -framework CoreFoundation -framework CoreAudio -framework CoreMIDI
 
 RESOURCES   = FreakQuincy.qrc
 
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14
 
+config += debug_and_release
+
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS += -g
+    CONFIG += qt debug
     DESTDIR = bin/debug
     BUILDIR = build/debug
 } else {
@@ -47,13 +52,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 # Input
 HEADERS += include/dep/*.h
-HEADERS += include/engine/*.hpp
-HEADERS += include/engine/filters/*.hpp
-HEADERS += include/midi/*.hpp
 HEADERS += include/ui/*.hpp
 SOURCES += src/dep/*.cpp
-SOURCES += src/*.cpp
-SOURCES += src/engine/*.cpp
-SOURCES += src/engine/filters/*.cpp
-SOURCES += src/midi/*.cpp
 SOURCES += src/ui/*.cpp
+SOURCES += src/*.cpp

@@ -28,22 +28,22 @@ namespace midi {
         curInputDevice = inputDevices[idx];
     }
 
-    void MidiEngine::computerKeyPressed(QKeyEvent *event) {
-        // TODO: Not very nice or object oriented.
-        ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
-        if(!computerInput)
-            return;
+    // void MidiEngine::computerKeyPressed(QKeyEvent *event) {
+    //     // TODO: Not very nice or object oriented.
+    //     ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
+    //     if(!computerInput)
+    //         return;
 
-        computerInput->keyPressed(event->key());
-    }
+    //     computerInput->keyPressed(event->key());
+    // }
 
-    void MidiEngine::computerKeyReleased(QKeyEvent *event) {
-        ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
-        if(!computerInput)
-            return;
+    // void MidiEngine::computerKeyReleased(QKeyEvent *event) {
+    //     ComputerKeyboardInputDevice* computerInput = dynamic_cast<ComputerKeyboardInputDevice*>(curInputDevice);
+    //     if(!computerInput)
+    //         return;
 
-        computerInput->keyReleased(event->key());
-    }
+    //     computerInput->keyReleased(event->key());
+    // }
 
 
     void MidiEngine::onMessage(MidiMessage message) {

@@ -1,6 +1,6 @@
 .DS_Store
 
-Makefile
+app/Makefile
 
 # Build
 build/
@@ -55,5 +55,4 @@ qrc_*.cpp
 ui_*.h
 *.qmlc
 *.jsc
-Makefile*
 *build-*
