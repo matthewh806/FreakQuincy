@@ -90,6 +90,10 @@ namespace engine {
                     return sum;
                 }
 
+                // z is a complex number e^(iw) in the Z-domain along a unit
+                // circle between 0 and the nyquist limit. w is the frequency
+                virtual double calculateTransferFunction(double z) = 0;
+
             protected:
                 virtual void calculateCoefficients() = 0;
                 std::shared_ptr<spdlog::logger> logger;

@@ -3,6 +3,21 @@
 #include "engine/filters/SecondOrderButterworthLowPassFilter.hpp"
 #include "engine/AudioSettings.hpp"
 
+double engine::filters::SecondOrderButterworthLowPassFilter::calculateTransferFunction(double z) {
+    double num;
+    double denom;
+
+    num += m_b[0];
+    for(int i = 1; i <= m_xDelays; i++)
+        num += m_b[i] * pow(z, i);
+
+    denom += 1;
+    for(int i=1; i<=m_yDelays; i++) 
+        denom += m_a[i] * pow(z, i);
+
+    return num / denom;
+}
+
 void engine::filters::SecondOrderButterworthLowPassFilter::calculateCoefficients() {
     // calculate angular frequency 
     // TODO: do we need to warp it...? Text says no - but I don't trust / understand that.

@@ -13,6 +13,8 @@ namespace engine {
                 }
 
                 ~SecondOrderButterworthLowPassFilter() {};
+
+                double calculateTransferFunction(double z) override;
             
             protected:
                 void calculateCoefficients() override;
