@@ -1,4 +1,3 @@
-
 TARGET=freak
 CXX=clang++
 CXXFLAGS += -Wc++11-extensions -std=c++11 -Wall -D__MACOSX_CORE__
@@ -33,7 +32,7 @@ INC_TEST += $(INCLUDE) -Itests/catch.hpp
 SRC_TEST += $(wildcard tests/*.cpp)
 OBJ_TEST := $(filter-out $(OBJ_DIR)/src/main.o, $(OBJS)) $(SRC_TEST:%.cpp=$(TEST_OBJ_DIR)/%.o)
 
-all: build $(APP_DIR)/$(TARGET) test
+all: build $(APP_DIR)/$(TARGET) lib test
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
