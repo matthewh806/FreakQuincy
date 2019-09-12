@@ -4,8 +4,12 @@
 #include <vector>
 #include <iostream>
 
+#include "spdlog/sinks/stdout_color_sinks.h"
+
 #include "engine/ModuleBase.hpp"
 #include "engine/Modulatable.hpp"
+
+
 
 namespace engine {
     namespace filters {
@@ -23,11 +27,12 @@ namespace engine {
                 m_type(type),
                 m_yDelays(y_delays),
                 m_xDelays(x_delays),
-                m_y(y_delays),
-                m_x(x_delays),
-                m_a(y_delays),
-                m_b(x_delays)
+                m_y(y_delays, 0),
+                m_x(x_delays, 0),
+                m_a(y_delays, 0),
+                m_b(x_delays, 0)
                 {
+                    logger = spdlog::stdout_color_mt("Filter");
                 };
                 
                 ~AbstractFilter() {};
@@ -87,6 +92,7 @@ namespace engine {
 
             protected:
                 virtual void calculateCoefficients() = 0;
+                std::shared_ptr<spdlog::logger> logger;
 
                 double m_cutoff;
                 double m_resonance;

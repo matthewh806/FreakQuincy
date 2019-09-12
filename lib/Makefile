@@ -1,5 +1,5 @@
 
-TARGET = freak
+TARGET=freak
 CXX=clang++
 CXXFLAGS += -Wc++11-extensions -std=c++11 -Wall -D__MACOSX_CORE__
 
@@ -21,19 +21,19 @@ MKDIR = mkdir -p $(OUTPUTDIR)
 TEST = test -d
 RM=rm -f
 
-SOURCES += $(wildcard src/*.cpp src/*/*.cpp src/*/*/*.cpp)
-OBJS = $(SOURCES:%.cpp=$(OBJ_DIR)/%.o)
+SOURCES += $(wildcard src/*.cpp src/*/*.cpp src/*/*/*.cpp)	
+OBJS := $(SOURCES:%.cpp=$(OBJ_DIR)/%.o)
 
 OBJ_LIB := $(filter-out $(OBJ_DIR)/src/main.o, $(OBJS))
 
-TARGET_TEST = freak
+TARGET_TEST = freak_test
 CXXFLAGS_TEST += $(CXXFLAGS)
 LDFLAGSS_TEST += $(LDFLAGS)
 INC_TEST += $(INCLUDE) -Itests/catch.hpp
 SRC_TEST += $(wildcard tests/*.cpp)
-OBJ_TEST += $(filter-out $(OBJ_DIR)/src/main.o, $(OBJS)) $(SRC_TEST:%.cpp=$(TEST_OBJ_DIR)/%.o)
+OBJ_TEST := $(filter-out $(OBJ_DIR)/src/main.o, $(OBJS)) $(SRC_TEST:%.cpp=$(TEST_OBJ_DIR)/%.o)
 
-all: build $(APP_DIR)/$(TARGET)
+all: build $(APP_DIR)/$(TARGET) test
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
@@ -42,7 +42,7 @@ $(OBJ_DIR)/%.o: %.cpp
 
 $(APP_DIR)/$(TARGET): $(OBJS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) $(LDFLAGS) -o $(APP_DIR)/$(TARGET) $(OBJS)
+	$(CXX) $(LDFLAGS) -o $(APP_DIR)/$(TARGET) $(OBJS)
 
 .PHONY: all build clean debug release
 
@@ -55,10 +55,6 @@ debug: all
 
 release: CXXFLAGS += -O2
 release: all
-
-clean:
-	-@rm -rvf $(OBJ_DIR)/*
-	-@rm -rvf $(APP_DIR)/*
 
 .PHONY: lib
 lib: build_lib $(TARGET_LIB)
@@ -83,4 +79,9 @@ $(TEST_OBJ_DIR)/%.o: %.cpp
 
 $(APP_DIR)/$(TARGET_TEST) : $(OBJ_TEST)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS_TEST) $(INC_TEST) $(LDFLAGSS_TEST) -o $(APP_DIR)/$(TARGET_TEST) $(OBJ_TEST) 
+	$(CXX) $(LDFLAGSS_TEST) -o $(APP_DIR)/$(TARGET_TEST) $(OBJ_TEST) 
+
+clean:
+	-@rm -rvf $(OBJ_DIR)/*
+	-@rm -rvf $(APP_DIR)/*
+
