@@ -18,17 +18,17 @@ namespace engine {
     }
 
     void ExponentialTimeADSR::goToStage(STAGE stage) {
-        std::cout << "current value: " << m_curParamVal << std::endl;
+        logger->debug("current value: {}", m_curParamVal);
         
         AbstractEnvelope::goToStage(stage);
         calculateMultiplier(m_curParamVal, m_paramValues[m_stage], m_stageTimes[m_stage]);
         if(m_curParamVal == 0.0) { m_curParamVal = 0.0001; }
 
-        std::cout << "Stage: " << m_stage << ", multiplyer: " << gamma << std::endl;
+        logger->debug("Stage: {}, Multiplyer: {}", m_stage, gamma);
     }
 
     void ExponentialTimeADSR::calculateMultiplier(double startLevel, double endLevel, double length) {
-        std::cout << "length: " << length << std::endl;
+        logger->debug("length: {}", length);
         if(length == std::numeric_limits<float>::infinity()) {
             gamma = 1.0;
             return;

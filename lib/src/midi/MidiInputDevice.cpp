@@ -2,10 +2,9 @@
 
 namespace midi {
 
-    MidiInputDevice::MidiInputDevice() {}
-    MidiInputDevice::~MidiInputDevice() {}
-
     void MidiInputDevice::onMessage(MidiMessage msg) {
+        logger->debug(msg);
+
         msgQueue.addMessage(msg);
     }
 }

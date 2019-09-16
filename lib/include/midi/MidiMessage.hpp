@@ -2,6 +2,7 @@
 #define MIDIMESSAGE_HPP
 
 #include <iostream>
+#include <ostream>
 #include <math.h>
 
 namespace midi {
@@ -48,7 +49,7 @@ namespace midi {
             return bytes[1];
         }
 
-        uint8_t setNote(uint8_t note) {
+        void setNote(uint8_t note) {
             bytes[1] = note & 0x7f;
         }
 
@@ -57,24 +58,19 @@ namespace midi {
             return bytes[2];
         }
 
-        uint8_t setValue(uint8_t val) {
+        void setValue(uint8_t val) {
             bytes[2] = val & 0x7f;
         }
 
-        void printBinary() {
-            for(unsigned int i=0; i<size; i++) {
-                std::cout << "Byte " << i << " = " << std::bitset<8>(bytes[i]) << ", ";
+        friend std::ostream& operator<<(std::ostream& out, const MidiMessage& msg)
+        {
+            for(unsigned int i=0; i<msg.size; i++) {
+                out << "Byte " << i << " = " << std::hex << "0x" << (int)msg.bytes[i] << (i==msg.size-1 ? "" : ", ");
             }
 
-            std::cout << std::endl;
-        }
+            out << std::dec;
 
-        void printHex() {
-            for(unsigned int i=0; i<size; i++) {
-                std::cout << "Byte " << i << " = " << std::hex << "0x" << (int)bytes[i] << ", ";
-            }
-
-            std::cout << std::dec << std::endl;
+            return out;
         }
     };
 }

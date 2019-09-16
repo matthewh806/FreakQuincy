@@ -1,6 +1,8 @@
 #ifndef AUDIOENGINE_HPP
 #define AUDIOENGINE_HPP
 
+#include "spdlog/sinks/stdout_color_sinks.h"
+
 #include "dep/RtAudio.h"
 #include "engine/Synth.hpp"
 #include "engine/Spectrum.hpp"
@@ -24,6 +26,8 @@ namespace engine {
             }
 
         private:
+            std::shared_ptr<spdlog::logger> logger;
+            
             RtAudio *dac = NULL;
             double *buffer;
             std::shared_ptr<Synth> p_synth;

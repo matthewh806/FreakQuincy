@@ -2,6 +2,10 @@
 #define MIDIDEVICE_HPP
 
 #include <queue>
+
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/fmt/bundled/ostream.h"
+
 #include "midi/MidiMessage.hpp"
 
 namespace midi {
@@ -24,8 +28,11 @@ namespace midi {
 
     class MidiInputDevice {
         public:
-            MidiInputDevice();
-            ~MidiInputDevice();
+            MidiInputDevice() {
+                logger = spdlog::get("Midi");
+            };
+
+            ~MidiInputDevice() {};
 
             virtual int getDeviceId() { return -1; };
             virtual std::string getDeviceName() { return ""; };
@@ -34,6 +41,8 @@ namespace midi {
         protected:
             void onMessage(MidiMessage msg);
             virtual void setup() = 0;
+            
+            std::shared_ptr<spdlog::logger> logger;
     };
 }
 

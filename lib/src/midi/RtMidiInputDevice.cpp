@@ -36,7 +36,7 @@ namespace midi {
             return;
         }
 
-        std::cout << "Port Count: " << midiIn->getPortCount() << std::endl;
+        logger->debug("Port Count: {0}", midiIn->getPortCount());
 
         try {
             // TODO: Give option?
@@ -64,9 +64,6 @@ namespace midi {
         for(unsigned int i=0; i<nBytes; i++) {
             msg.bytes[i] = message->at(i);
         }
-
-        // msg.printBinary();
-        // msg.printHex();
 
         device->onMessage(msg);
     }

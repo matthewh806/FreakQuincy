@@ -10,8 +10,9 @@ namespace engine {
     }
     
     AudioEngine::AudioEngine(std::shared_ptr<Synth> synth) : p_synth(synth) {
-        setupAudioOutput();
+        logger = spdlog::stdout_color_mt("AudioEngine");
 
+        setupAudioOutput();
         p_spectrum = std::unique_ptr<Spectrum>(new Spectrum());
     }
 
@@ -32,12 +33,12 @@ namespace engine {
         std::vector<double> lastValues(AudioSettings::getChannels(), 0);
 
         if(nBufferFrames != engine->_printBuffer.size()) {
-            std::cout << "buffer size changed" << std::endl;
+            engine->logger->info("buffer size changed");
             engine->_printBuffer.resize(nBufferFrames);
         }
 
         if(status)
-            std::cout << "Stream underflow detected!" << std::endl;
+            engine->logger->warn("Stream underflow detected!");
 
         for(i = 0; i < nBufferFrames; i++) {
             play(&lastValues[0], engine->p_synth->tick());
@@ -56,7 +57,7 @@ namespace engine {
         dac = new RtAudio(RtAudio::MACOSX_CORE);
 
         if(dac->getDeviceCount() < 1) {
-            std::cout << "No audio devices found!" << std::endl;
+            logger->error("No audio devices found!");
             return;
         }
 
@@ -70,15 +71,18 @@ namespace engine {
 
         _printBuffer = std::vector<double>(bufferFrames, 0);
 
-        std::cout << dac->getDeviceInfo(parameters.deviceId).name << std::endl;
-        std::cout << dac->getDeviceInfo(parameters.deviceId).preferredSampleRate << std::endl;
+        logger->info(
+            "device ID: {}, sample rate {}", 
+            dac->getDeviceInfo(parameters.deviceId).name, 
+            dac->getDeviceInfo(parameters.deviceId).preferredSampleRate
+        );
 
         try {
             dac->openStream( &parameters, NULL, RTAUDIO_FLOAT64,
                         48000, &bufferFrames, &routing, this);
             dac->startStream();
         } catch(RtAudioError& e) {
-            std::cout << e.getMessage() << std::endl;
+            logger->error(e.getMessage());;
             return;
         }
     }

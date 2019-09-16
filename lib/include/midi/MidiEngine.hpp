@@ -8,6 +8,8 @@
 #include "midi/MidiInputDevice.hpp"
 #include "midi/MidiMessage.hpp"
 
+#include "spdlog/sinks/stdout_color_sinks.h"
+
 namespace midi {
     class MidiEngine {
         public:
@@ -34,6 +36,8 @@ namespace midi {
             float getLastNote();
 
         private:
+            std::shared_ptr<spdlog::logger> logger;
+            
             std::map<int, MidiInputDevice*> inputDevices;
             MidiInputDevice* curInputDevice = NULL;
 

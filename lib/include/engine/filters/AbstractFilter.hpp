@@ -91,7 +91,7 @@ namespace engine {
                 }
 
                 // z is a complex number e^(iw) in the Z-domain along a unit
-                // circle between 0 and the nyquist limit. w is the frequency
+                // circle between 0 and the nyquist limit. w is the freq
                 virtual double calculateTransferFunction(double z) = 0;
 
             protected:

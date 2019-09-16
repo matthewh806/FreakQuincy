@@ -5,6 +5,8 @@
 namespace midi {
 
     MidiEngine::MidiEngine() {
+        logger = spdlog::stdout_color_mt("Midi");
+        
         setupMidi();
     }
 

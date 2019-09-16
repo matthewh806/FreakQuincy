@@ -18,7 +18,7 @@ namespace engine {
     }
 
     void LFO::notePressed(float freq, bool legato) {
-        if(!free && !legato)
+        if(!m_free && !legato)
             m_state = 0.0;
     }
 
