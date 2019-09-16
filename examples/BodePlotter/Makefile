@@ -1,10 +1,10 @@
 TARGET=bodeplotter
 CXX=clang++
-CXXFLAGS+=-Wc++11-extensions -std=c++11 -Wall -D__MACOSX_CORE__
-
-INCLUDE=-Iinclude -Iusr/include -I/usr/local/include -I$(LIB_DIR)/include
+CXXFLAGS+=-Wc++11-extensions -std=c++11 -Wall
 
 LIB_DIR=../../lib
+INCLUDE=-Iinclude -Iusr/include -I/usr/local/include -I$(LIB_DIR)/include
+
 
 LDFLAGS += -L/usr/lib -L/usr/local/lib -lstdc++ -lm -pthread $(LIB_DIR)/libfreak.a -lboost_iostreams -lboost_system -lboost_filesystem
 

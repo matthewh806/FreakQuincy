@@ -5,15 +5,17 @@
 QT += core gui widgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
+LIB_DIR = ../lib
+
 TEMPLATE = app
-TARGET = FreakQuincy
+TARGET = FreakQuincyApp
 INCLUDEPATH += .
 INCLUDEPATH += /usr/include 
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += include/
-INCLUDEPATH += ../lib/include
+INCLUDEPATH += $$LIB_DIR/include
 LIBS += -L/usr/lib -L/usr/local/lib -lstdc++ -lfftw3 -lm -pthread
-LIBS += ./libfreak.a
+LIBS += $$LIB_DIR/libfreak.a
 LIBS += -framework CoreFoundation -framework CoreAudio -framework CoreMIDI
 
 RESOURCES   = FreakQuincy.qrc
