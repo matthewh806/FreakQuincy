@@ -1,6 +1,8 @@
 #ifndef AUDIOENGINE_HPP
 #define AUDIOENGINE_HPP
 
+#include <map>
+
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 #include "dep/RtAudio.h"
@@ -12,6 +14,9 @@ namespace engine {
         public:
             AudioEngine(std::shared_ptr<Synth> synth);
             ~AudioEngine();
+
+            std::map<int, std::string> getAudioOutputDevices();
+            void setAudioOutputDevice(int deviceId);
 
             std::vector<double> getAudioBuffer() {
                 return _printBuffer;
@@ -27,6 +32,7 @@ namespace engine {
 
         private:
             std::shared_ptr<spdlog::logger> logger;
+            int currentDeviceId = -1;
             
             RtAudio *dac = NULL;
             double *buffer;
@@ -44,7 +50,9 @@ namespace engine {
             static void play(double *output, float waveOutput);
             static int routing(void *outputBuffer, void *intputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
 
-            void setupAudioOutput();
+            void setupAudioEngine();
+            void openStream();
+            void closeStream();
     };
 }
 

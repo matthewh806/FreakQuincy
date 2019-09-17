@@ -12,12 +12,36 @@ namespace engine {
     AudioEngine::AudioEngine(std::shared_ptr<Synth> synth) : p_synth(synth) {
         logger = spdlog::stdout_color_mt("AudioEngine");
 
-        setupAudioOutput();
+        setupAudioEngine();
         p_spectrum = std::unique_ptr<Spectrum>(new Spectrum());
     }
 
     AudioEngine::~AudioEngine() {
 
+    }
+
+    std::map<int, std::string> AudioEngine::getAudioOutputDevices() {
+        std::map<int, std::string> devices;
+
+        if(!dac) {
+            devices.insert(std::pair<int, std::string>(0, "No devices found"));
+        } else {
+            RtAudio::DeviceInfo info;
+            for( unsigned int i=0; i<dac->getDeviceCount(); i++) {
+                info = dac->getDeviceInfo(i);
+
+                devices.insert(std::pair<int, std::string>(i, info.name));
+            }
+        }
+
+        return devices;
+    }
+
+    void AudioEngine::setAudioOutputDevice(int deviceId) {
+        closeStream();
+
+        currentDeviceId = deviceId;
+        openStream();
     }
 
     void AudioEngine::play(double *output, float synthOutput) {
@@ -53,37 +77,92 @@ namespace engine {
         return 0;
     }
 
-    void AudioEngine::setupAudioOutput() {
+    void AudioEngine::setupAudioEngine() {
         dac = new RtAudio(RtAudio::MACOSX_CORE);
+        unsigned int devices = dac->getDeviceCount();
 
-        if(dac->getDeviceCount() < 1) {
+        if(devices < 1) {
             logger->error("No audio devices found!");
             return;
         }
 
+        unsigned int bufferFrames = AudioSettings::getbufferSize();
+        _printBuffer = std::vector<double>(bufferFrames, 0);
+
+        RtAudio::DeviceInfo info;
+        for( unsigned int i=0; i<devices; i++) {
+            info = dac->getDeviceInfo(i);
+
+            if(!info.probed)
+                continue;
+            
+            logger->info("Device: {}, name: {}, max. output channels: {}", i, info.name, info.outputChannels);
+        }
+
+        unsigned int defaultId = dac->getDefaultOutputDevice();
+        logger->info("Default device: {}:{}", defaultId, dac->getDeviceInfo(defaultId).name);
+    }
+
+    void AudioEngine::openStream() {
+        if(currentDeviceId < 0) {
+            // This is a dummy device so do nothing
+            return;
+        }
+
+        if(dac->isStreamOpen())
+            return;
+
         RtAudio::StreamParameters parameters;
-        parameters.deviceId = dac->getDefaultOutputDevice();
+        parameters.deviceId = currentDeviceId;
         parameters.nChannels = AudioSettings::getChannels();
         parameters.firstChannel = 0;
 
         unsigned int bufferFrames = AudioSettings::getbufferSize();
         unsigned int sampleRate = AudioSettings::getSampleRate();
 
-        _printBuffer = std::vector<double>(bufferFrames, 0);
-
-        logger->info(
-            "device ID: {}, sample rate {}", 
-            dac->getDeviceInfo(parameters.deviceId).name, 
-            dac->getDeviceInfo(parameters.deviceId).preferredSampleRate
-        );
 
         try {
+             logger->info(
+                 "Opening audio device {}:{}, {} outputs",
+                 currentDeviceId,
+                 dac->getDeviceInfo(parameters.deviceId).name, 
+                 dac->getDeviceInfo(parameters.deviceId).outputChannels
+            );
+
             dac->openStream( &parameters, NULL, RTAUDIO_FLOAT64,
                         48000, &bufferFrames, &routing, this);
+        } catch(RtAudioError& e) {
+            logger->warn("Failed to open audio stream: {}", e.getMessage());
+            return;
+        }
+
+        try {
+            logger->info("Starting audio stream {}", currentDeviceId);
             dac->startStream();
         } catch(RtAudioError& e) {
-            logger->error(e.getMessage());;
-            return;
+            logger->warn("Failed to start audio stream: {}", e.what());
+        }
+    }
+
+    void AudioEngine::closeStream() {
+        if(dac->isStreamRunning()) {
+            logger->info("Stopping audio stream {}", currentDeviceId);
+
+            try {
+                dac->stopStream();
+            } catch (RtAudioError& e) {
+                logger->warn("Couldn't stop audio stream {}", e.what());
+            }
+        }
+
+        if(dac->isStreamOpen()) {
+            logger->info("Closing audio stream {}", currentDeviceId);
+
+            try {
+                dac->closeStream();
+            } catch (RtAudioError& e) {
+                logger->warn("Couldn't close audio stream {}", e.what());
+            }
         }
     }
 }

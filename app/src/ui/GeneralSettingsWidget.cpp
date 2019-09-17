@@ -21,6 +21,12 @@ namespace ui {
         }
     }
 
+    void GeneralSettingsWidget::initializeAudioOutputOptions(std::map<int, std::string> outputDevices) {
+        for(auto const& x : outputDevices) {
+            audioOutputComboBox->insertItem(x.first, QString::fromStdString(x.second));
+        }
+    }
+
     void GeneralSettingsWidget::sampleRateSpinBoxValChanged(int rate) {
         emit sampleRateChanged(rate);
     }
@@ -46,12 +52,19 @@ namespace ui {
         connect(midiInputComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), 
             [=](int val) { this->emit midiInputChanged(val); });
 
+        QLabel *audioOutputLabel = new QLabel(tr("Audio Output Device"));
+        audioOutputComboBox = new QComboBox;
+        connect(audioOutputComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            [=](int val) {this->emit audioOutputChanged(val);});
+
         vBox = new QVBoxLayout;
         vBox->addWidget(sampleRateLabel);
         vBox->addWidget(sampleRateSpinBox);
         vBox->addWidget(legatoCheckBox);
         vBox->addWidget(midiInputLabel);
         vBox->addWidget(midiInputComboBox);
+        vBox->addWidget(audioOutputLabel);
+        vBox->addWidget(audioOutputComboBox);
 
         this->contentFrame()->setLayout(vBox);
     }

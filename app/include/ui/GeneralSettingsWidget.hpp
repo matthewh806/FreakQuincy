@@ -17,11 +17,13 @@ namespace ui {
             ~GeneralSettingsWidget();
 
             void initializeMidiInOptions(std::map<int, std::string> midiInputOptions);
+            void initializeAudioOutputOptions(std::map<int, std::string> outputDevices);
 
         signals:
             void sampleRateChanged(int);
             void legatoToggled(bool);
             void midiInputChanged(int);
+            void audioOutputChanged(int);
 
         private slots:
             void sampleRateSpinBoxValChanged(int);
@@ -33,6 +35,7 @@ namespace ui {
             QVBoxLayout *vBox;
             QSpinBox *sampleRateSpinBox;
             QComboBox *midiInputComboBox;
+            QComboBox *audioOutputComboBox;
             QCheckBox *legatoCheckBox;
     };
 }

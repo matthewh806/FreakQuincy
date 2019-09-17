@@ -83,10 +83,11 @@ namespace ui {
         m_mainWindow->lfoWidget->setModDepth(m_synth->getLfoDepth(1) * 100);
 
         m_mainWindow->settingsWidget->initializeMidiInOptions(m_midiEngine->getMidiInputDevices());
+        m_mainWindow->settingsWidget->initializeAudioOutputOptions(m_engine->getAudioOutputDevices());
 
         m_mainWindow->resize(1024, 900);
         m_mainWindow->setWindowTitle("FreakQuency");
-        m_mainWindow->show();
+        m_mainWindow->show(); 
 
         m_UiTimer = new QTimer(this);
         connect(m_UiTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
@@ -114,6 +115,10 @@ namespace ui {
 
         connect(m_mainWindow->settingsWidget, &GeneralSettingsWidget::midiInputChanged, 
             this, [=](int idx) { this->m_midiEngine->setMidiInputDevice(idx); }
+        );
+
+        connect(m_mainWindow->settingsWidget, &GeneralSettingsWidget::audioOutputChanged,
+            this, [=](int idx) { this->m_engine->setAudioOutputDevice(idx); }
         );
     }
 
