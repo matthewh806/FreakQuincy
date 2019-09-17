@@ -91,18 +91,25 @@ namespace ui {
         m_UiTimer = new QTimer(this);
         connect(m_UiTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         m_UiTimer->start(100); // 100 ms timer
-
+ 
         m_midiTimer = new QTimer(this);
         connect(m_midiTimer, &QTimer::timeout, this, [=]() { this->m_midiEngine->process();});
         m_midiTimer->start(1); 
 
-        // TODO: DONT IGNORE THESE COMMENTED LINES U LITTLE SHIT. THIS IS STUFF U HAVE 2 FIX!!! :@
         connect(m_mainWindow, &MainWindow::keyPressedEvent, this, [=](QKeyEvent *event) {
-            // this->m_midiEngine->computerKeyPressed(event);
+            io::KeyboardEvent* e = new io::KeyboardEvent;
+            e->type = io::KEY_PRESS;
+            e->key = (io::Key)event->key();
+
+            this->m_midiEngine->computerKeyPressed(e);
         });
 
         connect(m_mainWindow, &MainWindow::keyReleasedEvent, this, [=](QKeyEvent *event) {
-            // this->m_midiEngine->computerKeyReleased(event);
+            io::KeyboardEvent* e = new io::KeyboardEvent;
+            e->type = io::KEY_RELEASE;
+            e->key = (io::Key)event->key();
+
+            this->m_midiEngine->computerKeyReleased(e);
         });
 
         connect(m_mainWindow->settingsWidget, &GeneralSettingsWidget::midiInputChanged, 

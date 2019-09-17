@@ -2,15 +2,11 @@
 #define COMPUTERKEYBOARDINPUTDEVICE_HPP
 
 #include <map>
+#include "io/KeyboardEvent.hpp"
 #include "midi/MidiInputDevice.hpp"
 
 namespace midi {
     class ComputerKeyboardInputDevice  : public MidiInputDevice {
-
-        enum KEY {
-            Key_Q = 0x51,
-            Key_W = 0x57  
-        };
         
         public:
             ComputerKeyboardInputDevice();
@@ -23,16 +19,23 @@ namespace midi {
 
         private:
             const std::map<int, int> keyToNoteMap = {
-                {KEY::Key_Q, 60},
-                {KEY::Key_W, 62}
-                // {Qt::Key_E, 64},
-                // {Qt::Key_R, 65},
-                // {Qt::Key_T, 67},
-                // {Qt::Key_Y, 69},
-                // {Qt::Key_U, 71},
+                {io::Key::Q, 60},
+                {io::Key::TWO, 61},
+                {io::Key::W, 62},
+                {io::Key::THREE, 63},
+                {io::Key::E, 64},
+                {io::Key::R, 65},
+                {io::Key::FIVE, 66},
+                {io::Key::T, 67},
+                {io::Key::SIX, 68},
+                {io::Key::Y, 69},
+                {io::Key::SEVEN, 70},
+                {io::Key::U, 71},
+                {io::Key::U, 72}
             };
 
             void setup() override;
+            void sendMidiEvent(uint8_t note, StatusType type);
     };
 }
 

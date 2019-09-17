@@ -3,8 +3,9 @@
 
 #include <vector>
 #include <map>
-// TODO: Wrap in custom event class to avoid this here
+
 #include "dep/RtMidi.h"
+#include "io/KeyboardEvent.hpp"
 #include "midi/MidiInputDevice.hpp"
 #include "midi/MidiMessage.hpp"
 
@@ -21,8 +22,8 @@ namespace midi {
 
             void process();
 
-            // void computerKeyPressed(QKeyEvent *event);
-            // void computerKeyReleased(QKeyEvent *event);
+            void computerKeyPressed(io::KeyboardEvent *event);
+            void computerKeyReleased(io::KeyboardEvent *event);
 
             std::map<int, std::string> getMidiInputDevices();
             

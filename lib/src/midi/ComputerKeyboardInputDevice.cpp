@@ -17,26 +17,28 @@ namespace midi {
         auto it = keyToNoteMap.find(key);
 
         if(it == keyToNoteMap.end()) {
+            logger->warn("Key {} not found in keyToNoteMap", key);
             return;
         }
 
-        midi::MidiMessage msg;
-        msg.setStatus(StatusType::NOTE_ON);
-        msg.setNote(it->second);
-        msg.setValue(127);
-        
-        this->onMessage(msg);
+        sendMidiEvent(it->second, StatusType::NOTE_ON);
     }
     
     void ComputerKeyboardInputDevice::keyReleased(int key) {
         auto it = keyToNoteMap.find(key);
 
-        if(it == keyToNoteMap.end())
+        if(it == keyToNoteMap.end()) {
+            logger->warn("Key {} not found in keyToNoteMap", key);
             return;
+        }
 
+        sendMidiEvent(it->second, StatusType::NOTE_OFF);
+    }
+
+    void ComputerKeyboardInputDevice::sendMidiEvent(uint8_t note, StatusType type) {
         midi::MidiMessage msg;
-        msg.setStatus(StatusType::NOTE_OFF);
-        msg.setNote(it->second);
+        msg.setStatus(type);
+        msg.setNote(note);
         msg.setValue(127);
         
         this->onMessage(msg);
