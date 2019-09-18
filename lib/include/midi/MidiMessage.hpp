@@ -13,13 +13,6 @@ namespace midi {
         UNKNOWN = 0x0 // check if this is sensible...
     };
 
-    static float midiNoteToFreq(uint8_t midiNote) {
-        // TODO: Check midi note value is between 0 - 127
-
-        // TODO: Reference frequency? Default is A4 = 440Hz, m_A4 = 69
-        return pow(2, (float)(midiNote - 69)/12.0)*440;
-    };
-
     // TODO: Store timestamp
     struct MidiMessage {
         uint8_t size = 3;

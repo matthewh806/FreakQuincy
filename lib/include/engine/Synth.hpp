@@ -25,6 +25,8 @@ namespace engine {
             float getVCOMixValue(int idx);
             void setVCOMixValue(int idx, float value);
 
+            void setMasterTuneOffset(double semitoneOffset);
+
             float getAttack();
             void setAttack(float t);
             

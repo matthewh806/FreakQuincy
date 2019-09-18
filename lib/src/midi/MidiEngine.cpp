@@ -71,7 +71,7 @@ namespace midi {
             return 0.0;
         }
 
-        return midiNoteToFreq(heldNotes.back());
+        return utilities::midiNoteToFreq(heldNotes.back());
     }
 
     std::map<int, std::string> MidiEngine::getMidiInputDevices() { 

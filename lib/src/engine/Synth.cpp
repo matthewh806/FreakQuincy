@@ -89,6 +89,12 @@ namespace engine {
         m_mixer->changeVCOWeight(m_VCOs[idx].get(), value);
     }
 
+    void Synth::setMasterTuneOffset(double semitoneOffset) {
+        logger->info("Master tune offset set to: {} semitones", semitoneOffset);
+        for(const auto& kv : m_VCOs)
+            kv.second->setMasterPitchOffset(semitoneOffset);
+    }
+
     float Synth::getAttack() {
         return m_VCA->getEnvelope()->getAttackTime();
     }

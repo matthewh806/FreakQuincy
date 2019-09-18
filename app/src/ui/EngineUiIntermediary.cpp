@@ -31,6 +31,11 @@ namespace ui {
             [=](int id, double val) {
                 m_synth->setVCOMixValue(id, val);
         });
+
+        connect(m_mainWindow->oscillatorWidget->mixerWidget, &MixerWidget::globalTuneValChanged, this,
+            [=](double val) {
+                m_synth->setMasterTuneOffset(val);
+        });
         
         connect(m_mainWindow->vcaWidget, SIGNAL(ampAttackValChanged(int)), this, SLOT(attackTimeChanged(int)));
         connect(m_mainWindow->vcaWidget, SIGNAL(ampDecayValChanged(int)), this, SLOT(decayTimeChanged(int)));

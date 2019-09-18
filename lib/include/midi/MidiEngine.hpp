@@ -9,7 +9,7 @@
 #include "midi/MidiInputDevice.hpp"
 #include "midi/MidiMessage.hpp"
 
-#include "utilities/logging.hpp"
+#include "utilities/utilities.hpp"
 
 namespace midi {
     class MidiEngine {

@@ -20,10 +20,13 @@ namespace ui {
 
         signals:
             void mixValChanged(int id, double v);
+            void globalTuneValChanged(double v);
         
         private:
             void setup();
             QDoubleDial* createMixerDial(int id);
+            
+            QDoubleDial* globalTuneDial;
             std::map<int, QDoubleDial*> mixDials;
     };
 }
