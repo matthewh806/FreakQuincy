@@ -9,7 +9,7 @@
 #include "midi/MidiInputDevice.hpp"
 #include "midi/MidiMessage.hpp"
 
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include "utilities/logging.hpp"
 
 namespace midi {
     class MidiEngine {

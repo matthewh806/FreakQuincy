@@ -14,7 +14,7 @@ namespace engine {
 
     class Modulator : public ModuleBase {
         public:
-            Modulator(double depth, bool bypass) : m_depth(depth), m_bypass(bypass) {};
+            Modulator(double depth, bool bypass, std::string loggerName) : ModuleBase(loggerName), m_depth(depth), m_bypass(bypass) {};
             ~Modulator() {};
 
             virtual void notePressed(float freq, bool legato) {};

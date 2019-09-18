@@ -3,7 +3,7 @@
 
 #include <queue>
 
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include "utilities/logging.hpp"
 #include "spdlog/fmt/bundled/ostream.h"
 
 #include "midi/MidiMessage.hpp"
@@ -29,7 +29,7 @@ namespace midi {
     class MidiInputDevice {
         public:
             MidiInputDevice() {
-                logger = spdlog::get("Midi");
+                logger = utilities::setupLogger("Midi");
             };
 
             ~MidiInputDevice() {};

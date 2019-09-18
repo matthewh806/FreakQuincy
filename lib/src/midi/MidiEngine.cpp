@@ -5,7 +5,7 @@
 namespace midi {
 
     MidiEngine::MidiEngine() {
-        logger = spdlog::stdout_color_mt("Midi");
+        logger = utilities::setupLogger("Midi");
         
         setupMidi();
     }

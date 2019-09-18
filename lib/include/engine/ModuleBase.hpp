@@ -2,6 +2,8 @@
 #define MODULEBASE_HPP
 
 #include <vector>
+#include <memory>
+#include <utilities/logging.hpp>
 
 namespace engine {
     
@@ -16,8 +18,9 @@ namespace engine {
     class ModuleBase {
 
         public:
-            ModuleBase() {
+            ModuleBase(std::string loggerName) {
                 m_id=++counter;
+                logger = utilities::setupLogger(loggerName);
             }
 
             ~ModuleBase() {};
@@ -30,6 +33,7 @@ namespace engine {
 
         protected:
             int m_id;
+            std::shared_ptr<spdlog::logger> logger;
 
         private:
             static int counter;

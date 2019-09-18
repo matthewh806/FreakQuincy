@@ -3,15 +3,13 @@
 
 #include <iostream>
 
-#include "spdlog/sinks/stdout_color_sinks.h"
-
 #include "engine/Modulator.hpp"
 #include "engine/AudioSettings.hpp"
 
 namespace engine {
     class AbstractEnvelope : public Modulator {
         public:
-            AbstractEnvelope(float attackTime, float decayTime, float sustainLevel, float releaseTime, double depth, bool bypass) : Modulator(depth, bypass) {
+            AbstractEnvelope(float attackTime, float decayTime, float sustainLevel, float releaseTime, double depth, bool bypass) : Modulator(depth, bypass, "Envelope") {
                 m_stageTimes = std::vector<float> { 
                     0.03,
                     attackTime, 
@@ -34,8 +32,6 @@ namespace engine {
                 m_state = 0.0;
                 m_curParamVal = 0.0;
                 m_prevParamVal = 0.0;
-
-                logger = spdlog::stdout_color_mt("Envelope");
             };
 
             ~AbstractEnvelope() {}
@@ -85,8 +81,6 @@ namespace engine {
             // The following vectors follow this pattern: RAMP, A, De, S, R, Do (De = Decay, Do = Done)
             std::vector<float> m_stageTimes;  // Time when each stage ends S,D = inf
             std::vector<float> m_paramValues; // Target param. value of stage De = S, RAMP=R=Do= 0
-
-            std::shared_ptr<spdlog::logger> logger;
 
             virtual void goToStage(STAGE stage);
     };

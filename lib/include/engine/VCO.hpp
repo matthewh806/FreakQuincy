@@ -8,9 +8,9 @@
 
 namespace engine {
 
-    class VCO : public Oscillator, public ModuleBase, public Modulatable {
+    class VCO : public ModuleBase, public Oscillator, public Modulatable {
         public:
-            VCO(WaveTypes wType, double freq) : Oscillator(wType, freq) {}
+            VCO(WaveTypes wType, double freq) : ModuleBase("VCO"), Oscillator(wType, freq) {}
             ~VCO() {};
 
             double getLastOut() { return m_lastOut; }

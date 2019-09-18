@@ -11,6 +11,8 @@
 #include "engine/VCA.hpp"
 #include "engine/filters/AbstractFilter.hpp"
 
+#include "utilities/logging.hpp"
+
 namespace engine {
     class Synth {
         public:
@@ -64,6 +66,8 @@ namespace engine {
             double tick();
 
         private:
+            std::shared_ptr<spdlog::logger> logger;
+
             std::map<int, std::unique_ptr<VCO>> m_VCOs;
             std::map<int, std::unique_ptr<LFO>> m_LFOs;
             std::unique_ptr<VCA> m_VCA;

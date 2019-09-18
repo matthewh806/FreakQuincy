@@ -10,6 +10,9 @@ namespace engine {
     class Mixer : public ModuleBase {
 
         public:
+            Mixer() : ModuleBase("Mixer") {};
+            ~Mixer() {};
+
             void addVCO(VCO* vco, float weight) {
                 auto it = m_vco_weights.find(vco);
 

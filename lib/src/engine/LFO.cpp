@@ -4,7 +4,7 @@
 #include "engine/AudioSettings.hpp"
 
 namespace engine {
-    LFO::LFO(WaveTypes type, double freq, double depth, bool bypass) : Oscillator(type, freq), Modulator(depth, bypass) {
+    LFO::LFO(WaveTypes type, double freq, double depth, bool bypass) : Oscillator(type, freq), Modulator(depth, bypass, "LFO") {
         m_rate = 1.0 / AudioSettings::getSampleRate();
         m_state = 0.0;
         m_free = true;
