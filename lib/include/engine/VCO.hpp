@@ -15,17 +15,22 @@ namespace engine {
             VCO(WaveTypes wType, double freq) : ModuleBase("VCO"), Oscillator(wType, freq) {};
             ~VCO() {};
 
-            void setMasterPitchOffset(double pitchOffset) { m_masterPitchOffset = pitchOffset; }
-            void setFineTuneOffset(double pitchOffset) { m_fineTunePitchOffset = pitchOffset; }
+            void setMasterPitchOffset(double pitchOffset) { 
+                m_masterPitchOffset = pitchOffset; 
+                setFrequency(m_waveForm->getFrequency());
+            }
+            
+            void setFineTuneOffset(double pitchOffset) { 
+                m_fineTunePitchOffset = pitchOffset; 
+                setFrequency(m_waveForm->getFrequency());
+            }
+
+            void setFrequency(double freq); 
 
             double getLastOut() { return m_lastOut; }
 
             void notePressed(float freq, bool legato) override { 
-                float pitchOffset = m_masterPitchOffset + ((float)1/100.0) * m_fineTunePitchOffset;
-                float oscFreq = utilities::semitoneShiftToFreq(freq, pitchOffset);
-
-                logger->debug("id: {}, freq: {}, shiftedFreq: {}", getId(), freq, oscFreq);
-                m_waveForm->setFrequency(oscFreq); 
+                setFrequency(freq);
             };
             
             double tick(double input = 0) override;
