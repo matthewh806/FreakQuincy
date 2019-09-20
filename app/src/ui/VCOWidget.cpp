@@ -37,9 +37,26 @@ namespace ui {
             [=](double val) { this->emit oscFineTuneValChanged(val); }
         );
 
+        QString phaseOffsetStr = QString::fromStdString("Phase Offset");
+        phaseOffsetDial = new QDoubleDial(phaseOffsetStr, this, 2);
+        phaseOffsetDial->setMinimum(0.0);
+        phaseOffsetDial->setMaximum(360.0);
+        phaseOffsetDial->setSingleStep(5.0);
+        phaseOffsetDial->setValue(0.0);
+
+        connect(phaseOffsetDial, &QDoubleDial::doubleValueChanged, this,
+            [=](double val) { this->emit oscPhaseOffsetValChanged(val); }
+        );
+
+        QWidget* dialsWidget = new QWidget;
+        QHBoxLayout* dialsHBox = new QHBoxLayout;
+        dialsHBox->addWidget(fineTuneDial, 0, Qt::AlignHCenter);
+        dialsHBox->addWidget(phaseOffsetDial, 0, Qt::AlignHCenter);
+        dialsWidget->setLayout(dialsHBox);
+
         vBox = new QVBoxLayout;
         vBox->addWidget(waveformSelector);
-        vBox->addWidget(fineTuneDial);
+        vBox->addWidget(dialsWidget);
         this->setLayout(vBox);
     }
 }

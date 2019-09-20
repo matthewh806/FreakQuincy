@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <memory>
@@ -10,7 +9,6 @@
 namespace ui {
 
     // TODO: Separate class for UI to core engine...!
-    // TODO: Button to start / stop audio stream.
     MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
         setupMainWindow();
     }
@@ -36,6 +34,17 @@ namespace ui {
     void MainWindow::setupMainWindow() {
         centralWidget = new QWidget();
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+
+        QSize availableSize = qApp->desktop()->availableGeometry().size();
+        QSize newSize(availableSize.width(), availableSize.height());
+        setGeometry(
+            QStyle::alignedRect(
+                Qt::LeftToRight,
+                Qt::AlignCenter,
+                newSize,
+                qApp->desktop()->availableGeometry()
+            )
+        );
 
         gridLayout = new QGridLayout(this);
 

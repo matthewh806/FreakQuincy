@@ -16,16 +16,15 @@ namespace ui {
         mixerWidget = new MixerWidget();
 
         QWidget *vcoWidget = new QWidget;
-        QVBoxLayout *vcoVBox = new QVBoxLayout;
-        vcoVBox->addWidget(vco1);
-        vcoVBox->addWidget(vco2);
-        vcoWidget->setLayout(vcoVBox);
+        QHBoxLayout *vcoHBox = new QHBoxLayout;
+        vcoHBox->addWidget(vco1);
+        vcoHBox->addWidget(vco2);
+        vcoWidget->setLayout(vcoHBox);
 
+        QVBoxLayout *vBox = new QVBoxLayout;
+        vBox->addWidget(vcoWidget);
+        vBox->addWidget(mixerWidget);
 
-        QHBoxLayout *hBox = new QHBoxLayout;
-        hBox->addWidget(vcoWidget);
-        hBox->addWidget(mixerWidget);
-
-        this->contentFrame()->setLayout(hBox);
+        this->contentFrame()->setLayout(vBox);
     }
 }

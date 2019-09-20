@@ -18,10 +18,10 @@ namespace ui {
         mixDials.insert({1, createMixerDial(1)});
         mixDials.insert({2, createMixerDial(2)});
 
-        QVBoxLayout *vBox = new QVBoxLayout;
+        QHBoxLayout *hBox = new QHBoxLayout;
         
         for(const auto& kv : mixDials) {
-            vBox->addWidget(kv.second, 0, Qt::AlignHCenter);
+            hBox->addWidget(kv.second, 0, Qt::AlignHCenter);
         }
 
         QString tuneLabelStr = QString::fromStdString("Global Tune (st)");
@@ -35,8 +35,8 @@ namespace ui {
             [=](double val) { this->emit globalTuneValChanged(val); }
         );
 
-        vBox->addWidget(globalTuneDial, 0, Qt::AlignHCenter);
-        this->setLayout(vBox);
+        hBox->addWidget(globalTuneDial, 0, Qt::AlignHCenter);
+        this->setLayout(hBox);
     }
 
     QDoubleDial* MixerWidget::createMixerDial(int id) {

@@ -23,6 +23,7 @@ namespace ui {
         signals:
             void oscTypeChanged(int type);
             void oscFineTuneValChanged(double val);
+            void oscPhaseOffsetValChanged(double val);
 
         private:
             void setup();
@@ -30,6 +31,7 @@ namespace ui {
             QVBoxLayout *vBox;
             WaveformSelectorWidget *waveformSelector;
             QDoubleDial *fineTuneDial;
+            QDoubleDial *phaseOffsetDial;
     };
 }
 
