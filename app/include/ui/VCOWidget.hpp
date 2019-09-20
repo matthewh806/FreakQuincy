@@ -5,6 +5,8 @@
 #include <QString>
 
 #include "ui/WaveformSelectorWidget.hpp"
+#include "ui/QDoubleDial.hpp"
+
 #include "engine/WaveForm.hpp"
 
 namespace ui {
@@ -20,12 +22,14 @@ namespace ui {
         
         signals:
             void oscTypeChanged(int type);
+            void oscFineTuneValChanged(double val);
 
         private:
             void setup();
 
             QVBoxLayout *vBox;
             WaveformSelectorWidget *waveformSelector;
+            QDoubleDial *fineTuneDial;
     };
 }
 

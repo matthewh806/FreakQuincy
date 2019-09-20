@@ -22,6 +22,8 @@ namespace engine {
             void setOscFrequency(int idx, double freq);
             void setOscType(int idx, WaveTypes type);
 
+            void setOscFineTune(int idx, double centOffset);
+
             float getVCOMixValue(int idx);
             void setVCOMixValue(int idx, float value);
 

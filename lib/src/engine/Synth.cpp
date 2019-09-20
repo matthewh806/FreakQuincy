@@ -75,6 +75,13 @@ namespace engine {
         m_VCOs[idx]->setWaveType(type);
     }
 
+    void Synth::setOscFineTune(int idx, double centOffset) {
+        if( m_VCOs.find(idx) == m_VCOs.end())
+            return;
+
+        m_VCOs[idx]->setFineTuneOffset(centOffset);
+    }
+
     float Synth::getVCOMixValue(int idx) {
         if( m_VCOs.find(idx) == m_VCOs.end())
             return 0.0;

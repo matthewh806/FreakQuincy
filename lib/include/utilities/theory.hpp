@@ -10,7 +10,7 @@ namespace utilities {
         static const float TWELFTH_POWER_OF_TWO = 1.0594630944f; // semi-tone interval
     }
 
-    static float centShiftToFreq(float baseFreq, int centShift) {
+    static float centShiftToFreq(float baseFreq, double centShift) {
         return pow(2, centShift / (float)12000) * baseFreq;
     }
 

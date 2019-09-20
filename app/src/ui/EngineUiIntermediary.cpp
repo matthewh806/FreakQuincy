@@ -27,6 +27,18 @@ namespace ui {
                 m_synth->setOscType(2, (engine::WaveTypes)val);
         });
 
+        connect(m_mainWindow->oscillatorWidget->vco1, &VCOWidget::oscFineTuneValChanged, this,
+            [=](double val) {
+                m_synth->setOscFineTune(1, val);
+            }
+        );
+
+        connect(m_mainWindow->oscillatorWidget->vco2, &VCOWidget::oscFineTuneValChanged, this,
+            [=](double val) {
+                m_synth->setOscFineTune(2, val);
+            }
+        );
+
         connect(m_mainWindow->oscillatorWidget->mixerWidget, &MixerWidget::mixValChanged, this,
             [=](int id, double val) {
                 m_synth->setVCOMixValue(id, val);
