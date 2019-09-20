@@ -59,11 +59,11 @@ namespace ui {
             ~QDoubleDial() {};
 
             QSize sizeHint() const override {
-                return QSize(100, 100);
+                return QSize(75, 75);
             }
 
             QSize minimumSizeHint() const override {
-                return QSize(100, 100);
+                return QSize(75, 75);
             }
 
             int heightForWidth(int w) const override {

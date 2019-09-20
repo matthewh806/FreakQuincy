@@ -16,7 +16,7 @@ namespace ui {
 
         painter.setPen(textPen);
         painter.drawText(*m_valueRect, Qt::AlignCenter, m_valueString);
-        painter.drawText(*m_textRect, Qt::AlignHCenter | Qt::AlignBottom, m_text);
+        painter.drawText(*m_textRect, Qt::AlignHCenter | Qt::AlignBottom | Qt::TextWordWrap, m_text);
 
         painter.setPen(*m_arcPen);
         painter.drawArc(*m_arcRect, m_startAngle, m_angleSpan);
@@ -28,7 +28,7 @@ namespace ui {
         double w = QDial::width() - (2 * m_arcWidth);
         double h = w / 2;
 
-        *m_textRect = QRectF(m_arcWidth, h, w, h);
+        *m_textRect = QRectF(m_arcWidth, m_arcWidth, w, h);
         *m_valueRect = QRectF(m_arcWidth, h, w, h);
 
         *m_arcRect = QRectF(

@@ -26,7 +26,7 @@ namespace ui {
             this, [=](int type) { this->emit oscTypeChanged(type); }
         );
 
-        QString tuneLabelStr = QString::fromStdString("Fine Tune (ct)");
+        QString tuneLabelStr = QString::fromStdString("Fine\nTune (ct)");
         fineTuneDial = new QDoubleDial(tuneLabelStr, this, 2);
         fineTuneDial->setMinimum(-150.0);
         fineTuneDial->setMaximum(150.0);
@@ -37,7 +37,7 @@ namespace ui {
             [=](double val) { this->emit oscFineTuneValChanged(val); }
         );
 
-        QString phaseOffsetStr = QString::fromStdString("Phase Offset");
+        QString phaseOffsetStr = QString::fromStdString("Phase");
         phaseOffsetDial = new QDoubleDial(phaseOffsetStr, this, 2);
         phaseOffsetDial->setMinimum(0.0);
         phaseOffsetDial->setMaximum(360.0);

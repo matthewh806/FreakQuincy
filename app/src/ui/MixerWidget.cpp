@@ -24,7 +24,7 @@ namespace ui {
             hBox->addWidget(kv.second, 0, Qt::AlignHCenter);
         }
 
-        QString tuneLabelStr = QString::fromStdString("Global Tune (st)");
+        QString tuneLabelStr = QString::fromStdString("Global\nTune (st)");
         globalTuneDial = new QDoubleDial(tuneLabelStr, this, 0);
         globalTuneDial->setMinimum(-24.0);
         globalTuneDial->setMaximum(24.0);

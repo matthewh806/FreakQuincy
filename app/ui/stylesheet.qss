@@ -37,7 +37,7 @@ QSlider::sub-page:vertical {
 
 ui--QDoubleDial {
   background-color: transparent;
-  font-size: 18px;
+  font-size: 14px;
   color: white;
   qproperty-arcColor: #28b7bf;
   qproperty-arcWidth: 3; }
